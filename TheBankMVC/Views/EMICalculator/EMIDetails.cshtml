@@ -131,5 +131,12 @@
         @Html.HiddenFor(m => m.Installments[i].Opening)
         @Html.HiddenFor(m => m.Installments[i].PrincipalAmount)
     }
-    <button type="submit" class="btn btn-primary">Save</button>
+    @if (Model.EMIHeader == null || Model.EMIHeader.EMIHeaderId == 0)
+    {
+        <button type="submit" class="btn btn-primary">Save</button>
+    }
+    else
+    {
+        <p>@Html.ActionLink("Ok", "Index", "EMICalculator", null, new { @class = "btn btn-primary" })</p>
+    }
 }

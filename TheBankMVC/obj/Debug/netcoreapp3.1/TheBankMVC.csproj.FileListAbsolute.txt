@@ -105,7 +105,6 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMICalculator\EMIConfig.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMICalculator\Index.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMICalculator\EMIDetails.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\EntityFramework.SqlServer.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\EntityFramework.dll
@@ -142,5 +141,6 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.csprojAssemblyReference.cache
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.csprojAssemblyReference.cache
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMICalculator\List.cshtml.g.cs

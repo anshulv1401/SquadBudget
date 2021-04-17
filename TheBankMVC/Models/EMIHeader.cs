@@ -16,6 +16,5 @@ namespace TheBankMVC.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string DateFormat { get; set; }
-        public IEnumerable<Installment> Installments { get; set; }
     }
 }

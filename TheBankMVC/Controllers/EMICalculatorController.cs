@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using TheBankMVC.Models;
 using TheBankMVC.ViewModels;
 
@@ -17,26 +13,13 @@ namespace TheBankMVC.Controllers
         private ApplicationDbContext _context;
         public EMICalculatorController()
         {
-            //var builder = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            //IConfigurationRoot configuration = builder.Build();
-
-            //var optionsBuilder = new DbContextOptionsBuilder();
-
-            //optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-
-            //var context = new DbContext(optionsBuilder.Options);
-
-            //context.Database.EnsureCreated();
-
             _context = new ApplicationDbContext();
         }
 
         public ActionResult Index()
         {
-            return View();
+            var eMIHeader = _context.EMIHeaders.ToList();
+            return View("List", eMIHeader);
         }
 
         public ActionResult New()
@@ -48,20 +31,15 @@ namespace TheBankMVC.Controllers
         {
             EMIHeader eMIHeader = eMIDetails.EMIHeader;
             _context.EMIHeaders.Add(eMIDetails.EMIHeader);
+            _context.SaveChanges();
+            eMIDetails.Installments.ForEach(x => x.EMIHeaderId = eMIHeader.EMIHeaderId);
             _context.Installments.AddRange(eMIDetails.Installments);
             _context.SaveChanges();
-            return View("Index");
+            return View("List", _context.EMIHeaders.ToList());
         }
 
         public ActionResult EMIDetails(EMIConfig eMIConfig)
         {
-            eMIConfig = new EMIConfig()
-            {
-                MonthlyRateOfInterest = 0.5,
-                NoOfInstallment = 10,
-                LoanAmount = 60000
-            };
-
             var r = eMIConfig.MonthlyRateOfInterest / 100;//Monthly RateOfInterest
             var t = eMIConfig.NoOfInstallment;
             var p = eMIConfig.LoanAmount;
@@ -85,7 +63,6 @@ namespace TheBankMVC.Controllers
                 }
             };
             eMIDetails.Installments = GetInstallments(eMIDetails);
-            eMIDetails.EMIHeader.Installments = eMIDetails.Installments;
 
             return View("EMIDetails", eMIDetails);
         }
@@ -130,6 +107,38 @@ namespace TheBankMVC.Controllers
                 }
             }
             return installments;
+        }
+
+        public ActionResult View(int Id)
+        {
+            var eMIHeaders = _context.EMIHeaders.SingleOrDefault(c => c.EMIHeaderId == Id);
+
+            if (eMIHeaders == null)
+                return NotFound();
+
+            var eMIDetails = new EMIDetails()
+            {
+                EMIHeader = eMIHeaders,
+                Installments = _context.Installments.Where(c => c.EMIHeaderId == Id).ToList(),
+            };
+
+            return View("EMIDetails", eMIDetails);
+        }
+
+        public ActionResult Edit(int Id)
+        {
+            var eMIHeader = _context.EMIHeaders.SingleOrDefault(c => c.EMIHeaderId == Id);
+
+            if (eMIHeader == null)
+                return NotFound();
+
+            var viewModel = new EMIDetails()
+            {
+                EMIHeader = eMIHeader,
+                Installments = _context.Installments.Where(c => c.EMIHeaderId == Id).ToList()
+            };
+
+            return View("EMIDetails", viewModel);
         }
     }
 }
