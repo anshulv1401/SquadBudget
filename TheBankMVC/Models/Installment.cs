@@ -8,6 +8,7 @@ namespace TheBankMVC.Models
     public class Installment
     {
         public int Id { get; set; }
+        public int EMIHeaderId { get; set; }
         public int InstallmentNo { get; set; }
         public DateTime DateOfInstallment { get; set; }
         public double Opening { get; set; }

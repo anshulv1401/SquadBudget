@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.Models.EMIConfig
+﻿@model TheBankMVC.ViewModels.EMIConfig
 @{
     ViewData["Title"] = "EMIConfig";
 }
@@ -24,10 +24,12 @@
         @Html.TextBoxFor(m => m.NoOfInstallment, "{0:d MMM yyyy}", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.NoOfInstallment)
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LockInPeriod)
-        @Html.TextBoxFor(m => m.LockInPeriod, "{0:d MMM yyyy}", new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.LockInPeriod)
-    </div>
+    @*
+        <div class="form-group ">
+            @Html.LabelFor(m => m.LockInPeriod)
+            @Html.TextBoxFor(m => m.LockInPeriod, "{0:d MMM yyyy}", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.LockInPeriod)
+        </div>
+    *@
     <button type="submit" class="btn btn-primary">Submit</button>
 }

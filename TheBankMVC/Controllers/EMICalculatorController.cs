@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TheBankMVC.Models;
@@ -10,6 +13,26 @@ namespace TheBankMVC.Controllers
 {
     public class EMICalculatorController : Controller
     {
+
+        private ApplicationDbContext _context;
+        public EMICalculatorController()
+        {
+            //var builder = new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            //IConfigurationRoot configuration = builder.Build();
+
+            //var optionsBuilder = new DbContextOptionsBuilder();
+
+            //optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+
+            //var context = new DbContext(optionsBuilder.Options);
+
+            //context.Database.EnsureCreated();
+
+            _context = new ApplicationDbContext();
+        }
 
         public ActionResult Index()
         {
@@ -21,8 +44,24 @@ namespace TheBankMVC.Controllers
             return View("EMIConfig");
         }
 
+        public ActionResult Save(EMIDetails eMIDetails)
+        {
+            EMIHeader eMIHeader = eMIDetails.EMIHeader;
+            _context.EMIHeaders.Add(eMIDetails.EMIHeader);
+            _context.Installments.AddRange(eMIDetails.Installments);
+            _context.SaveChanges();
+            return View("Index");
+        }
+
         public ActionResult EMIDetails(EMIConfig eMIConfig)
-        {   
+        {
+            eMIConfig = new EMIConfig()
+            {
+                MonthlyRateOfInterest = 0.5,
+                NoOfInstallment = 10,
+                LoanAmount = 60000
+            };
+
             var r = eMIConfig.MonthlyRateOfInterest / 100;//Monthly RateOfInterest
             var t = eMIConfig.NoOfInstallment;
             var p = eMIConfig.LoanAmount;
@@ -32,20 +71,21 @@ namespace TheBankMVC.Controllers
 
             var eMIDetails = new EMIDetails
             {
-                EMIConfig = eMIConfig,
-                TimePeriod = new TimePeriod()
+                EMIHeader = new EMIHeader()
                 {
+
+                    EMIAmount = emi,
+                    LoanAmount = eMIConfig.LoanAmount,
+                    MonthlyRateOfInterest = eMIConfig.MonthlyRateOfInterest,
+                    NoOfInstallment = eMIConfig.NoOfInstallment,
+                    LockInPeriod = eMIConfig.LockInPeriod,
                     StartTime = DateTime.Now.AddMonths(1),
                     EndTime = DateTime.Now.AddMonths(1 + eMIConfig.NoOfInstallment),
                     DateFormat = "dd-MMM-yyyy"
-                },
-                EMIHeader = new EMIHeader()
-                {
-                    EMIAmount = emi,
-                    MonthlyRateOfInterest = eMIConfig.MonthlyRateOfInterest
                 }
             };
             eMIDetails.Installments = GetInstallments(eMIDetails);
+            eMIDetails.EMIHeader.Installments = eMIDetails.Installments;
 
             return View("EMIDetails", eMIDetails);
         }
@@ -53,16 +93,16 @@ namespace TheBankMVC.Controllers
         private List<Installment> GetInstallments(EMIDetails eMIDetails)
         {
             var installments = new List<Installment>();
-            var dateOfInstallment = eMIDetails.TimePeriod.StartTime;
-            var opening = eMIDetails.EMIConfig.LoanAmount;
+            var dateOfInstallment = eMIDetails.EMIHeader.StartTime;
+            var opening = eMIDetails.EMIHeader.LoanAmount;
             var eMIAmount = eMIDetails.EMIHeader.EMIAmount;
-            var interestAmount = opening * (eMIDetails.EMIConfig.MonthlyRateOfInterest / 100);
+            var interestAmount = opening * (eMIDetails.EMIHeader.MonthlyRateOfInterest / 100);
             var principalAmount = eMIAmount - interestAmount;
             var closing = opening - principalAmount;
             var difference = 0.0;
 
 
-            for (int i = 1; i <= eMIDetails.EMIConfig.NoOfInstallment; i++)
+            for (int i = 1; i <= eMIDetails.EMIHeader.NoOfInstallment; i++)
             {
                 var installment = new Installment()
                 {
@@ -80,11 +120,11 @@ namespace TheBankMVC.Controllers
 
                 dateOfInstallment = dateOfInstallment.AddMonths(1);
                 opening = closing;
-                interestAmount = opening * (eMIDetails.EMIConfig.MonthlyRateOfInterest / 100);
+                interestAmount = opening * (eMIDetails.EMIHeader.MonthlyRateOfInterest / 100);
                 principalAmount = eMIAmount - interestAmount;
                 closing = opening - principalAmount;
 
-                if (i == eMIDetails.EMIConfig.NoOfInstallment - 1)//for last EMI
+                if (i == eMIDetails.EMIHeader.NoOfInstallment - 1)//for last EMI
                 {
                     difference = closing;
                 }
