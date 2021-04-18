@@ -56,10 +56,6 @@
                 <td>EMIAmount</td>
                 <td>@Model.EMIHeader.EndTime</td>
             </tr>
-            <tr>
-                <td>DateFormat</td>
-                <td>@Model.EMIHeader.DateFormat</td>
-            </tr>
         </tbody>
     </table>
 
@@ -82,7 +78,7 @@
             {
                 <tr>
                     <td>@installment.InstallmentNo</td>
-                    <td>@installment.DateOfInstallment</td>
+                    <td>@installment.DueDate</td>
                     <td>@installment.Opening.ToString("0.00")</td>
                     <td>@installment.PrincipalAmount.ToString("0.00")</td>
                     <td>@installment.InterestAmount.ToString("0.00")</td>
@@ -115,13 +111,12 @@
     @Html.HiddenFor(m => m.EMIHeader.NoOfInstallment)
     @Html.HiddenFor(m => m.EMIHeader.StartTime)
     @Html.HiddenFor(m => m.EMIHeader.EndTime)
-    @Html.HiddenFor(m => m.EMIHeader.DateFormat)
     @Html.HiddenFor(m => m.EMIHeader.EMIAmount)
     @Html.HiddenFor(m => m.EMIHeader.EMIHeaderId)
     @for (int i = 0; i < Model.Installments.Count; i++)
     {
         @Html.HiddenFor(m => m.Installments[i].Closing)
-        @Html.HiddenFor(m => m.Installments[i].DateOfInstallment)
+        @Html.HiddenFor(m => m.Installments[i].DueDate)
         @Html.HiddenFor(m => m.Installments[i].Difference)
         @Html.HiddenFor(m => m.Installments[i].EMIAmount)
         @Html.HiddenFor(m => m.Installments[i].EMIHeaderId)

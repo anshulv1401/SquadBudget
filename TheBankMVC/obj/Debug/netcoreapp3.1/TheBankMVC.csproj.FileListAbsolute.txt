@@ -142,5 +142,8 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.csprojAssemblyReference.cache
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMICalculator\List.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.Migrations.InstallmentModelUpdated.resources
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.Migrations.UserUpdated.resources
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.csprojAssemblyReference.cache
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.Migrations.BankConfig_Transaction_UserAccount_Enum_ModelsAdded.resources

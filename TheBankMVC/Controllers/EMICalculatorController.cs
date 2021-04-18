@@ -59,7 +59,6 @@ namespace TheBankMVC.Controllers
                     LockInPeriod = eMIConfig.LockInPeriod,
                     StartTime = DateTime.Now.AddMonths(1),
                     EndTime = DateTime.Now.AddMonths(1 + eMIConfig.NoOfInstallment),
-                    DateFormat = "dd-MMM-yyyy"
                 }
             };
             eMIDetails.Installments = GetInstallments(eMIDetails);
@@ -84,7 +83,7 @@ namespace TheBankMVC.Controllers
                 var installment = new Installment()
                 {
                     InstallmentNo = i,
-                    DateOfInstallment = dateOfInstallment,
+                    DueDate = dateOfInstallment,
                     Opening = opening,
                     PrincipalAmount = principalAmount,
                     InterestAmount = interestAmount,
