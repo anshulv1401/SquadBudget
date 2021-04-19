@@ -11,7 +11,7 @@ namespace TheBankMVC.Models
         public int EMIHeaderId { get; set; }
         public int InstallmentNo { get; set; }
         public DateTime DueDate { get; set; }
-        public DateTime PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
         public double Opening { get; set; }
         public double PrincipalAmount { get; set; }
         public double InterestAmount { get; set; }

@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using TheBankMVC.Data;
 using TheBankMVC.Models;
 using TheBankMVC.ViewModels;
 
@@ -13,7 +17,7 @@ namespace TheBankMVC.Controllers
         private ApplicationDbContext _context;
         public EMICalculatorController()
         {
-            _context = new ApplicationDbContext();
+            _context = ApplicationDbContext.Create();
         }
 
         public ActionResult Index()
@@ -29,12 +33,28 @@ namespace TheBankMVC.Controllers
 
         public ActionResult Save(EMIDetails eMIDetails)
         {
-            EMIHeader eMIHeader = eMIDetails.EMIHeader;
-            _context.EMIHeaders.Add(eMIDetails.EMIHeader);
-            _context.SaveChanges();
-            eMIDetails.Installments.ForEach(x => x.EMIHeaderId = eMIHeader.EMIHeaderId);
-            _context.Installments.AddRange(eMIDetails.Installments);
-            _context.SaveChanges();
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _context.EMIHeaders.Add(eMIDetails.EMIHeader);
+                    _context.SaveChanges();
+
+                    eMIDetails.Installments.ForEach(x => x.EMIHeaderId = eMIDetails.EMIHeader.EMIHeaderId);
+
+                    _context.Installments.AddRange(eMIDetails.Installments);
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    //TODO log the error
+                    throw ex;
+                }
+            }
+
             return View("List", _context.EMIHeaders.ToList());
         }
 

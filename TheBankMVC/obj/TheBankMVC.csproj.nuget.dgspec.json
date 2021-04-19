@@ -43,21 +43,25 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
-            "EntityFramework": {
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.4.4, )"
+              "version": "[3.1.0, )"
             },
-            "Microsoft.AspNet.Identity.EntityFramework": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[2.2.3, )"
+              "version": "[3.1.0, )"
             },
-            "Microsoft.EntityFrameworkCore": {
+            "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[3.1.0, )"
             },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[3.1.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[3.1.0, )"
             }
           },
           "imports": [

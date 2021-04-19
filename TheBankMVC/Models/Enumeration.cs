@@ -10,9 +10,5 @@ namespace TheBankMVC.Models
         public int EnumerationId { get; set; }
         public string EnumerationType { get; set; }
         public string EnumerationName { get; set; }
-        //public DateTime CreatedDate { get; set; }
-        //public int CreatedBy { get; set; }
-        //public DateTime ModifiedDate { get; set; }
-        //public int ModifiedBy { get; set; }
     }
 }
