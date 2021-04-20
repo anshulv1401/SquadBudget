@@ -15,7 +15,7 @@ namespace TheBankMVC.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -219,6 +219,54 @@ namespace TheBankMVC.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("TheBankMVC.Models.Bank", b =>
+                {
+                    b.Property<int>("BankId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("BankInstallmentAmount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("BankInstallmentDelayFine")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BankInstallmentDelayFinePeriod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BankInstallmentDelayFineType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BankName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DateFormat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("DefaultLoanInterest")
+                        .HasColumnType("float");
+
+                    b.Property<int>("DefaultNoOfInstallment")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InterestTermID")
+                        .HasColumnType("int");
+
+                    b.Property<double>("LoanDelayFine")
+                        .HasColumnType("float");
+
+                    b.Property<int>("LoanDelayFinePeriod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LoanDelayFineType")
+                        .HasColumnType("int");
+
+                    b.HasKey("BankId");
+
+                    b.ToTable("Bank");
+                });
+
             modelBuilder.Entity("TheBankMVC.Models.EMIHeader", b =>
                 {
                     b.Property<int>("EMIHeaderId")
@@ -226,7 +274,10 @@ namespace TheBankMVC.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountID")
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BankId")
                         .HasColumnType("int");
 
                     b.Property<double>("DelayFine")
@@ -268,6 +319,27 @@ namespace TheBankMVC.Data.Migrations
                     b.HasKey("EMIHeaderId");
 
                     b.ToTable("EMIHeaders");
+                });
+
+            modelBuilder.Entity("TheBankMVC.Models.Enumeration", b =>
+                {
+                    b.Property<int>("EnumerationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EnumerationName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EnumerationType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EnumerationValue")
+                        .HasColumnType("int");
+
+                    b.HasKey("EnumerationId");
+
+                    b.ToTable("Enumerations");
                 });
 
             modelBuilder.Entity("TheBankMVC.Models.Installment", b =>

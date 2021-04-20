@@ -1,0 +1,88 @@
+﻿@model TheBankMVC.Models.Bank
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Bank</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BankName" class="control-label"></label>
+                <input asp-for="BankName" class="form-control" />
+                <span asp-validation-for="BankName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInstallmentAmount" class="control-label"></label>
+                <input asp-for="BankInstallmentAmount" class="form-control" />
+                <span asp-validation-for="BankInstallmentAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DefaultLoanInterest" class="control-label"></label>
+                <input asp-for="DefaultLoanInterest" class="form-control" />
+                <span asp-validation-for="DefaultLoanInterest" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DefaultNoOfInstallment" class="control-label"></label>
+                <input asp-for="DefaultNoOfInstallment" class="form-control" />
+                <span asp-validation-for="DefaultNoOfInstallment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInstallmentDelayFine" class="control-label"></label>
+                <input asp-for="BankInstallmentDelayFine" class="form-control" />
+                <span asp-validation-for="BankInstallmentDelayFine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInstallmentDelayFineType" class="control-label"></label>
+                <input asp-for="BankInstallmentDelayFineType" class="form-control" />
+                <span asp-validation-for="BankInstallmentDelayFineType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInstallmentDelayFinePeriod" class="control-label"></label>
+                <input asp-for="BankInstallmentDelayFinePeriod" class="form-control" />
+                <span asp-validation-for="BankInstallmentDelayFinePeriod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoanDelayFine" class="control-label"></label>
+                <input asp-for="LoanDelayFine" class="form-control" />
+                <span asp-validation-for="LoanDelayFine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoanDelayFineType" class="control-label"></label>
+                <input asp-for="LoanDelayFineType" class="form-control" />
+                <span asp-validation-for="LoanDelayFineType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoanDelayFinePeriod" class="control-label"></label>
+                <input asp-for="LoanDelayFinePeriod" class="form-control" />
+                <span asp-validation-for="LoanDelayFinePeriod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterestTermID" class="control-label"></label>
+                <input asp-for="InterestTermID" class="form-control" />
+                <span asp-validation-for="InterestTermID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateFormat" class="control-label"></label>
+                <input asp-for="DateFormat" class="form-control" />
+                <span asp-validation-for="DateFormat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -14,10 +14,11 @@ namespace TheBankMVC.Controllers
     public class EMICalculatorController : Controller
     {
 
-        private ApplicationDbContext _context;
-        public EMICalculatorController()
+        private readonly ApplicationDbContext _context;
+
+        public EMICalculatorController(ApplicationDbContext context)
         {
-            _context = ApplicationDbContext.Create();
+            _context = context;
         }
 
         public ActionResult Index()

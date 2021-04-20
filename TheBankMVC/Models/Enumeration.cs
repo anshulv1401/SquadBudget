@@ -10,5 +10,6 @@ namespace TheBankMVC.Models
         public int EnumerationId { get; set; }
         public string EnumerationType { get; set; }
         public string EnumerationName { get; set; }
+        public int EnumerationValue { get; set; }
     }
 }

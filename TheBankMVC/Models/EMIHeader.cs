@@ -8,7 +8,8 @@ namespace TheBankMVC.Models
     public class EMIHeader
     {
         public int EMIHeaderId { get; set; }
-        public int AccountID { get; set; }
+        public int BankId { get; set; }
+        public int AccountId { get; set; }
         public double EMIAmount { get; set; }
         public double LoanAmount { get; set; }
         public double MonthlyRateOfInterest { get; set; }

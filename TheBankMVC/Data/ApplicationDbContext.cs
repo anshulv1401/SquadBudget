@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 using TheBankMVC.Models;
 
 namespace TheBankMVC.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public virtual DbSet<EMIHeader> EMIHeaders { get; set; }
-        public virtual DbSet<Installment> Installments { get; set; }
+        public DbSet<EMIHeader> EMIHeaders { get; set; }
+        public DbSet<Installment> Installments { get; set; }
+        public DbSet<Bank> Bank { get; set; }
+        public DbSet<Enumeration> Enumerations { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
