@@ -104,7 +104,6 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.csprojAssemblyReference.cache
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\staticwebassets\TheBankMVC.StaticWebAssets.Manifest.cache
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\staticwebassets\TheBankMVC.StaticWebAssets.xml
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.RazorAssemblyInfo.cache
@@ -240,8 +239,14 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Bank\Create.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Bank\Delete.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Bank\Details.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Bank\Edit.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Bank\Index.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Banks\Create.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Banks\Delete.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Banks\Details.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Banks\Edit.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Banks\Index.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\UserAccounts\Create.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\UserAccounts\Delete.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\UserAccounts\Details.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\UserAccounts\Edit.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\UserAccounts\Index.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.csprojAssemblyReference.cache

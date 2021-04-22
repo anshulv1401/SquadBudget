@@ -232,7 +232,7 @@ namespace TheBankMVC.Data.Migrations
                     b.Property<double>("BankInstallmentDelayFine")
                         .HasColumnType("float");
 
-                    b.Property<int>("BankInstallmentDelayFinePeriod")
+                    b.Property<int>("BankInstallmentDelayFineTerm")
                         .HasColumnType("int");
 
                     b.Property<int>("BankInstallmentDelayFineType")
@@ -256,7 +256,7 @@ namespace TheBankMVC.Data.Migrations
                     b.Property<double>("LoanDelayFine")
                         .HasColumnType("float");
 
-                    b.Property<int>("LoanDelayFinePeriod")
+                    b.Property<int>("LoanDelayFineTerm")
                         .HasColumnType("int");
 
                     b.Property<int>("LoanDelayFineType")
@@ -385,6 +385,48 @@ namespace TheBankMVC.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Installments");
+                });
+
+            modelBuilder.Entity("TheBankMVC.Models.UserAccount", b =>
+                {
+                    b.Property<int>("UserAccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("AmountOnLoan")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BankId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("FineSubmitted")
+                        .HasColumnType("float");
+
+                    b.Property<double>("InterestSubmitted")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("ShareSubmitted")
+                        .HasColumnType("float");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserAccountId");
+
+                    b.ToTable("UserAccount");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

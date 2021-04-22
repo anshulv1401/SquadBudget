@@ -32,5 +32,7 @@ namespace TheBankMVC.Data
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }
+
+        public DbSet<TheBankMVC.Models.UserAccount> UserAccount { get; set; }
     }
 }

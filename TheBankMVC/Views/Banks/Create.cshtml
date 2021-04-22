@@ -1,0 +1,106 @@
+﻿@model TheBankMVC.Models.Bank
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@if (Model == null || Model.BankId == 0)
+{
+    <h2>New Bank</h2>
+}
+else
+{
+    <h2>Edit Bank</h2>
+}
+
+<h4>Bank</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BankName" class="control-label"></label>
+                <input asp-for="BankName" class="form-control" />
+                <span asp-validation-for="BankName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInstallmentAmount" class="control-label"></label>
+                <input asp-for="BankInstallmentAmount" class="form-control" />
+                <span asp-validation-for="BankInstallmentAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DefaultLoanInterest" class="control-label"></label>
+                <input asp-for="DefaultLoanInterest" class="form-control" />
+                <span asp-validation-for="DefaultLoanInterest" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DefaultNoOfInstallment" class="control-label"></label>
+                <input asp-for="DefaultNoOfInstallment" class="form-control" />
+                <span asp-validation-for="DefaultNoOfInstallment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInstallmentDelayFine" class="control-label"></label>
+                <input asp-for="BankInstallmentDelayFine" class="form-control" />
+                <span asp-validation-for="BankInstallmentDelayFine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInstallmentDelayFineType" class="control-label"></label>
+                <select asp-for="BankInstallmentDelayFineType" class="form-control"
+                        asp-items="@(Html.GetEnumSelectList<Enumeration.DelayFineType>())">
+                </select>
+                <span asp-validation-for="BankInstallmentDelayFineType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInstallmentDelayFineTerm" class="control-label"></label>
+                <select asp-for="BankInstallmentDelayFineTerm" class="form-control"
+                        asp-items="@(Html.GetEnumSelectList<Enumeration.DelayFineTerm>())">
+                </select>
+                <span asp-validation-for="BankInstallmentDelayFineTerm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoanDelayFine" class="control-label"></label>
+                <input asp-for="LoanDelayFine" class="form-control" />
+                <span asp-validation-for="LoanDelayFine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoanDelayFineType" class="control-label"></label>
+                <select asp-for="LoanDelayFineType" class="form-control"
+                        asp-items="@(Html.GetEnumSelectList<Enumeration.DelayFineType>())">
+                </select>
+                <span asp-validation-for="LoanDelayFineType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoanDelayFineTerm" class="control-label"></label>
+                <select asp-for="LoanDelayFineTerm" class="form-control"
+                        asp-items="@(Html.GetEnumSelectList<Enumeration.DelayFineTerm>())">
+                </select>
+                <span asp-validation-for="LoanDelayFineTerm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterestTermID" class="control-label"></label>
+                <select asp-for="InterestTermID" class="form-control"
+                        asp-items="@(Html.GetEnumSelectList<Enumeration.InterestTerm>())">
+                </select>
+                <span asp-validation-for="InterestTermID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateFormat" class="control-label"></label>
+                <input asp-for="DateFormat" class="form-control" />
+                <span asp-validation-for="DateFormat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.HiddenFor(m => m.BankId)
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

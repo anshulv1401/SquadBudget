@@ -32,7 +32,7 @@ namespace TheBankMVC.Controllers
             return View("EMIConfig");
         }
 
-        public ActionResult Save(EMIDetails eMIDetails)
+        public ActionResult Save(EMIViewModel eMIDetails)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -59,7 +59,7 @@ namespace TheBankMVC.Controllers
             return View("List", _context.EMIHeaders.ToList());
         }
 
-        public ActionResult EMIDetails(EMIConfig eMIConfig)
+        public ActionResult EMIDetails(EMIConfigViewModel eMIConfig)
         {
             var r = eMIConfig.MonthlyRateOfInterest / 100;//Monthly RateOfInterest
             var t = eMIConfig.NoOfInstallment;
@@ -68,7 +68,7 @@ namespace TheBankMVC.Controllers
             var rPlus1PowN = Math.Pow((1 + r), t);
             var emi = (int)((p * r * rPlus1PowN) / (rPlus1PowN - 1));
 
-            var eMIDetails = new EMIDetails
+            var eMIDetails = new EMIViewModel
             {
                 EMIHeader = new EMIHeader()
                 {
@@ -87,7 +87,7 @@ namespace TheBankMVC.Controllers
             return View("EMIDetails", eMIDetails);
         }
 
-        private List<Installment> GetInstallments(EMIDetails eMIDetails)
+        private List<Installment> GetInstallments(EMIViewModel eMIDetails)
         {
             var installments = new List<Installment>();
             var dateOfInstallment = eMIDetails.EMIHeader.StartTime;
@@ -136,7 +136,7 @@ namespace TheBankMVC.Controllers
             if (eMIHeaders == null)
                 return NotFound();
 
-            var eMIDetails = new EMIDetails()
+            var eMIDetails = new EMIViewModel()
             {
                 EMIHeader = eMIHeaders,
                 Installments = _context.Installments.Where(c => c.EMIHeaderId == Id).ToList(),
@@ -152,7 +152,7 @@ namespace TheBankMVC.Controllers
             if (eMIHeader == null)
                 return NotFound();
 
-            var viewModel = new EMIDetails()
+            var viewModel = new EMIViewModel()
             {
                 EMIHeader = eMIHeader,
                 Installments = _context.Installments.Where(c => c.EMIHeaderId == Id).ToList()

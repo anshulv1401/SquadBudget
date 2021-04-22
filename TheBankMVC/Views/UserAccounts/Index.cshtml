@@ -1,0 +1,89 @@
+﻿@model IEnumerable<TheBankMVC.Models.UserAccount>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BankId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShareSubmitted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FineSubmitted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InterestSubmitted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmountOnLoan)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShareSubmitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FineSubmitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InterestSubmitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountOnLoan)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UserAccountId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UserAccountId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UserAccountId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
