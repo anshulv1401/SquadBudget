@@ -90,7 +90,8 @@ else
                 <span asp-validation-for="DateFormat" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @Html.HiddenFor(m => m.BankId)
+                @*Html.HiddenFor(m => m.BankId)*@
+                @Html.Hidden("BankId", (Model!= null) ? Model.BankId : 0)
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

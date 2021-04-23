@@ -7,7 +7,8 @@ namespace TheBankMVC.Models
 {
     public class BankUserMapping
     {
+        public int BankUserMappingId { get; set; }
         public int BankId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

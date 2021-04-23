@@ -9,8 +9,7 @@ namespace TheBankMVC.Models
     {
         public int BankId { get; set; }
         public int UserAccountId { get; set; }
-        public int UserId { get; set; }
-        public string UserName { get; set; }
+        public string UserAccountName { get; set; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public double ShareSubmitted { get; set; }

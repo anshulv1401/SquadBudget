@@ -8,12 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using TheBankMVC.Data;
 using TheBankMVC.Models;
 using TheBankMVC.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Security.Claims;
+//using System.Security.Claims;
 
 namespace TheBankMVC.Controllers
 {
     public class BanksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        protected UserManager<IdentityUser> _userManager { get; set; }
 
         public BanksController(ApplicationDbContext context)
         {
@@ -62,27 +67,46 @@ namespace TheBankMVC.Controllers
                 return View(bank);
             }
 
-            if (bank.BankId == 0)
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                _context.Add(bank);
+                try
+                {
+                    if (bank.BankId == 0)
+                    {
+                        _context.Add(bank);
+                        var bankUserMapping = new BankUserMapping()
+                        {
+                            BankId = bank.BankId,
+                            UserId = _context.GetCurrentUserId()
+                        };
+                        _context.Add(bankUserMapping);
+                    }
+                    else
+                    {
+                        var bankInDb = _context.Bank.Single(c => c.BankId == bank.BankId);
+                        bankInDb.BankName = bank.BankName;
+                        bankInDb.BankInstallmentAmount = bank.BankInstallmentAmount;
+                        bankInDb.DefaultLoanInterest = bank.DefaultLoanInterest;
+                        bankInDb.DefaultNoOfInstallment = bank.DefaultNoOfInstallment;
+                        bankInDb.BankInstallmentDelayFine = bank.BankInstallmentDelayFine;
+                        bankInDb.BankInstallmentDelayFineTerm = bank.BankInstallmentDelayFineTerm;
+                        bankInDb.BankInstallmentDelayFineType = bank.BankInstallmentDelayFineType;
+                        bankInDb.LoanDelayFine = bank.LoanDelayFine;
+                        bankInDb.LoanDelayFineType = bank.LoanDelayFineType;
+                        bankInDb.LoanDelayFineTerm = bank.LoanDelayFineTerm;
+                        bankInDb.InterestTermID = bank.InterestTermID;
+                        bankInDb.DateFormat = bank.DateFormat;
+                    }
+                    await _context.SaveChangesAsync();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    //TODO log the error
+                    throw ex;
+                }
             }
-            else
-            {
-                var bankInDb = _context.Bank.Single(c => c.BankId == bank.BankId);
-                bankInDb.BankName = bank.BankName;
-                bankInDb.BankInstallmentAmount = bank.BankInstallmentAmount;
-                bankInDb.DefaultLoanInterest = bank.DefaultLoanInterest;
-                bankInDb.DefaultNoOfInstallment = bank.DefaultNoOfInstallment;
-                bankInDb.BankInstallmentDelayFine = bank.BankInstallmentDelayFine;
-                bankInDb.BankInstallmentDelayFineTerm = bank.BankInstallmentDelayFineTerm;
-                bankInDb.BankInstallmentDelayFineType = bank.BankInstallmentDelayFineType;
-                bankInDb.LoanDelayFine = bank.LoanDelayFine;
-                bankInDb.LoanDelayFineType = bank.LoanDelayFineType;
-                bankInDb.LoanDelayFineTerm = bank.LoanDelayFineTerm;
-                bankInDb.InterestTermID = bank.InterestTermID;
-                bankInDb.DateFormat = bank.DateFormat;
-            }
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
             
         }

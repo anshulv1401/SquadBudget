@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using TheBankMVC.Models;
 
 namespace TheBankMVC.Data
@@ -12,27 +16,38 @@ namespace TheBankMVC.Data
         public DbSet<Installment> Installments { get; set; }
         public DbSet<Bank> Bank { get; set; }
         public DbSet<Enumeration> Enumerations { get; set; }
+        public DbSet<BankUserMapping> BankUserMappings { get; set; }
+        public DbSet<UserAccount> UserAccount { get; set; }
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor)
             : base(options)
         {
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public static ApplicationDbContext Create()
+        public string GetCurrentUserId()
         {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            IConfigurationRoot configuration = builder.Build();
-
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("Bank_AnshulVanawat"));
-
-            return new ApplicationDbContext(optionsBuilder.Options);
+            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
-        public DbSet<TheBankMVC.Models.UserAccount> UserAccount { get; set; }
+        //private Task<IdentityUser> GetCurrentUser(UserManager<IdentityUser> userManager)
+        //{
+        //    return await userManager.FindByNameAsync(_httpContextAccessor.HttpContext.User.Identity.Name);
+        //}
+        //public static ApplicationDbContext Create()
+        //{
+        //    var builder = new ConfigurationBuilder()
+        //    .SetBasePath(Directory.GetCurrentDirectory())
+        //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+        //    IConfigurationRoot configuration = builder.Build();
+
+        //    var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+
+        //    optionsBuilder.UseSqlServer(configuration.GetConnectionString("Bank_AnshulVanawat"));
+
+        //    return new ApplicationDbContext(optionsBuilder.Options);
+        //}
     }
 }
