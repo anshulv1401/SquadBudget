@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheBankMVC.Data;
 using TheBankMVC.Models;
+using TheBankMVC.ViewModels;
 
 namespace TheBankMVC.Controllers
 {
@@ -22,7 +23,27 @@ namespace TheBankMVC.Controllers
         // GET: UserAccounts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserAccount.ToListAsync());
+            var userAccounts = await _context.UserAccount.ToListAsync();
+            var userAccountViewModels = new List<UserAccountViewModel>();
+            foreach (var userAccount in userAccounts)
+            {
+                userAccountViewModels.Add(new UserAccountViewModel()
+                {
+                    BankId = userAccount.BankId,
+                    PhoneNo = userAccount.PhoneNo,
+                    Banks = _context.Bank.Where(m => m.BankId == userAccount.BankId).ToList(),
+                    UserAccountId = userAccount.UserAccountId,
+                    UserAccountName = userAccount.UserAccountName,
+                    Email = userAccount.Email,
+                    ShareSubmitted = userAccount.ShareSubmitted,
+                    FineSubmitted = userAccount.FineSubmitted,
+                    InterestSubmitted = userAccount.InterestSubmitted,
+                    IsActive = userAccount.IsActive,
+                    AmountOnLoan = userAccount.AmountOnLoan,
+                });
+            }
+
+            return View(userAccountViewModels);
         }
 
         // GET: UserAccounts/Details/5
@@ -46,7 +67,12 @@ namespace TheBankMVC.Controllers
         // GET: UserAccounts/Create
         public IActionResult Create()
         {
-            return View();
+            var banks = _context.Bank.ToList();
+            var userAccountViewModel = new UserAccountViewModel()
+            {
+                Banks = banks
+            };
+            return View(userAccountViewModel);
         }
 
         // POST: UserAccounts/Create
@@ -54,10 +80,11 @@ namespace TheBankMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BankId,UserAccountId,UserId,UserName,Email,PhoneNo,ShareSubmitted,FineSubmitted,InterestSubmitted,IsActive,AmountOnLoan")] UserAccount userAccount)
+        public async Task<IActionResult> Create([Bind("BankId,UserAccountId,UserAccountName,Email,PhoneNo,ShareSubmitted,FineSubmitted,InterestSubmitted,IsActive,AmountOnLoan")] UserAccount userAccount)
         {
             if (ModelState.IsValid)
             {
+                userAccount.IsActive = true;
                 _context.Add(userAccount);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -78,7 +105,23 @@ namespace TheBankMVC.Controllers
             {
                 return NotFound();
             }
-            return View(userAccount);
+
+            var userAccountViewModel = new UserAccountViewModel()
+            {
+                BankId = userAccount.BankId,
+                PhoneNo = userAccount.PhoneNo,
+                Banks = _context.Bank.Where(m => m.BankId == userAccount.BankId).ToList(),
+                UserAccountId = userAccount.UserAccountId,
+                UserAccountName = userAccount.UserAccountName,
+                Email = userAccount.Email,
+                ShareSubmitted = userAccount.ShareSubmitted,
+                FineSubmitted = userAccount.FineSubmitted,
+                InterestSubmitted = userAccount.InterestSubmitted,
+                IsActive = userAccount.IsActive,
+                AmountOnLoan = userAccount.AmountOnLoan,
+            };
+
+            return View(userAccountViewModel);
         }
 
         // POST: UserAccounts/Edit/5
@@ -86,9 +129,9 @@ namespace TheBankMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BankId,UserAccountId,UserId,UserName,Email,PhoneNo,ShareSubmitted,FineSubmitted,InterestSubmitted,IsActive,AmountOnLoan")] UserAccount userAccount)
+        public async Task<IActionResult> Edit(int id, [Bind("BankId,UserAccountId,UserAccountName,Email,PhoneNo,IsActive")] UserAccountViewModel userAccountViewModel)
         {
-            if (id != userAccount.UserAccountId)
+            if (id != userAccountViewModel.UserAccountId)
             {
                 return NotFound();
             }
@@ -97,12 +140,18 @@ namespace TheBankMVC.Controllers
             {
                 try
                 {
+                    var userAccount = _context.UserAccount.Where(x => x.UserAccountId == userAccountViewModel.UserAccountId).FirstOrDefault();
+
+                    userAccount.PhoneNo = userAccountViewModel.PhoneNo;
+                    userAccount.Email = userAccountViewModel.Email;
+                    userAccount.IsActive = userAccountViewModel.IsActive;
+
                     _context.Update(userAccount);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserAccountExists(userAccount.UserAccountId))
+                    if (!UserAccountExists(userAccountViewModel.UserAccountId))
                     {
                         return NotFound();
                     }
@@ -113,7 +162,7 @@ namespace TheBankMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(userAccount);
+            return View(userAccountViewModel);
         }
 
         // GET: UserAccounts/Delete/5

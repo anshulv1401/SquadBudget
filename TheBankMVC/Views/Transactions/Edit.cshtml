@@ -1,0 +1,69 @@
+﻿@model TheBankMVC.Models.Transaction
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Transaction</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TransactionId" />
+            <div class="form-group">
+                <label asp-for="BankId" class="control-label"></label>
+                <input asp-for="BankId" class="form-control" />
+                <span asp-validation-for="BankId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccountId" class="control-label"></label>
+                <input asp-for="AccountId" class="form-control" />
+                <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionTypeId" class="control-label"></label>
+                <input asp-for="TransactionTypeId" class="form-control" />
+                <span asp-validation-for="TransactionTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionAmount" class="control-label"></label>
+                <input asp-for="TransactionAmount" class="form-control" />
+                <span asp-validation-for="TransactionAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionDate" class="control-label"></label>
+                <input asp-for="TransactionDate" class="form-control" />
+                <span asp-validation-for="TransactionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReferenceType" class="control-label"></label>
+                <input asp-for="ReferenceType" class="form-control" />
+                <span asp-validation-for="ReferenceType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReferenceTypeId" class="control-label"></label>
+                <input asp-for="ReferenceTypeId" class="form-control" />
+                <span asp-validation-for="ReferenceTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionRemark" class="control-label"></label>
+                <input asp-for="TransactionRemark" class="form-control" />
+                <span asp-validation-for="TransactionRemark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

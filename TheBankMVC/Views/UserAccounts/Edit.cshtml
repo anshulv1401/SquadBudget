@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.Models.UserAccount
+﻿@model TheBankMVC.ViewModels.UserAccountViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,19 +13,13 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="BankId" class="control-label"></label>
-                <input asp-for="BankId" class="form-control" />
-                <span asp-validation-for="BankId" class="text-danger"></span>
+                <label class="control-label">BankName</label>
+                <input readonly class="control-label" value="@Model.Banks.Where(b => b.BankId == Model.BankId).First().BankName"/>
             </div>
             <input type="hidden" asp-for="UserAccountId" />
             <div class="form-group">
-                <label asp-for="UserAccountId" class="control-label"></label>
-                <input asp-for="UserAccountId" class="form-control" />
-                <span asp-validation-for="UserAccountId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="UserAccountName" class="control-label"></label>
-                <input asp-for="UserAccountName" class="form-control" />
+                <input readonly asp-for="UserAccountName" class="form-control" />
                 <span asp-validation-for="UserAccountName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,18 +34,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="ShareSubmitted" class="control-label"></label>
-                <input asp-for="ShareSubmitted" class="form-control" />
+                <input readonly asp-for="ShareSubmitted" class="form-control" />
                 <span asp-validation-for="ShareSubmitted" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FineSubmitted" class="control-label"></label>
-                <input asp-for="FineSubmitted" class="form-control" />
+                <input readonly asp-for="FineSubmitted" class="form-control" />
                 <span asp-validation-for="FineSubmitted" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InterestSubmitted" class="control-label"></label>
-                <input asp-for="InterestSubmitted" class="form-control" />
+                <input readonly asp-for="InterestSubmitted" class="form-control" />
                 <span asp-validation-for="InterestSubmitted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AmountOnLoan" class="control-label"></label>
+                <input readonly asp-for="AmountOnLoan" class="form-control" />
+                <span asp-validation-for="AmountOnLoan" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -59,11 +58,8 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="AmountOnLoan" class="control-label"></label>
-                <input asp-for="AmountOnLoan" class="form-control" />
-                <span asp-validation-for="AmountOnLoan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+                @Html.HiddenFor(m => m.BankId)
+                @Html.HiddenFor(m => m.UserAccountId)
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TheBankMVC.Models.UserAccount>
+﻿@model IEnumerable<TheBankMVC.ViewModels.UserAccountViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,10 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BankId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserAccountId)
+                @Html.DisplayNameFor(model => model.Banks.First().BankName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserAccountName)
@@ -37,10 +34,10 @@
                 @Html.DisplayNameFor(model => model.InterestSubmitted)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
+                @Html.DisplayNameFor(model => model.AmountOnLoan)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AmountOnLoan)
+                @Html.DisplayNameFor(model => model.IsActive)
             </th>
             <th></th>
         </tr>
@@ -49,13 +46,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BankId)
+                @Html.DisplayFor(modelItem => item.Banks.Where(b => b.BankId == item.BankId).First().BankName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserAccountId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAccountName)
+                @Html.ActionLink(item.UserAccountName , "Edit", new { Id = item.UserAccountId })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -73,16 +67,16 @@
                 @Html.DisplayFor(modelItem => item.InterestSubmitted)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.AmountOnLoan)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.UserAccountId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserAccountId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserAccountId">Delete</a>
+                @Html.DisplayFor(modelItem => item.IsActive)
             </td>
+             @*<td>
+               <a asp-action="Edit" asp-route-id="@item.UserAccountId">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.UserAccountId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.UserAccountId">Delete</a>
+            </td>*@
         </tr>
 }
     </tbody>

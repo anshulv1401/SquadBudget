@@ -18,6 +18,7 @@ namespace TheBankMVC.Data
         public DbSet<Enumeration> Enumerations { get; set; }
         public DbSet<BankUserMapping> BankUserMappings { get; set; }
         public DbSet<UserAccount> UserAccount { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor)
@@ -30,6 +31,8 @@ namespace TheBankMVC.Data
         {
             return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
+
+        public DbSet<TheBankMVC.Models.Transaction> Transaction { get; set; }
 
         //private Task<IdentityUser> GetCurrentUser(UserManager<IdentityUser> userManager)
         //{

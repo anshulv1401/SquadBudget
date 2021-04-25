@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.Models.UserAccount
+﻿@model TheBankMVC.ViewModels.UserAccountViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -15,12 +15,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BankId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserAccountId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserAccountId)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UserAccountName)

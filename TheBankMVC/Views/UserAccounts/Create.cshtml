@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.Models.UserAccount
+﻿@model TheBankMVC.ViewModels.TransactionsViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,14 +13,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="BankId" class="control-label"></label>
-                <input asp-for="BankId" class="form-control" />
-                <span asp-validation-for="BankId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserAccountId" class="control-label"></label>
-                <input asp-for="UserAccountId" class="form-control" />
-                <span asp-validation-for="UserAccountId" class="text-danger"></span>
+                <label asp-for="Banks" class="control-label"></label>
+                @Html.DropDownListFor(m => m.BankId, new SelectList(Model.Banks, "BankId", "BankName"), "-Select-", new { @class = "form-control" })
+                <span asp-validation-for="Banks" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UserAccountName" class="control-label"></label>
@@ -38,31 +33,7 @@
                 <span asp-validation-for="PhoneNo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ShareSubmitted" class="control-label"></label>
-                <input asp-for="ShareSubmitted" class="form-control" />
-                <span asp-validation-for="ShareSubmitted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FineSubmitted" class="control-label"></label>
-                <input asp-for="FineSubmitted" class="form-control" />
-                <span asp-validation-for="FineSubmitted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InterestSubmitted" class="control-label"></label>
-                <input asp-for="InterestSubmitted" class="form-control" />
-                <span asp-validation-for="InterestSubmitted" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="AmountOnLoan" class="control-label"></label>
-                <input asp-for="AmountOnLoan" class="form-control" />
-                <span asp-validation-for="AmountOnLoan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+                @Html.Hidden("UserAccountId", (Model != null) ? Model.UserAccountId : 0)
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
