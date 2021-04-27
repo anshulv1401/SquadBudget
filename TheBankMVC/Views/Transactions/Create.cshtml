@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.Models.Transaction
+﻿@model TheBankMVC.ViewModels.TransactionsViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,18 +13,20 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="BankId" class="control-label"></label>
-                <input asp-for="BankId" class="form-control" />
-                <span asp-validation-for="BankId" class="text-danger"></span>
+                <label asp-for="Banks" class="control-label"></label>
+                @Html.DropDownListFor(m => m.BankId, new SelectList(Model.Banks, "BankId", "BankName").ToList(), "-Select-", new { @class = "form-control", id = "bankSelect" })
+                <span asp-validation-for="Banks" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AccountId" class="control-label"></label>
-                <input asp-for="AccountId" class="form-control" />
-                <span asp-validation-for="AccountId" class="text-danger"></span>
+                <label asp-for="UserAccounts" class="control-label"></label>
+                @Html.DropDownListFor(m => m.AccountId, new List<SelectListItem>(), "-Select-", new { @class = "form-control", id = "accountSelect" })
+                <span asp-validation-for="UserAccounts" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TransactionTypeId" class="control-label"></label>
-                <input asp-for="TransactionTypeId" class="form-control" />
+                <select asp-for="TransactionTypeId" class="form-control"
+                        asp-items="@(Html.GetEnumSelectList<Enumeration.TransactionType>())">
+                </select>
                 <span asp-validation-for="TransactionTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,18 +35,10 @@
                 <span asp-validation-for="TransactionAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TransactionDate" class="control-label"></label>
-                <input asp-for="TransactionDate" class="form-control" />
-                <span asp-validation-for="TransactionDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReferenceType" class="control-label"></label>
-                <input asp-for="ReferenceType" class="form-control" />
-                <span asp-validation-for="ReferenceType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="ReferenceTypeId" class="control-label"></label>
-                <input asp-for="ReferenceTypeId" class="form-control" />
+                <select asp-for="ReferenceTypeId" class="form-control"
+                        asp-items="@(Html.GetEnumSelectList<Enumeration.TransactionRefType>())">
+                </select>
                 <span asp-validation-for="ReferenceTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -65,4 +59,27 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        
+    <script>
+        $(document).ready(function () {
+            $('#bankSelect').change(function () {
+                $.ajax({
+                    type: "Get",
+                    url: "/api/UserAccounts",
+                    data: { query: $('#bankSelect').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        var accounts = "<select id='accounts'>";
+                        accounts = accounts + '<option value="">--Select--</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            accounts = accounts + '<option value=' + data[i].userAccountId + '>' + data[i].userAccountName + '</option>';
+                        }
+                        accounts = accounts + '</select>';
+                        $('#accountSelect').html(accounts);
+                    }
+                });
+            });
+        });
+    </script>
 }

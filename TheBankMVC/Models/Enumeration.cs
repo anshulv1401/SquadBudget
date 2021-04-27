@@ -17,13 +17,7 @@ namespace TheBankMVC.Models
             Debit = 2
         }
 
-        public enum CreditType
-        {
-            LoanEMI = 1,
-            BankEMI = 2
-        }
-
-        public enum DebitType
+        public enum TransactionRefType
         {
             Loan = 1,
             Bank = 2

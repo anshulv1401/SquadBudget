@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TheBankMVC.Models.Transaction>
+﻿@model IEnumerable<TheBankMVC.ViewModels.TransactionsViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BankId)
+                @nameof(Bank.BankName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AccountId)
+                @nameof(UserAccount.UserAccountName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TransactionTypeId)
+                @nameof(Enumeration.TransactionType)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TransactionAmount)
@@ -30,26 +30,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReferenceType)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReferenceTypeId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TransactionRemark)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BankId)
+                @Html.DisplayFor(modelItem => item.Banks.FirstOrDefault().BankName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AccountId)
+                @Html.DisplayFor(modelItem => item.UserAccounts.FirstOrDefault().UserAccountName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TransactionTypeId)
+                @((Enumeration.TransactionType)item.TransactionTypeId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TransactionAmount)
@@ -61,17 +55,9 @@
                 @Html.DisplayFor(modelItem => item.ReferenceType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReferenceTypeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TransactionRemark)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TransactionId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TransactionId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TransactionId">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.TransactionId">Details</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

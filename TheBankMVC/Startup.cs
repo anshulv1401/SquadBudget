@@ -38,14 +38,16 @@ namespace TheBankMVC
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            var policy = new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
-            .Build();
+            //var policy = new AuthorizationPolicyBuilder()
+            //.RequireAuthenticatedUser()
+            //.Build();
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
+            services.AddMvc();
+
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add(new AuthorizeFilter(policy));
+            //});
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
