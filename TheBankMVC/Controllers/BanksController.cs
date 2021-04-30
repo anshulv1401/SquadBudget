@@ -18,7 +18,6 @@ namespace TheBankMVC.Controllers
     public class BanksController : Controller
     {
         private readonly ApplicationDbContext _context;
-        protected UserManager<IdentityUser> _userManager { get; set; }
 
         public BanksController(ApplicationDbContext context)
         {

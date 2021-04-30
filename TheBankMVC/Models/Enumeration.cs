@@ -20,7 +20,8 @@ namespace TheBankMVC.Models
         public enum TransactionRefType
         {
             Loan = 1,
-            Bank = 2
+            Bank = 2,
+            Fine = 3
         }
 
         public enum UserType

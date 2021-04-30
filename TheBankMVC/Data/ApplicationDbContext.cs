@@ -31,26 +31,5 @@ namespace TheBankMVC.Data
         {
             return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
-
-        public DbSet<TheBankMVC.Models.Transaction> Transaction { get; set; }
-
-        //private Task<IdentityUser> GetCurrentUser(UserManager<IdentityUser> userManager)
-        //{
-        //    return await userManager.FindByNameAsync(_httpContextAccessor.HttpContext.User.Identity.Name);
-        //}
-        //public static ApplicationDbContext Create()
-        //{
-        //    var builder = new ConfigurationBuilder()
-        //    .SetBasePath(Directory.GetCurrentDirectory())
-        //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-        //    IConfigurationRoot configuration = builder.Build();
-
-        //    var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-
-        //    optionsBuilder.UseSqlServer(configuration.GetConnectionString("Bank_AnshulVanawat"));
-
-        //    return new ApplicationDbContext(optionsBuilder.Options);
-        //}
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using TheBankMVC.BusinessComponents;
 using TheBankMVC.Data;
 using TheBankMVC.Models;
 using TheBankMVC.ViewModels;
@@ -14,10 +15,12 @@ namespace TheBankMVC.Controllers
     public class TransactionsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly MoneyTransaction moneyTransaction;
 
         public TransactionsController(ApplicationDbContext context)
         {
             _context = context;
+            moneyTransaction = new MoneyTransaction(_context);
         }
 
         // GET: Transactions
@@ -31,7 +34,7 @@ namespace TheBankMVC.Controllers
                 {
                     TransactionId = transaction.TransactionId,
                     BankId = transaction.BankId,
-                    AccountId = transaction.AccountId,
+                    UserAccountId = transaction.UserAccountId,
                     TransactionTypeId = transaction.TransactionTypeId,
                     TransactionAmount = transaction.TransactionAmount,
                     TransactionDate = transaction.TransactionDate,
@@ -39,7 +42,7 @@ namespace TheBankMVC.Controllers
                     ReferenceTypeId = transaction.ReferenceTypeId,
                     TransactionRemark = transaction.TransactionRemark,
                     Banks = _context.Bank.Where(m => m.BankId == transaction.BankId).ToList(),
-                    UserAccounts = _context.UserAccount.Where(m => m.UserAccountId == transaction.AccountId).ToList()
+                    UserAccounts = _context.UserAccount.Where(m => m.UserAccountId == transaction.UserAccountId).ToList()
                 });
             }
 
@@ -55,7 +58,7 @@ namespace TheBankMVC.Controllers
                 return NotFound();
             }
 
-            var transaction = await _context.Transaction
+            var transaction = await _context.Transactions
                 .FirstOrDefaultAsync(m => m.TransactionId == id);
             if (transaction == null)
             {
@@ -66,7 +69,7 @@ namespace TheBankMVC.Controllers
             {
                 TransactionId = transaction.TransactionId,
                 BankId = transaction.BankId,
-                AccountId = transaction.AccountId,
+                UserAccountId = transaction.UserAccountId,
                 TransactionTypeId = transaction.TransactionTypeId,
                 TransactionAmount = transaction.TransactionAmount,
                 TransactionDate = transaction.TransactionDate,
@@ -74,7 +77,7 @@ namespace TheBankMVC.Controllers
                 ReferenceTypeId = transaction.ReferenceTypeId,
                 TransactionRemark = transaction.TransactionRemark,
                 Banks = _context.Bank.Where(m => m.BankId == transaction.BankId).ToList(),
-                UserAccounts = _context.UserAccount.Where(m => m.UserAccountId == transaction.AccountId).ToList()
+                UserAccounts = _context.UserAccount.Where(m => m.UserAccountId == transaction.UserAccountId).ToList()
             };
 
             return View(transactionsViewModel);
@@ -94,16 +97,28 @@ namespace TheBankMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TransactionId,BankId,AccountId,TransactionTypeId,TransactionAmount,TransactionDate,ReferenceType,ReferenceTypeId,TransactionRemark")] Transaction transaction)
+        public async Task<IActionResult> Create([Bind("TransactionId,BankId,UserAccountId,TransactionTypeId,TransactionAmount,TransactionDate,ReferenceType,ReferenceTypeId,TransactionRemark")] TransactionsViewModel transactionsViewModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && transactionsViewModel.ReferenceTypeId != 0)
             {
-                transaction.ReferenceType = ((Enumeration.TransactionRefType)transaction.ReferenceTypeId).ToString();
-                _context.Add(transaction);
-                await _context.SaveChangesAsync();
+                var transaction = new Transaction()
+                {
+                    TransactionId = transactionsViewModel.TransactionId,
+                    BankId = transactionsViewModel.BankId,
+                    UserAccountId = transactionsViewModel.UserAccountId,
+                    TransactionTypeId = transactionsViewModel.TransactionTypeId,
+                    TransactionAmount = transactionsViewModel.TransactionAmount,
+                    TransactionDate = transactionsViewModel.TransactionDate,
+                    ReferenceType = transactionsViewModel.ReferenceType,
+                    ReferenceTypeId = transactionsViewModel.ReferenceTypeId,
+                    TransactionRemark = transactionsViewModel.TransactionRemark
+                };
+
+                await moneyTransaction.CreateMoneyTransaction(transaction);
                 return RedirectToAction(nameof(Index));
             }
-            return View(transaction);
+
+            return View(transactionsViewModel);
         }
 
         // GET: Transactions/Edit/5
@@ -188,7 +203,7 @@ namespace TheBankMVC.Controllers
 
         private bool TransactionExists(int id)
         {
-            return _context.Transaction.Any(e => e.TransactionId == id);
+            return _context.Transactions.Any(e => e.TransactionId == id);
         }
     }
 }
