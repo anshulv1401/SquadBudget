@@ -11,12 +11,12 @@ using TheBankMVC.ViewModels;
 
 namespace TheBankMVC.Controllers
 {
-    public class EMICalculatorController : Controller
+    public class EMIController : Controller
     {
 
         private readonly ApplicationDbContext _context;
 
-        public EMICalculatorController(ApplicationDbContext context)
+        public EMIController(ApplicationDbContext context)
         {
             _context = context;
         }

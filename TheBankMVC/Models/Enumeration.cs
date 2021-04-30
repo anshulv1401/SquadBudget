@@ -17,11 +17,19 @@ namespace TheBankMVC.Models
             Debit = 2
         }
 
-        public enum TransactionRefType
+        public enum CreditRefType
         {
-            Loan = 1,
-            Bank = 2,
-            Fine = 3
+            IndividualLoan = 1,
+            Bankwithdrawal = 2
+        }
+
+        public enum DebitRefType
+        {
+            LoanPrinciple = 1,
+            LoanInterest = 2,
+            BankInstallment = 3,
+            LoanEMIFine = 4,
+            BankInstallmentFine = 5
         }
 
         public enum UserType

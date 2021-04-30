@@ -18,21 +18,71 @@ namespace TheBankMVC.BusinessComponents
 
         public async Task CreateMoneyTransaction(Transaction transaction)
         {
-            if (transaction.TransactionTypeId == (int)Enumeration.TransactionType.Credit)
+            switch ((Enumeration.TransactionType)transaction.TransactionTypeId)
             {
-                if(transaction.ReferenceTypeId == (int)Enumeration.TransactionRefType.Loan)
-                {
-                    //_context
-                }
-
+                case Enumeration.TransactionType.Credit:
+                    CreditTransaction(transaction, _context);
+                    break;
+                case Enumeration.TransactionType.Debit:
+                    DebitTransaction(transaction, _context);
+                    break;
+                default:
+                    throw new NotImplementedException("TransactionType case missing");
             }
-            else if (transaction.TransactionTypeId == (int)Enumeration.TransactionType.Credit)
-            {
 
-            }
-            transaction.ReferenceType = ((Enumeration.TransactionRefType)transaction.ReferenceTypeId).ToString();
             _context.Add(transaction);
             await _context.SaveChangesAsync();
+        }
+
+        private async void CreditTransaction(Transaction transaction, ApplicationDbContext _context)
+        {
+            var userAccount = await _context.UserAccount.FindAsync(transaction.UserAccountId);
+
+            switch((Enumeration.CreditRefType)transaction.ReferenceTypeId)
+            {
+                case Enumeration.CreditRefType.IndividualLoan:
+                    if (userAccount.AmountOnLoan != 0)
+                    {
+                        throw new NotImplementedException("Loan pending. Validation msg to be implemented");
+                    }
+                    else
+                    {
+                        userAccount.AmountOnLoan = transaction.TransactionAmount;
+                    }
+                    break;
+                case Enumeration.CreditRefType.Bankwithdrawal:
+                    throw new NotImplementedException("Bankwithdrawal pending");
+                default:
+                    throw new NotImplementedException("Credit case missing");
+            }
+
+            transaction.ReferenceType = ((Enumeration.CreditRefType)transaction.ReferenceTypeId).ToString();
+        }
+
+        private async void DebitTransaction(Transaction transaction, ApplicationDbContext _context)
+        {
+            var userAccount = await _context.UserAccount.FindAsync(transaction.UserAccountId);
+
+            switch ((Enumeration.DebitRefType)transaction.ReferenceTypeId)
+            {
+                case Enumeration.DebitRefType.LoanPrinciple:
+                    userAccount.AmountOnLoan -= transaction.TransactionAmount;
+                    break;
+                case Enumeration.DebitRefType.LoanInterest:
+                    userAccount.InterestSubmitted += transaction.TransactionAmount;
+                    break;
+                case Enumeration.DebitRefType.BankInstallment:
+                    userAccount.ShareSubmitted += transaction.TransactionAmount;
+                    break;
+                case Enumeration.DebitRefType.LoanEMIFine:
+                case Enumeration.DebitRefType.BankInstallmentFine:
+                    userAccount.FineSubmitted += transaction.TransactionAmount;
+                    break;
+                default:
+                    throw new NotImplementedException("Debit case missing");
+            }
+
+            transaction.ReferenceType = ((Enumeration.DebitRefType)transaction.ReferenceTypeId).ToString();
         }
     }
 }
