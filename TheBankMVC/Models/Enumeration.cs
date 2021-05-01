@@ -20,7 +20,8 @@ namespace TheBankMVC.Models
         public enum CreditRefType
         {
             IndividualLoan = 1,
-            Bankwithdrawal = 2
+            Bankwithdrawal = 2,
+            Difference = 3
         }
 
         public enum DebitRefType
@@ -29,7 +30,8 @@ namespace TheBankMVC.Models
             LoanInterest = 2,
             BankInstallment = 3,
             LoanEMIFine = 4,
-            BankInstallmentFine = 5
+            BankInstallmentFine = 5,
+            Difference = 6
         }
 
         public enum UserType

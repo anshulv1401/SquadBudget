@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TheBankMVC.Models.EMIHeader>
+﻿@model IEnumerable<TheBankMVC.ViewModels.EMIHeaderViewModel>
 @{
     ViewData["Title"] = "List";
 }
@@ -11,11 +11,12 @@
 <table id="EMIList" class="table table-­bordered table-­hover”>">
     <thead>
         <tr>
+            <th>BankName</th>
+            <th>UserName</th>
+            <th>EMIType</th>
             <th>EMIAmount</th>
             <th>LoanAmount</th>
-            <th>MonthlyRateOfInterest</th>
-            <th>NoOfInstallment</th>
-            <th>LockInPeriod</th>
+            <th>LoanStatus</th>
             <th>StartTime</th>
             <th>EndTime</th>
         </tr>
@@ -24,11 +25,12 @@
         @foreach (var eMI in Model)
         {
         <tr>
-            <td>@Html.ActionLink(eMI.EMIAmount + "", "View", "EMI", new { Id = eMI.EMIHeaderId })</td>
+            <td>@eMI.BankName</td>
+            <td>@Html.ActionLink(eMI.UserAccountName, "View", "EMI", new { Id = eMI.EMIHeaderId })</td>
+            <td>@((Enumeration.EMIType)eMI.EMIType)</td>
+            <td>@eMI.EMIAmount</td>
             <td>@eMI.LoanAmount</td>
-            <td>@eMI.MonthlyRateOfInterest</td>
-            <td>@eMI.NoOfInstallment</td>
-            <td>@eMI.LockInPeriod</td>
+            <td>@((Enumeration.LoanStatus)eMI.LoanStatus)</td>
             <td>@eMI.StartTime</td>
             <td>@eMI.EndTime</td>
         </tr>

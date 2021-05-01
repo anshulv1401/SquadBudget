@@ -16,15 +16,23 @@ namespace TheBankMVC.BusinessComponents
             _context = context;
         }
 
+        public async Task CreateMoneyTransactions(List<Transaction> transactions)
+        {
+            foreach(var transaction in transactions)
+            {
+                await CreateMoneyTransaction(transaction);
+            }
+        }
+
         public async Task CreateMoneyTransaction(Transaction transaction)
         {
             switch ((Enumeration.TransactionType)transaction.TransactionTypeId)
             {
                 case Enumeration.TransactionType.Credit:
-                    CreditTransaction(transaction, _context);
+                    await CreditTransaction(transaction, _context);
                     break;
                 case Enumeration.TransactionType.Debit:
-                    DebitTransaction(transaction, _context);
+                    await DebitTransaction(transaction, _context);
                     break;
                 default:
                     throw new NotImplementedException("TransactionType case missing");
@@ -34,7 +42,7 @@ namespace TheBankMVC.BusinessComponents
             await _context.SaveChangesAsync();
         }
 
-        private async void CreditTransaction(Transaction transaction, ApplicationDbContext _context)
+        private async Task CreditTransaction(Transaction transaction, ApplicationDbContext _context)
         {
             var userAccount = await _context.UserAccount.FindAsync(transaction.UserAccountId);
 
@@ -52,6 +60,9 @@ namespace TheBankMVC.BusinessComponents
                     break;
                 case Enumeration.CreditRefType.Bankwithdrawal:
                     throw new NotImplementedException("Bankwithdrawal pending");
+                case Enumeration.CreditRefType.Difference:
+                    userAccount.AmountOnLoan = 0;
+                    break;
                 default:
                     throw new NotImplementedException("Credit case missing");
             }
@@ -59,7 +70,7 @@ namespace TheBankMVC.BusinessComponents
             transaction.ReferenceType = ((Enumeration.CreditRefType)transaction.ReferenceTypeId).ToString();
         }
 
-        private async void DebitTransaction(Transaction transaction, ApplicationDbContext _context)
+        private async Task DebitTransaction(Transaction transaction, ApplicationDbContext _context)
         {
             var userAccount = await _context.UserAccount.FindAsync(transaction.UserAccountId);
 
@@ -77,6 +88,9 @@ namespace TheBankMVC.BusinessComponents
                 case Enumeration.DebitRefType.LoanEMIFine:
                 case Enumeration.DebitRefType.BankInstallmentFine:
                     userAccount.FineSubmitted += transaction.TransactionAmount;
+                    break;
+                case Enumeration.DebitRefType.Difference:
+                    userAccount.AmountOnLoan = 0;
                     break;
                 default:
                     throw new NotImplementedException("Debit case missing");

@@ -42,20 +42,25 @@ namespace TheBankMVC.Controllers
 
                 foreach(var installment in installments)
                 {
-                    var installmentViewModel = new InstallmentViewModel();
-                    installmentViewModel.BankName = bank.BankName;
-                    installmentViewModel.UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName;
-                    installmentViewModel.Id = installment.Id;
-                    installmentViewModel.EMIHeaderId = installment.EMIHeaderId;
-                    installmentViewModel.EMIType = _context.EMIHeaders.Where(x => x.EMIHeaderId == installment.EMIHeaderId).First().EMIType;
-                    installmentViewModel.InstallmentNo = installment.InstallmentNo;
-                    installmentViewModel.DueDate = installment.DueDate.Date;
-                    installmentViewModel.PrincipalAmount = installment.PrincipalAmount;
-                    installmentViewModel.InterestAmount = installment.InterestAmount;
-                    installmentViewModel.EMIAmount = installment.EMIAmount;
-                    installmentViewModel.Difference = installment.Difference;
-                    installmentViewModel.InstallmentStatus = installment.InstallmentStatus;
-                    installmentViewModel.Fine = installment.Fine;
+                    var installmentViewModel = new InstallmentViewModel
+                    {
+                        BankName = bank.BankName,
+                        UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName,
+                        Id = installment.Id,
+                        EMIHeaderId = installment.EMIHeaderId,
+                        EMIType = installment.EMIType,
+                        InstallmentNo = installment.InstallmentNo,
+                        DueDate = installment.DueDate.Date,
+                        PrincipalAmount = installment.PrincipalAmount,
+                        InterestAmount = installment.InterestAmount,
+                        EMIAmount = installment.EMIAmount,
+                        Difference = installment.Difference,
+                        InstallmentStatus = installment.InstallmentStatus,
+                        Fine = installment.Fine,
+                        Opening = installment.Opening,
+                        Closing = installment.Closing,
+                        PaymentDate = installment.PaymentDate,
+                    };
 
                     installmentViewModelList.Add(installmentViewModel);
                 }
@@ -78,7 +83,42 @@ namespace TheBankMVC.Controllers
                 return NotFound();
             }
 
-            return View(installment);
+            var installmentViewModel = new InstallmentViewModel
+            {
+                BankName = _context.Bank.Where(x => x.BankId == installment.BankId).First().BankName,
+                UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName,
+                Id = installment.Id,
+                EMIHeaderId = installment.EMIHeaderId,
+                EMIType = _context.EMIHeaders.Where(x => x.EMIHeaderId == installment.EMIHeaderId).First().EMIType,
+                InstallmentNo = installment.InstallmentNo,
+                DueDate = installment.DueDate.Date,
+                PrincipalAmount = installment.PrincipalAmount,
+                InterestAmount = installment.InterestAmount,
+                EMIAmount = installment.EMIAmount,
+                Difference = installment.Difference,
+                InstallmentStatus = installment.InstallmentStatus,
+                Fine = installment.Fine,
+                Opening = installment.Opening,
+                Closing = installment.Closing,
+                PaymentDate = installment.PaymentDate
+            };
+
+            return View(installmentViewModel);
+        }
+
+
+        // GET: Installments/Paid/5
+        public async Task<IActionResult> Paid(int id)
+        {
+
+            if (id != 0)
+            {
+                var installment = _context.Installments.Where(x => x.Id == id).First();
+                await installmentComponent.PayInstallmentTransaction(installment);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
         }
 
         //// GET: Installments/Create

@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.ViewModels.EMIViewModel
+﻿@model TheBankMVC.ViewModels.EMIDetailsViewModel
 @{
     ViewData["Title"] = "EMIDetails";
 }
@@ -6,10 +6,22 @@
 
 <h1>EMIConfig</h1>
 
-@using (Html.BeginForm("Save", "EMICalculator"))
+@using (Html.BeginForm("Save", "EMI"))
 {
     <table id="EMIConfig" class="table table-­bordered table-­hover”>">
         <tbody>
+            <tr>
+                <td>BankName</td>
+                <td>@Model.BankName</td>
+            </tr>
+            <tr>
+                <td>UserName</td>
+                <td>@Model.UserAccountName</td>
+            </tr>
+            <tr>
+                <td>InstallmentDayOfMonth</td>
+                <td>@Model.EMIHeader.InstallmentDayOfMonth</td>
+            </tr>
             <tr>
                 <td>LoanAmount</td>
                 <td>@Model.EMIHeader.LoanAmount</td>
@@ -41,20 +53,13 @@
                 <td>EMIAmount</td>
                 <td>@Model.EMIHeader.EMIAmount.ToString("0.00")</td>
             </tr>
-        </tbody>
-    </table>
-
-    <h1>TimePeriod</h1>
-
-    <table id="TimePeriod" class="table table-­bordered table-­hover”>">
-        <tbody>
             <tr>
-                <td>MonthlyRateOfInterest</td>
-                <td>@Model.EMIHeader.StartTime</td>
+                <td>StartTime</td>
+                <td>@Model.EMIHeader.StartTime.ToString("dd MMM yyyy")</td>
             </tr>
             <tr>
-                <td>EMIAmount</td>
-                <td>@Model.EMIHeader.EndTime</td>
+                <td>EndTime</td>
+                <td>@Model.EMIHeader.EndTime.ToString("dd MMM yyyy")</td>
             </tr>
         </tbody>
     </table>
@@ -64,12 +69,15 @@
     <table id="Installments" class="table table-­bordered table-­hover”>">
         <thead>
             <tr>
-                <th>InstallmentNo</th>
-                <th>DateOfInstallment</th>
+                <th>Inst.No</th>
+                <th>Status</th>
+                <th>DueDate</th>
+                <th>PaymentDate</th>
                 <th>Opening</th>
-                <th>PrincipalAmount</th>
-                <th>InterestAmount</th>
-                <th>EMIAmount</th>
+                <th>PrincipalAmt</th>
+                <th>Int.Amt</th>
+                <th>EMIAmt</th>
+                <th>Fine</th>
                 <th>Closing</th>
             </tr>
         </thead>
@@ -78,7 +86,9 @@
             {
                 <tr>
                     <td>@installment.InstallmentNo</td>
-                    <td>@installment.DueDate</td>
+                    <td>@((Enumeration.InstallmentStatus)installment.InstallmentStatus)</td>
+                    <td>@installment.DueDate.ToString("dd MMM yyyy")</td>
+                    <td>@installment.PaymentDate?.ToString("dd MMM yyyy")</td>
                     <td>@installment.Opening.ToString("0.00")</td>
                     <td>@installment.PrincipalAmount.ToString("0.00")</td>
                     <td>@installment.InterestAmount.ToString("0.00")</td>
@@ -100,6 +110,7 @@
                             @installment.EMIAmount.ToString("0.00") - @installment.Difference.ToString("0.00")
                         </td>
                     }
+                    <td>@installment.Fine.ToString("0.00")</td>
                     <td>@Math.Abs(installment.Closing).ToString("0.00")</td>
                 </tr>
             }
@@ -113,6 +124,17 @@
     @Html.HiddenFor(m => m.EMIHeader.EndTime)
     @Html.HiddenFor(m => m.EMIHeader.EMIAmount)
     @Html.HiddenFor(m => m.EMIHeader.EMIHeaderId)
+    @*new variables added*@
+    @Html.HiddenFor(m => m.EMIHeader.BankId)
+    @Html.HiddenFor(m => m.EMIHeader.UserAccountId)
+    @Html.HiddenFor(m => m.EMIHeader.EMIType)
+    @Html.HiddenFor(m => m.EMIHeader.LoanStatus)
+    @Html.HiddenFor(m => m.EMIHeader.InstallmentDayOfMonth)
+    @Html.HiddenFor(m => m.EMIHeader.DelayFine)
+    @Html.HiddenFor(m => m.EMIHeader.DelayFineType)
+    @Html.HiddenFor(m => m.EMIHeader.DelayFinePeriod)
+    @Html.HiddenFor(m => m.EMIHeader.InterestTermId)
+
     @for (int i = 0; i < Model.Installments.Count; i++)
     {
         @Html.HiddenFor(m => m.Installments[i].Closing)
@@ -125,6 +147,13 @@
         @Html.HiddenFor(m => m.Installments[i].InterestAmount)
         @Html.HiddenFor(m => m.Installments[i].Opening)
         @Html.HiddenFor(m => m.Installments[i].PrincipalAmount)
+        @*new variables added*@
+        @Html.HiddenFor(m => m.Installments[i].BankId)
+        @Html.HiddenFor(m => m.Installments[i].UserAccountId)
+        @Html.HiddenFor(m => m.Installments[i].EMIType)
+        @Html.HiddenFor(m => m.Installments[i].InstallmentStatus)
+        @Html.HiddenFor(m => m.Installments[i].Fine)
+
     }
     @if (Model.EMIHeader == null || Model.EMIHeader.EMIHeaderId == 0)
     {
@@ -132,6 +161,6 @@
     }
     else
     {
-        <p>@Html.ActionLink("Ok", "Index", "EMICalculator", null, new { @class = "btn btn-primary" })</p>
+        <p>@Html.ActionLink("Ok", "Index", "EMI", null, new { @class = "btn btn-primary" })</p>
     }
 }

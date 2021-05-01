@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheBankMVC.Models
+namespace TheBankMVC.ViewModels
 {
-    public class EMIHeader
+    public class EMIHeaderViewModel
     {
         public int EMIHeaderId { get; set; }
         public int BankId { get; set; }
@@ -20,9 +20,8 @@ namespace TheBankMVC.Models
         public int LoanStatus { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public double DelayFine { get; set; }
-        public int DelayFineType { get; set; }
-        public int DelayFinePeriod { get; set; }
         public int InterestTermId { get; set; }
+        public string BankName { get; set; }
+        public string UserAccountName { get; set; }
     }
 }

@@ -30,6 +30,11 @@ else
                 <span asp-validation-for="BankInstallmentAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="InstallmentDayOfMonth" class="control-label"></label>
+                <input asp-for="InstallmentDayOfMonth" class="form-control" />
+                <span asp-validation-for="InstallmentDayOfMonth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="DefaultLoanInterest" class="control-label"></label>
                 <input asp-for="DefaultLoanInterest" class="form-control" />
                 <span asp-validation-for="DefaultLoanInterest" class="text-danger"></span>

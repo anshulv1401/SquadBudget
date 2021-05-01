@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using TheBankMVC.Models;
 
 namespace TheBankMVC.ViewModels
 {
@@ -16,5 +18,7 @@ namespace TheBankMVC.ViewModels
         public int NoOfInstallment { get; set; }
         [Required]
         public int LockInPeriod { get; set; }
+        public IEnumerable<Bank> Banks { get; set; }
+        public IEnumerable<UserAccount> UserAccounts { get; set; }
     }
 }

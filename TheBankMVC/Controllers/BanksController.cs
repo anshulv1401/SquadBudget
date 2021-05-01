@@ -59,7 +59,7 @@ namespace TheBankMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BankId,BankName,BankInstallmentAmount,DefaultLoanInterest,DefaultNoOfInstallment,BankInstallmentDelayFine,BankInstallmentDelayFineType,BankInstallmentDelayFineTerm,LoanDelayFine,LoanDelayFineType,LoanDelayFineTerm,InterestTermID,DateFormat")] Bank bank)
+        public async Task<IActionResult> Create([Bind("BankId,BankName,BankInstallmentAmount,InstallmentDayOfMonth,DefaultLoanInterest,DefaultNoOfInstallment,BankInstallmentDelayFine,BankInstallmentDelayFineType,BankInstallmentDelayFineTerm,LoanDelayFine,LoanDelayFineType,LoanDelayFineTerm,InterestTermID,DateFormat")] Bank bank)
         {
             if (!ModelState.IsValid)
             {
@@ -85,6 +85,7 @@ namespace TheBankMVC.Controllers
                         var bankInDb = _context.Bank.Single(c => c.BankId == bank.BankId);
                         bankInDb.BankName = bank.BankName;
                         bankInDb.BankInstallmentAmount = bank.BankInstallmentAmount;
+                        bankInDb.InstallmentDayOfMonth = bank.InstallmentDayOfMonth;
                         bankInDb.DefaultLoanInterest = bank.DefaultLoanInterest;
                         bankInDb.DefaultNoOfInstallment = bank.DefaultNoOfInstallment;
                         bankInDb.BankInstallmentDelayFine = bank.BankInstallmentDelayFine;
@@ -132,7 +133,7 @@ namespace TheBankMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BankId,BankName,BankInstallmentAmount,DefaultLoanInterest,DefaultNoOfInstallment,BankInstallmentDelayFine,BankInstallmentDelayFineType,BankInstallmentDelayFinePeriod,LoanDelayFine,LoanDelayFineType,LoanDelayFinePeriod,InterestTermID,DateFormat")] Bank bank)
+        public async Task<IActionResult> Edit(int id, [Bind("BankId,BankName,BankInstallmentAmount,InstallmentDayOfMonth,DefaultLoanInterest,DefaultNoOfInstallment,BankInstallmentDelayFine,BankInstallmentDelayFineType,BankInstallmentDelayFinePeriod,LoanDelayFine,LoanDelayFineType,LoanDelayFinePeriod,InterestTermID,DateFormat")] Bank bank)
         {
             if (id != bank.BankId)
             {
