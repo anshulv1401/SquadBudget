@@ -227,9 +227,6 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Banks\Details.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Banks\Edit.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Banks\Index.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMICalculator\EMIConfig.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMICalculator\EMIDetails.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMICalculator\List.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
@@ -255,3 +252,11 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.dll
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.pdb
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.csprojAssemblyReference.cache
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Installments\Create.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Installments\Delete.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Installments\Details.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Installments\Edit.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\Installments\Index.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMI\EMIConfig.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMI\EMIDetails.cshtml.g.cs
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMI\List.cshtml.g.cs

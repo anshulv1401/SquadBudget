@@ -1,0 +1,84 @@
+﻿@model TheBankMVC.Models.Installment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Installment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="EMIHeaderId" class="control-label"></label>
+                <input asp-for="EMIHeaderId" class="form-control" />
+                <span asp-validation-for="EMIHeaderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstallmentNo" class="control-label"></label>
+                <input asp-for="InstallmentNo" class="form-control" />
+                <span asp-validation-for="InstallmentNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DueDate" class="control-label"></label>
+                <input asp-for="DueDate" class="form-control" />
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentDate" class="control-label"></label>
+                <input asp-for="PaymentDate" class="form-control" />
+                <span asp-validation-for="PaymentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opening" class="control-label"></label>
+                <input asp-for="Opening" class="form-control" />
+                <span asp-validation-for="Opening" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrincipalAmount" class="control-label"></label>
+                <input asp-for="PrincipalAmount" class="form-control" />
+                <span asp-validation-for="PrincipalAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterestAmount" class="control-label"></label>
+                <input asp-for="InterestAmount" class="form-control" />
+                <span asp-validation-for="InterestAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EMIAmount" class="control-label"></label>
+                <input asp-for="EMIAmount" class="form-control" />
+                <span asp-validation-for="EMIAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Closing" class="control-label"></label>
+                <input asp-for="Closing" class="form-control" />
+                <span asp-validation-for="Closing" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Difference" class="control-label"></label>
+                <input asp-for="Difference" class="form-control" />
+                <span asp-validation-for="Difference" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstallmentStatus" class="control-label"></label>
+                <input asp-for="InstallmentStatus" class="form-control" />
+                <span asp-validation-for="InstallmentStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

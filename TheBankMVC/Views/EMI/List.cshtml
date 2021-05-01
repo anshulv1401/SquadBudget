@@ -5,7 +5,7 @@
 
 <h1>Get Loan</h1>
 
-<p>@Html.ActionLink("EMIConfig", "New", "EMICalculator", null, new { @class = "btn btn-primary" })</p>
+<p>@Html.ActionLink("EMIConfig", "New", "EMI", null, new { @class = "btn btn-primary" })</p>
 
 <div><h3>EMI List</h3><br /></div>
 <table id="EMIList" class="table table-­bordered table-­hover”>">
@@ -24,7 +24,7 @@
         @foreach (var eMI in Model)
         {
         <tr>
-            <td>@Html.ActionLink(eMI.EMIAmount + "", "View", "EMICalculator", new { Id = eMI.EMIHeaderId })</td>
+            <td>@Html.ActionLink(eMI.EMIAmount + "", "View", "EMI", new { Id = eMI.EMIHeaderId })</td>
             <td>@eMI.LoanAmount</td>
             <td>@eMI.MonthlyRateOfInterest</td>
             <td>@eMI.NoOfInstallment</td>

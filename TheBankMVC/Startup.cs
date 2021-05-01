@@ -77,7 +77,7 @@ namespace TheBankMVC
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Installments}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

@@ -7,11 +7,11 @@ using TheBankMVC.Models;
 
 namespace TheBankMVC.BusinessComponents
 {
-    public class MoneyTransaction
+    public class MoneyTransactionComponent
     {
         private readonly ApplicationDbContext _context;
 
-        public MoneyTransaction(ApplicationDbContext context)
+        public MoneyTransactionComponent(ApplicationDbContext context)
         {
             _context = context;
         }

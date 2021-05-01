@@ -15,12 +15,12 @@ namespace TheBankMVC.Controllers
     public class TransactionsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly MoneyTransaction moneyTransaction;
+        private readonly MoneyTransactionComponent moneyTransaction;
 
         public TransactionsController(ApplicationDbContext context)
         {
             _context = context;
-            moneyTransaction = new MoneyTransaction(_context);
+            moneyTransaction = new MoneyTransactionComponent(_context);
         }
 
         // GET: Transactions

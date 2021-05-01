@@ -10,7 +10,9 @@ namespace TheBankMVC.Models
         public int EMIHeaderId { get; set; }
         public int BankId { get; set; }
         public int UserAccountId { get; set; }
+        public int EMIType { get; set; }
         public double EMIAmount { get; set; }
+        public double InstallmentDayOfMonth { get; set; }
         public double LoanAmount { get; set; }
         public double MonthlyRateOfInterest { get; set; }
         public int NoOfInstallment { get; set; }

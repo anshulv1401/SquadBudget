@@ -10,6 +10,7 @@ namespace TheBankMVC.Models
         public int BankId { get; set; }
         public string BankName { get; set; }
         public double BankInstallmentAmount { get; set; }
+        public int InstallmentDayOfMonth { get; set; }
         public double DefaultLoanInterest { get; set; }
         public int DefaultNoOfInstallment { get; set; }
         public double BankInstallmentDelayFine { get; set; }

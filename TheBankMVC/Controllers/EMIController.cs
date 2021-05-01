@@ -8,6 +8,7 @@ using System.Linq;
 using TheBankMVC.Data;
 using TheBankMVC.Models;
 using TheBankMVC.ViewModels;
+using TheBankMVC.BusinessComponents;
 
 namespace TheBankMVC.Controllers
 {
@@ -15,10 +16,12 @@ namespace TheBankMVC.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly InstallmentComponent installmentComponent;
 
         public EMIController(ApplicationDbContext context)
         {
             _context = context;
+            installmentComponent = new InstallmentComponent(_context);
         }
 
         public ActionResult Index()
@@ -82,51 +85,9 @@ namespace TheBankMVC.Controllers
                     EndTime = DateTime.Now.AddMonths(1 + eMIConfig.NoOfInstallment),
                 }
             };
-            eMIDetails.Installments = GetInstallments(eMIDetails);
+            eMIDetails.Installments = installmentComponent.GetInstallments(eMIDetails);
 
             return View("EMIDetails", eMIDetails);
-        }
-
-        private List<Installment> GetInstallments(EMIViewModel eMIDetails)
-        {
-            var installments = new List<Installment>();
-            var dateOfInstallment = eMIDetails.EMIHeader.StartTime;
-            var opening = eMIDetails.EMIHeader.LoanAmount;
-            var eMIAmount = eMIDetails.EMIHeader.EMIAmount;
-            var interestAmount = opening * (eMIDetails.EMIHeader.MonthlyRateOfInterest / 100);
-            var principalAmount = eMIAmount - interestAmount;
-            var closing = opening - principalAmount;
-            var difference = 0.0;
-
-
-            for (int i = 1; i <= eMIDetails.EMIHeader.NoOfInstallment; i++)
-            {
-                var installment = new Installment()
-                {
-                    InstallmentNo = i,
-                    DueDate = dateOfInstallment,
-                    Opening = opening,
-                    PrincipalAmount = principalAmount,
-                    InterestAmount = interestAmount,
-                    EMIAmount = eMIAmount,
-                    Closing = closing - difference,
-                    Difference = difference
-                };
-
-                installments.Add(installment);
-
-                dateOfInstallment = dateOfInstallment.AddMonths(1);
-                opening = closing;
-                interestAmount = opening * (eMIDetails.EMIHeader.MonthlyRateOfInterest / 100);
-                principalAmount = eMIAmount - interestAmount;
-                closing = opening - principalAmount;
-
-                if (i == eMIDetails.EMIHeader.NoOfInstallment - 1)//for last EMI
-                {
-                    difference = closing;
-                }
-            }
-            return installments;
         }
 
         public ActionResult View(int Id)

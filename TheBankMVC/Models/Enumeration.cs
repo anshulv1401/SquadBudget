@@ -70,6 +70,12 @@ namespace TheBankMVC.Models
             Completed = 2
         }
 
+        public enum EMIType
+        {
+            BankInstallment = 1,
+            LoanEMI = 2
+        }
+
         public static List<Enumeration> GetEnumerations(string enumeration, ApplicationDbContext context)
         {
             return context.Enumerations.Where(x => x.EnumerationType.ToLower() == enumeration.ToLower()).ToList();

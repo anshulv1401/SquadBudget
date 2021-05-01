@@ -1,0 +1,94 @@
+﻿@model IEnumerable<TheBankMVC.ViewModels.InstallmentViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Status")
+            </th>
+            <th>
+                Inst.Type
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BankName)
+            </th>
+            <th>
+                @Html.DisplayName("UserName")
+            </th>
+            <th>
+                Inst.No
+            </th>
+            <th>
+                Inst.DueDate
+            </th>
+            <th>
+                @Html.DisplayName("Principal Amt")
+            </th>
+            <th>
+                Int.Amt
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EMIAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Difference)
+            </th>
+            <th>
+                AmtToBe Paid
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(((Enumeration.InstallmentStatus)item.InstallmentStatus).ToString(), "Details", new { Id = item.Id })
+            </td>
+            <td>
+                @((Enumeration.EMIType)item.EMIType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserAccountName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstallmentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrincipalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InterestAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMIAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Difference)
+            </td>
+            <td>
+                @((item.EMIAmount + item.Fine + item.Difference).ToString("0.00"))
+            </td>
+            <td>
+                <a asp-action="Paid" asp-route-id="@item.Id">Paid</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
