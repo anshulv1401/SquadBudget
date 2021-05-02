@@ -20,14 +20,12 @@ namespace TheBankMVC.Controllers
         public InstallmentsController(ApplicationDbContext context)
         {
             _context = context;
-            installmentComponent = new InstallmentComponent(_context);
         }
 
         // GET: Installments
         public async Task<IActionResult> Index()
         {
             installmentComponent.RefreshInstallmentStatus();
-
             var banks = _context.Bank.ToList();
             var installmentViewModelList = new List<InstallmentViewModel>();
             foreach (var bank in banks)
@@ -36,9 +34,9 @@ namespace TheBankMVC.Controllers
 
                 var installments = await _context.Installments.
                     Where(x => 
-                        x.DueDate.Date <= dueDate.Date 
-                        && x.InstallmentStatus != (int)Enumeration.InstallmentStatus.Paid
-                        && x.BankId == bank.BankId).ToListAsync();
+                        x.DueDate.Date <= dueDate.Date &&
+                        x.InstallmentStatus != (int)Enumeration.InstallmentStatus.Paid &&
+                        x.BankId == bank.BankId).ToListAsync();
 
                 foreach(var installment in installments)
                 {

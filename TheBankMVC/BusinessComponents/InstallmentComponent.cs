@@ -11,6 +11,18 @@ namespace TheBankMVC.BusinessComponents
 {
     public class InstallmentComponent
     {
+        //static InstallmentComponent()
+        //{
+        //}
+        //private InstallmentComponent(ApplicationDbContext context)
+        //{
+        //    _context = context;
+        //}
+
+        //public static InstallmentComponent Instance { get; } = new InstallmentComponent();
+
+
+
         private ApplicationDbContext _context { get; set; }
         private MoneyTransactionComponent MoneyTransactionComponent { get; set; }
 
@@ -18,19 +30,18 @@ namespace TheBankMVC.BusinessComponents
         {
             _context = context;
             MoneyTransactionComponent = new MoneyTransactionComponent(_context);
-
         }
 
         public void RefreshInstallmentStatus()
         {
             var pendingEMIs = _context.EMIHeaders.Where(x => x.LoanStatus != (int)LoanStatus.Completed).ToList();
 
-            foreach(var pendingEMI in pendingEMIs)
+            foreach (var pendingEMI in pendingEMIs)
             {
                 var dueDate = GetDueDate(pendingEMI.InstallmentDayOfMonth);
 
                 var pendingInstallments = _context.Installments.Where(x =>
-                x.DueDate.Date <= dueDate && 
+                x.DueDate.Date <= dueDate &&
                 x.EMIHeaderId == pendingEMI.EMIHeaderId &&
                 x.InstallmentStatus != (int)InstallmentStatus.Paid).ToList();
 
@@ -44,26 +55,119 @@ namespace TheBankMVC.BusinessComponents
                 }
             }
 
-            //TODO Create Bank Installments using date Cycle 
+            //TODO Create Bank Installments using date Cycle
+
+            var banks = _context.Bank.ToList();
+            foreach (var bank in banks)
+            {
+                var dueDate = GetDueDate(bank.InstallmentDayOfMonth);
+                var userAccounts = _context.UserAccount.Where(x => x.BankId == bank.BankId).ToList();
+                foreach (var userAccount in userAccounts)
+                {
+                    var eMIHeaderCount = _context.EMIHeaders.Where(x =>
+                    x.BankId == userAccount.BankId &&
+                    x.UserAccountId == userAccount.UserAccountId &&
+                    x.StartTime.Date >= DateTime.Now.Date//next installment
+                    ).Count();
+
+                    if (eMIHeaderCount == 0)
+                    {
+                        GenerateBankInstallments(bank.BankId, userAccount.UserAccountId, bank.BankInstallmentAmount);
+                    }
+                }
+            }
             _context.SaveChanges();
         }
 
-        public List<Installment> GetInstallments(EMIDetailsViewModel eMIDetails)
+        public void GenerateBankInstallments(int bankId, int userAccountId, double installmentAmt)
+        {   
+            EMIConfigViewModel eMIConfig = new EMIConfigViewModel()
+            {
+                BankId = bankId,
+                UserAccountId = userAccountId,
+                LoanAmount = installmentAmt,
+                MonthlyRateOfInterest = 0.001,
+                NoOfInstallment = 1,
+                EMIType = (int)EMIType.BankInstallment
+            };
+
+            var eMIHeader = GetEMIHeader(eMIConfig);
+            var installments = GetInstallments(eMIHeader);
+
+            SaveInstallments(eMIHeader, installments);
+        }
+
+        public EMIHeader GetEMIHeader(EMIConfigViewModel eMIConfig)
         {
-            var bankId = eMIDetails.EMIHeader.BankId;
-            var userAccountId = eMIDetails.EMIHeader.UserAccountId;
-            var eMIType = eMIDetails.EMIHeader.EMIType;
+            //EMI calculation
+            var r = eMIConfig.MonthlyRateOfInterest / 100;//Monthly RateOfInterest
+            var t = eMIConfig.NoOfInstallment;
+            var p = eMIConfig.LoanAmount;
+
+            var rPlus1PowN = Math.Pow((1 + r), t);
+            var emi = (int)((p * r * rPlus1PowN) / (rPlus1PowN - 1));
+            //EMI calculation
+
+            var bank = _context.Bank.Where(x => x.BankId == eMIConfig.BankId).First();
+            var startDate = GetDueDate(bank.InstallmentDayOfMonth);
+
+            double DelayFine;
+            int DelayFineType;
+            int DelayFinePeriod;
+
+            if (eMIConfig.EMIType == (int)EMIType.BankInstallment)
+            {
+                DelayFine = bank.BankInstallmentDelayFine;
+                DelayFineType = bank.BankInstallmentDelayFineType;
+                DelayFinePeriod = bank.BankInstallmentDelayFineTerm;
+            }
+            else
+            {
+                DelayFine = bank.LoanDelayFine;
+                DelayFineType = bank.LoanDelayFineType;
+                DelayFinePeriod = bank.LoanDelayFineTerm;
+            }
+
+            var eMIHeader = new EMIHeader()
+            {
+                EMIAmount = emi,
+                LoanAmount = eMIConfig.LoanAmount,
+                MonthlyRateOfInterest = eMIConfig.MonthlyRateOfInterest,
+                NoOfInstallment = eMIConfig.NoOfInstallment,
+                LockInPeriod = eMIConfig.LockInPeriod,
+                StartTime = startDate,
+                EndTime = startDate.AddMonths(eMIConfig.NoOfInstallment),
+                //*new Variables Added*//
+                BankId = eMIConfig.BankId,
+                UserAccountId = eMIConfig.UserAccountId,
+                EMIType = eMIConfig.EMIType,
+                LoanStatus = (int)Enumeration.LoanStatus.Pending,
+                InstallmentDayOfMonth = bank.InstallmentDayOfMonth,
+                DelayFine = DelayFine,
+                DelayFineType = DelayFineType,
+                DelayFinePeriod = DelayFinePeriod,
+                InterestTermId = bank.InterestTermID
+            };
+
+            return eMIHeader;
+        }
+
+        public List<Installment> GetInstallments(EMIHeader eMIHeader)
+        {
+            var bankId = eMIHeader.BankId;
+            var userAccountId = eMIHeader.UserAccountId;
+            var eMIType = eMIHeader.EMIType;
             var installments = new List<Installment>();
-            var dateOfInstallment = eMIDetails.EMIHeader.StartTime.Date;
-            var opening = eMIDetails.EMIHeader.LoanAmount;
-            var eMIAmount = eMIDetails.EMIHeader.EMIAmount;
-            var interestAmount = opening * (eMIDetails.EMIHeader.MonthlyRateOfInterest / 100);
+            var dateOfInstallment = eMIHeader.StartTime.Date.AddMonths(1);
+            var opening = eMIHeader.LoanAmount;
+            var eMIAmount = eMIHeader.EMIAmount;
+            var interestAmount = opening * (eMIHeader.MonthlyRateOfInterest / 100);
             var principalAmount = eMIAmount - interestAmount;
             var closing = opening - principalAmount;
             var difference = 0.0;
 
 
-            for (int i = 1; i <= eMIDetails.EMIHeader.NoOfInstallment; i++)
+            for (int i = 1; i <= eMIHeader.NoOfInstallment; i++)
             {
                 var installment = new Installment()
                 {
@@ -87,11 +191,11 @@ namespace TheBankMVC.BusinessComponents
 
                 dateOfInstallment = dateOfInstallment.AddMonths(1);
                 opening = closing;
-                interestAmount = opening * (eMIDetails.EMIHeader.MonthlyRateOfInterest / 100);
+                interestAmount = opening * (eMIHeader.MonthlyRateOfInterest / 100);
                 principalAmount = eMIAmount - interestAmount;
                 closing = opening - principalAmount;
 
-                if (i == eMIDetails.EMIHeader.NoOfInstallment - 1)//for last EMI
+                if (i == eMIHeader.NoOfInstallment - 1)//for last EMI
                 {
                     difference = closing;
                 }
@@ -209,15 +313,8 @@ namespace TheBankMVC.BusinessComponents
             _context.SaveChanges();
         }
 
-        public async Task SaveInstallmentsAsync(EMIHeader eMIHeader, List<Installment> installments)
+        public void SaveInstallments(EMIHeader eMIHeader, List<Installment> installments)
         {
-            var userAccount = _context.UserAccount.Where(x => x.UserAccountId == eMIHeader.UserAccountId).First();
-
-            if (userAccount.AmountOnLoan != 0)
-            {
-                throw new NotImplementedException("Active loan pending, Validation to be implemented");
-            }
-
             using var dbTransaction = _context.Database.BeginTransaction();
             try
             {
@@ -237,19 +334,6 @@ namespace TheBankMVC.BusinessComponents
                 //TODO log the error
                 throw ex;
             }
-
-            var moneytransaction = new Transaction
-            {
-                BankId = eMIHeader.BankId,
-                UserAccountId = eMIHeader.UserAccountId,
-                TransactionTypeId = (int)TransactionType.Credit,
-                TransactionAmount = eMIHeader.LoanAmount,
-                TransactionDate = DateTime.Now,
-                ReferenceType = CreditRefType.IndividualLoan.ToString(),
-                ReferenceTypeId = (int)CreditRefType.IndividualLoan
-            };
-
-            await MoneyTransactionComponent.CreateMoneyTransaction(moneytransaction);
         }
 
         public DateTime GetDueDate(int dayOfMonth)
@@ -275,7 +359,7 @@ namespace TheBankMVC.BusinessComponents
                     dueDate = dateOfMonth.AddMonths(1).Date;
                 }
             }
-            return dueDate.Date.AddMonths(2);
+            return dueDate.Date;
         }
 
 

@@ -46,10 +46,10 @@
                 @((Enumeration.TransactionType)item.TransactionTypeId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TransactionAmount)
+                @item.TransactionAmount.ToString("0.00")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TransactionDate)
+                @item.TransactionDate.ToString("dd MMM yyyy")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReferenceType)

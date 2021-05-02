@@ -18,6 +18,7 @@ namespace TheBankMVC.ViewModels
         public int NoOfInstallment { get; set; }
         [Required]
         public int LockInPeriod { get; set; }
+        public int EMIType { get; set; }
         public IEnumerable<Bank> Banks { get; set; }
         public IEnumerable<UserAccount> UserAccounts { get; set; }
     }

@@ -58,16 +58,16 @@
                 @Html.DisplayFor(modelItem => item.PhoneNo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ShareSubmitted)
+                @item.ShareSubmitted.ToString("0.00")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FineSubmitted)
+                @item.FineSubmitted.ToString("0.00")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InterestSubmitted)
+                @item.InterestSubmitted.ToString("0.00")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AmountOnLoan)
+                @item.AmountOnLoan.ToString("0.00")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
