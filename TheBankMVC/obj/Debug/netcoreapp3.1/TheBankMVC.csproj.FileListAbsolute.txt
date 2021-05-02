@@ -259,4 +259,3 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMI\EMIConfig.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMI\EMIDetails.cshtml.g.cs
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\Razor\Views\EMI\List.cshtml.g.cs
-C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\TheBankMVC\obj\Debug\netcoreapp3.1\TheBankMVC.csprojAssemblyReference.cache

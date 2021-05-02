@@ -15,22 +15,22 @@ namespace TheBankMVC.Controllers
     public class InstallmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly InstallmentComponent installmentComponent;
+        public InstallmentComponent InstallmentComponent { get; }
 
         public InstallmentsController(ApplicationDbContext context)
         {
             _context = context;
+            InstallmentComponent = new InstallmentComponent(_context);
         }
 
         // GET: Installments
         public async Task<IActionResult> Index()
         {
-            installmentComponent.RefreshInstallmentStatus();
             var banks = _context.Bank.ToList();
             var installmentViewModelList = new List<InstallmentViewModel>();
             foreach (var bank in banks)
             {
-                var dueDate = installmentComponent.GetDueDate(bank.InstallmentDayOfMonth);
+                var dueDate = InstallmentComponent.GetDueDate(bank.InstallmentDayOfMonth);
 
                 var installments = await _context.Installments.
                     Where(x => 
@@ -108,15 +108,29 @@ namespace TheBankMVC.Controllers
         // GET: Installments/Paid/5
         public async Task<IActionResult> Paid(int id)
         {
+            var installmentChanged = InstallmentComponent.RefreshInstallments();
 
-            if (id != 0)
+            if (installmentChanged)
             {
-                var installment = _context.Installments.Where(x => x.Id == id).First();
-                await installmentComponent.PayInstallmentTransaction(installment);
+                ViewBag.Message = "Installment got refresh, please try again";
                 return RedirectToAction(nameof(Index));
             }
 
-            return View();
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            var installment = _context.Installments.Where(x => x.Id == id).First();
+            await InstallmentComponent.PayInstallmentTransaction(installment);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Installments/Paid/5
+        public IActionResult RefreshInstallments()
+        {
+            InstallmentComponent.RefreshInstallments();
+            return RedirectToAction(nameof(Index));
         }
 
         //// GET: Installments/Create

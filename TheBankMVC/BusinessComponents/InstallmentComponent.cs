@@ -11,18 +11,6 @@ namespace TheBankMVC.BusinessComponents
 {
     public class InstallmentComponent
     {
-        //static InstallmentComponent()
-        //{
-        //}
-        //private InstallmentComponent(ApplicationDbContext context)
-        //{
-        //    _context = context;
-        //}
-
-        //public static InstallmentComponent Instance { get; } = new InstallmentComponent();
-
-
-
         private ApplicationDbContext _context { get; set; }
         private MoneyTransactionComponent MoneyTransactionComponent { get; set; }
 
@@ -32,30 +20,9 @@ namespace TheBankMVC.BusinessComponents
             MoneyTransactionComponent = new MoneyTransactionComponent(_context);
         }
 
-        public void RefreshInstallmentStatus()
+        public bool RefreshInstallments()
         {
-            var pendingEMIs = _context.EMIHeaders.Where(x => x.LoanStatus != (int)LoanStatus.Completed).ToList();
-
-            foreach (var pendingEMI in pendingEMIs)
-            {
-                var dueDate = GetDueDate(pendingEMI.InstallmentDayOfMonth);
-
-                var pendingInstallments = _context.Installments.Where(x =>
-                x.DueDate.Date <= dueDate &&
-                x.EMIHeaderId == pendingEMI.EMIHeaderId &&
-                x.InstallmentStatus != (int)InstallmentStatus.Paid).ToList();
-
-                foreach (var pendingInstallment in pendingInstallments)
-                {
-                    if (pendingInstallment.DueDate.Date <= DateTime.Now.Date)
-                    {
-                        pendingInstallment.InstallmentStatus = (int)InstallmentStatus.Late;
-                        pendingInstallment.Fine = GetFine(pendingEMI.DelayFine, pendingEMI.DelayFineType, pendingEMI.DelayFinePeriod, dueDate);
-                    }
-                }
-            }
-
-            //TODO Create Bank Installments using date Cycle
+            bool installmentChanged = false;
 
             var banks = _context.Bank.ToList();
             foreach (var bank in banks)
@@ -73,10 +40,35 @@ namespace TheBankMVC.BusinessComponents
                     if (eMIHeaderCount == 0)
                     {
                         GenerateBankInstallments(bank.BankId, userAccount.UserAccountId, bank.BankInstallmentAmount);
+                        installmentChanged = true;
                     }
                 }
             }
             _context.SaveChanges();
+
+            var pendingEMIs = _context.EMIHeaders.Where(x => x.LoanStatus != (int)LoanStatus.Completed).ToList();
+
+            foreach (var pendingEMI in pendingEMIs)
+            {
+                var dueDate = GetDueDate(pendingEMI.InstallmentDayOfMonth);
+
+                var pendingInstallments = _context.Installments.Where(x =>
+                x.DueDate.Date <= dueDate &&
+                x.EMIHeaderId == pendingEMI.EMIHeaderId &&
+                x.InstallmentStatus != (int)InstallmentStatus.Paid).ToList();
+
+                foreach (var pendingInstallment in pendingInstallments)
+                {
+                    if (pendingInstallment.DueDate.Date <= DateTime.Now.Date)
+                    {
+                        pendingInstallment.InstallmentStatus = (int)InstallmentStatus.Late;
+                        pendingInstallment.Fine = GetFine(pendingEMI.DelayFine, pendingEMI.DelayFineType, pendingEMI.DelayFinePeriod, dueDate);
+                        installmentChanged = true;
+                    }
+                }
+            }
+
+            return installmentChanged;
         }
 
         public void GenerateBankInstallments(int bankId, int userAccountId, double installmentAmt)

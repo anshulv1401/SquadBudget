@@ -4,6 +4,22 @@
     ViewData["Title"] = "Index";
 }
 
+<p>@Html.ActionLink("Refresh Installments", "RefreshInstallments", "Installments", null, new { @class = "btn btn-primary" })</p>
+
+@*<input type="button" id="btnpopup" value="Open Modal Popup" onclick="ShowModelPopUp();" />
+    <input type="button" id="btnpopu" value="Open Modeless popup" onclick="ShowPopup();" />*@
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -47,48 +63,69 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.ActionLink(((Enumeration.InstallmentStatus)item.InstallmentStatus).ToString(), "Details", new { Id = item.Id })
-            </td>
-            <td>
-                @((Enumeration.EMIType)item.EMIType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BankName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAccountName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InstallmentNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
-            <td>
-                @item.PrincipalAmount.ToString("0.00")
-            </td>
-            <td>
-                @item.InterestAmount.ToString("0.00")
-            </td>
-            <td>
-                @item.EMIAmount.ToString("0.00")
-            </td>
-            <td>
-                @item.Fine.ToString("0.00")
-            </td>
-            <td>
-                @item.Difference.ToString("0.00")
-            </td>
-            <td>
-                @((item.EMIAmount + item.Fine + item.Difference).ToString("0.00"))
-            </td>
-            <td>
-                <a asp-action="Paid" asp-route-id="@item.Id">Paid</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(((Enumeration.InstallmentStatus)item.InstallmentStatus).ToString(), "Details", new { Id = item.Id })
+                </td>
+                <td>
+                    @((Enumeration.EMIType)item.EMIType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BankName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserAccountName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstallmentNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @item.PrincipalAmount.ToString("0.00")
+                </td>
+                <td>
+                    @item.InterestAmount.ToString("0.00")
+                </td>
+                <td>
+                    @item.EMIAmount.ToString("0.00")
+                </td>
+                <td>
+                    @item.Fine.ToString("0.00")
+                </td>
+                <td>
+                    @item.Difference.ToString("0.00")
+                </td>
+                <td>
+                    @((item.EMIAmount + item.Fine + item.Difference).ToString("0.00"))
+                </td>
+                <td>
+                    <a asp-action="Paid" asp-route-id="@item.Id">Paid</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@section Scripts {
+
+    @*<script type="text/javascript">
+            ShowModelPopUp = function () {
+                window.showModalDialog('/Installments/OpenModelPopup', "WindowPopup", 'width=400px,height=400px');
+            }
+            ShowPopup = function () {
+                window.open('/Installments/OpenPopup', "PopupWindow", 'width=400px,height=400px,top=150,left=250');
+            }
+        </script>*@
+
+    @*<script type="text/javascript">
+            ShowValidationPopUp = function () {
+                window.onload = function () {
+                    alert("@ViewBag.Message");
+                };
+            }
+        </script>*@
+}
