@@ -97,6 +97,18 @@ namespace TheBankMVC.Controllers
 
         public ActionResult EMIDetails(EMIConfigViewModel eMIConfig)
         {
+            var users = _context.UserAccount.Where(x => x.BankId == eMIConfig.BankId).ToList();
+
+            var totalShare = users.Sum(x => x.ShareSubmitted);
+            var totalFine = users.Sum(x => x.FineSubmitted);
+            var totalInterest = users.Sum(x => x.InterestSubmitted);
+            var totalAmtOnLoan = users.Sum(x => x.AmountOnLoan);
+            var TotalAmtInBank = totalShare + totalFine + totalInterest - totalAmtOnLoan;
+
+            if(eMIConfig.LoanAmount > TotalAmtInBank)
+            {
+                throw new NotImplementedException(string.Format("Loan Amt more than available in bank. Amt available : {0}, Validation to be implemented", TotalAmtInBank));
+            }
             eMIConfig.EMIType = (int)EMIType.LoanEMI;
             EMIDetailsViewModel eMIDetailsViewModel = new EMIDetailsViewModel();
             eMIDetailsViewModel.EMIHeader = installmentComponent.GetEMIHeader(eMIConfig);

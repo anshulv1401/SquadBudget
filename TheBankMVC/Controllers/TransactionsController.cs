@@ -26,7 +26,7 @@ namespace TheBankMVC.Controllers
         // GET: Transactions
         public async Task<IActionResult> Index()
         {
-            var transactions = await _context.Transactions.ToListAsync();
+            var transactions = await _context.Transactions.OrderByDescending(x => x.TransactionDate).ToListAsync();
             var transactionsViewModels = new List<TransactionsViewModel>();
             foreach (var transaction in transactions)
             {

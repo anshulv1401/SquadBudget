@@ -24,6 +24,7 @@ namespace TheBankMVC.BusinessComponents
         {
             bool installmentChanged = false;
 
+            //Get new installments
             var banks = _context.Bank.ToList();
             foreach (var bank in banks)
             {
@@ -46,6 +47,7 @@ namespace TheBankMVC.BusinessComponents
             }
             _context.SaveChanges();
 
+            //Update fines for old installments
             var pendingEMIs = _context.EMIHeaders.Where(x => x.LoanStatus != (int)LoanStatus.Completed).ToList();
 
             foreach (var pendingEMI in pendingEMIs)
@@ -61,12 +63,19 @@ namespace TheBankMVC.BusinessComponents
                 {
                     if (pendingInstallment.DueDate.Date <= DateTime.Now.Date)
                     {
+                        var oldFine = pendingInstallment.Fine;
                         pendingInstallment.InstallmentStatus = (int)InstallmentStatus.Late;
-                        pendingInstallment.Fine = GetFine(pendingEMI.DelayFine, pendingEMI.DelayFineType, pendingEMI.DelayFinePeriod, dueDate);
-                        installmentChanged = true;
+                        pendingInstallment.Fine = GetFine(pendingEMI.DelayFine, pendingEMI.DelayFineType, pendingEMI.DelayFinePeriod, pendingInstallment.DueDate, (pendingInstallment.EMIAmount + pendingInstallment.Difference));
+
+                        if (oldFine != pendingInstallment.Fine)
+                        {
+                            installmentChanged = true;
+                        }
                     }
                 }
             }
+
+            _context.SaveChanges();
 
             return installmentChanged;
         }
@@ -297,7 +306,9 @@ namespace TheBankMVC.BusinessComponents
             }
 
             await MoneyTransactionComponent.CreateMoneyTransactions(transactions);
+            
             installment.InstallmentStatus = (int)InstallmentStatus.Paid;
+            _context.SaveChanges();
 
             UpdateEMIIfCompleted(installment);
             await UpdateUserAccountAmountOnLonaIfDiscrepancyAsync(installment.UserAccountId);
@@ -357,11 +368,48 @@ namespace TheBankMVC.BusinessComponents
 
 
         #region privateMethods
-        
-        private double GetFine(double delayFine, int delayFineType, int delayFineTerm, DateTime dueDate)
+
+        private double GetFine(double delayFine, int delayFineType, int delayFineTerm, DateTime dueDate, double? fineOnAmt = null)
         {
-            //TODO implement fines logic
-            return 1;
+            int fineMultiplierFloor = 0;
+
+            if (delayFineTerm == (int)DelayFineTerm.PerDay)
+            {
+                fineMultiplierFloor = DateTime.Now.Date.Subtract(dueDate.Date).Days;
+            }
+            else if (delayFineTerm == (int)DelayFineTerm.PerMonth)
+            {
+                //fineMultiplierFloor = (int)(DateTime.Now.Date.Subtract(dueDate.Date).Days / (365.2425 / 12));
+                //var v1 = ((DateTime.Now.Date.Year - dueDate.Year) * 12) + DateTime.Now.Date.Month - dueDate.Month;
+
+                for(DateTime dateTemp = dueDate.Date; DateTime.Now.Date > dateTemp.Date; dateTemp = dateTemp.AddMonths(1))
+                {
+                    fineMultiplierFloor++;
+                }
+            }
+            else
+            {
+                throw new NotImplementedException("FineTerm Case missing");
+            }
+
+            if (delayFineType == (int)DelayFineType.Amount)
+            {
+                return (delayFine * fineMultiplierFloor);
+            }
+            else if (delayFineType == (int)DelayFineType.Percentage)
+            {
+                if (fineOnAmt == null || fineOnAmt == 0)
+                {
+                    throw new NotImplementedException("for percentage Fine, fineOnAmt cannot be 0");
+                }
+                var fineAmt = ((delayFine * fineOnAmt) / 100);
+
+                return (fineAmt.Value * fineMultiplierFloor);
+            }
+            else
+            {
+                throw new NotImplementedException("FineType Case missing");
+            }
         }
 
         private void UpdateEMIIfCompleted(Installment installment)
@@ -373,6 +421,7 @@ namespace TheBankMVC.BusinessComponents
             {
                 var eMIHeader = _context.EMIHeaders.Where(x => x.EMIHeaderId == installment.EMIHeaderId).First();
                 eMIHeader.LoanStatus = (int)LoanStatus.Completed;
+                _context.SaveChanges();
             }
         }
 
@@ -396,6 +445,7 @@ namespace TheBankMVC.BusinessComponents
                 };
 
                 await MoneyTransactionComponent.CreateMoneyTransaction(transaction);
+                _context.SaveChanges();
             }
             else if(userAccount.AmountOnLoan > 0 && userAccount.AmountOnLoan < 1)
             {
@@ -411,6 +461,7 @@ namespace TheBankMVC.BusinessComponents
                 };
 
                 await MoneyTransactionComponent.CreateMoneyTransaction(transaction);
+                _context.SaveChanges();
             }
             else if(userAccount.AmountOnLoan < -1)
             {

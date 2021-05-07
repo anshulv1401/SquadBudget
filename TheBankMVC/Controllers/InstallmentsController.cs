@@ -126,7 +126,7 @@ namespace TheBankMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Installments/Paid/5
+        // GET: Installments/RefreshInstallments
         public IActionResult RefreshInstallments()
         {
             InstallmentComponent.RefreshInstallments();
