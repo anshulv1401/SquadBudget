@@ -27,7 +27,35 @@ namespace TheBankMVC.Controllers
         // GET: Banks
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Bank.ToListAsync());
+            var bankDetails = await _context.Bank.ToListAsync();
+
+            var bankViewModels = new List<BankViewModel>();
+
+            foreach (var bank in bankDetails)
+            {
+                var users = _context.UserAccount.Where(x => x.BankId == bank.BankId).ToList();
+
+                var totalShare = users.Sum(x => x.ShareSubmitted);
+                var totalFine = users.Sum(x => x.FineSubmitted);
+                var totalInterest = users.Sum(x => x.InterestSubmitted);
+                var totalAmtOnLoan = users.Sum(x => x.AmountOnLoan);
+                var TotalAmtInBank = totalShare + totalFine + totalInterest - totalAmtOnLoan;
+
+                var bankViewModel = new BankViewModel()
+                {
+                    BankId = bank.BankId,
+                    BankName = bank.BankName,
+                    BankInstAmt = bank.BankInstallmentAmount,
+                    TotalShare = totalShare,
+                    TotalFine = totalFine,
+                    TotalInterest = totalInterest,
+                    TotalAmtOnLoan = totalAmtOnLoan,
+                    TotalAmtInBank = TotalAmtInBank
+                };
+                bankViewModels.Add(bankViewModel);
+            }
+
+            return View(bankViewModels);
         }
 
         // GET: Banks/Details/5
