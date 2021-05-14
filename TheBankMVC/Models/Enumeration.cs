@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TheBankMVC.Data;
 
@@ -10,6 +11,10 @@ namespace TheBankMVC.Models
         public string EnumerationType { get; set; }
         public string EnumerationName { get; set; }
         public int EnumerationValue { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
 
         public enum TransactionType
         {

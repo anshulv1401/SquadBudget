@@ -10,5 +10,9 @@ namespace TheBankMVC.Models
         public int BankUserMappingId { get; set; }
         public int BankId { get; set; }
         public string UserId { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
     }
 }

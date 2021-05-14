@@ -26,5 +26,9 @@ namespace TheBankMVC.Models
         public double Difference { get; set; }
         public int InstallmentStatus { get; set; }
         public double Fine { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
     }
 }

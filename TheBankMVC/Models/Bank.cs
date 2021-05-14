@@ -21,5 +21,9 @@ namespace TheBankMVC.Models
         public int LoanDelayFineTerm { get; set; }
         public int InterestTermID { get; set; }
         public string DateFormat { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
     }
 }
