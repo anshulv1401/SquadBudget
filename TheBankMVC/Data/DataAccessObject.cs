@@ -10,11 +10,16 @@ namespace TheBankMVC.Data
     {
         public List<D> Create<D>(List<D> key, ApplicationDbContext _Context) where D : new()
         {
-            _Context.
+            //_Context.
             throw new NotImplementedException();
         }
 
         public D CreateEntity<D>(D model, IDbContextTransaction _Context) where D : new()
+        {
+            throw new NotImplementedException();
+        }
+
+        public D CreateEntity<D>(D model, ApplicationDbContext _Context) where D : new()
         {
             throw new NotImplementedException();
         }
