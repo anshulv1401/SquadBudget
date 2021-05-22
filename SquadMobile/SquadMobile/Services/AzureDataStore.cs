@@ -25,13 +25,25 @@ namespace SquadMobile.Services
         bool IsConnected => Connectivity.NetworkAccess == NetworkAccess.Internet;
         public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
         {
+            List<Item> tempItems = new List<Item>();
             if (forceRefresh && IsConnected)
             {
-                var json = await client.GetStringAsync($"api/item");
-                items = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Item>>(json));
+                var json = await client.GetStringAsync($"api/UserAccounts");
+
+                var responseList = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<UserAccount>>(json));
+                
+                foreach (var item in responseList)
+                {
+                    tempItems.Add(new Item() 
+                    { 
+                        Id = item.UserAccountId.ToString(),
+                        Text = item.UserAccountName,
+                        Description = item.Email
+                    });
+                }
             }
 
-            return items;
+            return items = tempItems;
         }
 
         public async Task<Item> GetItemAsync(string id)

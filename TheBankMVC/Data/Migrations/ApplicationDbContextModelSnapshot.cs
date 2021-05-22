@@ -241,6 +241,12 @@ namespace TheBankMVC.Data.Migrations
                     b.Property<string>("BankName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("DateFormat")
                         .HasColumnType("nvarchar(max)");
 
@@ -265,6 +271,12 @@ namespace TheBankMVC.Data.Migrations
                     b.Property<int>("LoanDelayFineType")
                         .HasColumnType("int");
 
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("BankId");
 
                     b.ToTable("Bank");
@@ -279,6 +291,18 @@ namespace TheBankMVC.Data.Migrations
 
                     b.Property<int>("BankId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -297,6 +321,12 @@ namespace TheBankMVC.Data.Migrations
 
                     b.Property<int>("BankId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("DelayFine")
                         .HasColumnType("float");
@@ -331,6 +361,12 @@ namespace TheBankMVC.Data.Migrations
                     b.Property<int>("LockInPeriod")
                         .HasColumnType("int");
 
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<double>("MonthlyRateOfInterest")
                         .HasColumnType("float");
 
@@ -355,6 +391,12 @@ namespace TheBankMVC.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("EnumerationName")
                         .HasColumnType("nvarchar(max)");
 
@@ -363,6 +405,12 @@ namespace TheBankMVC.Data.Migrations
 
                     b.Property<int>("EnumerationValue")
                         .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("EnumerationId");
 
@@ -381,6 +429,12 @@ namespace TheBankMVC.Data.Migrations
 
                     b.Property<double>("Closing")
                         .HasColumnType("float");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("Difference")
                         .HasColumnType("float");
@@ -409,6 +463,12 @@ namespace TheBankMVC.Data.Migrations
                     b.Property<double>("InterestAmount")
                         .HasColumnType("float");
 
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<double>("Opening")
                         .HasColumnType("float");
 
@@ -435,6 +495,18 @@ namespace TheBankMVC.Data.Migrations
 
                     b.Property<int>("BankId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ReferenceType")
                         .HasColumnType("nvarchar(max)");
@@ -475,6 +547,12 @@ namespace TheBankMVC.Data.Migrations
                     b.Property<int>("BankId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -486,6 +564,12 @@ namespace TheBankMVC.Data.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PhoneNo")
                         .HasColumnType("nvarchar(max)");

@@ -26,9 +26,13 @@ namespace TheBankMVC.Controllers.Api
         public async Task<ActionResult<IEnumerable<UserAccount>>> GetUserAccount(string query = null)
         {
             if (!String.IsNullOrWhiteSpace(query) && int.TryParse(query, out int bankId))
+            {
                 return await _context.UserAccount.Where(c => c.BankId == bankId).ToListAsync();
-
-            return NotFound(0);
+            }
+            else
+            {
+                return await _context.UserAccount.ToListAsync();
+            }
         }
 
         // GET: api/UserAccounts/5
