@@ -7,6 +7,8 @@ using Xamarin.Forms;
 
 using SquadMobile.Models;
 using SquadMobile.Views;
+using SquadMobile.Services.DAO;
+using System.Collections.Generic;
 
 namespace SquadMobile.ViewModels
 {
@@ -39,10 +41,18 @@ namespace SquadMobile.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                var userDAO = new UserAccountsDAO();
+                var userAccounts = await userDAO.GetAsync(true);
+                var items = new List<Item>();
+
+                foreach(var account in userAccounts)
                 {
-                    Items.Add(item);
+                    Items.Add(new Item()
+                    {
+                        Id = account.UserAccountId.ToString(),
+                        Text = account.UserAccountName,
+                        Description = account.ShareSubmitted.ToString()
+                    });
                 }
             }
             catch (Exception ex)
