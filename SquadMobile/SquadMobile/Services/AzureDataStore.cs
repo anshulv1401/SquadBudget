@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 using SquadMobile.Models;
+using TheBankMVC.Models;
 
 namespace SquadMobile.Services
 {

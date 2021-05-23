@@ -472,3 +472,7 @@ C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\SquadMobile\SquadMobile.Android
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\SquadMobile\SquadMobile.Android\obj\Debug\90\stamp\_GenerateJavaStubs.stamp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\SquadMobile\SquadMobile.Android\obj\Debug\90\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\SquadMobile\SquadMobile.Android\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\SquadMobile\SquadMobile.Android\bin\Debug\Models.dll
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\SquadMobile\SquadMobile.Android\bin\Debug\Models.pdb
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\SquadMobile\SquadMobile.Android\obj\Debug\90\android\assets\Models.dll
+C:\Users\Anshul.vanawat\Documents\GitHub\BankMVC\SquadMobile\SquadMobile.Android\obj\Debug\90\android\assets\Models.pdb
