@@ -36,6 +36,9 @@ namespace SquadMobile.Views
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
                         break;
+                    case (int)MenuItemType.Transactions:
+                        MenuPages.Add(id, new NavigationPage(new TransactionsPage()));
+                        break;
                 }
             }
 

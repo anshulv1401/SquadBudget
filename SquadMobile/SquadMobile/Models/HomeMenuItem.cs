@@ -7,7 +7,8 @@ namespace SquadMobile.Models
     public enum MenuItemType
     {
         Browse,
-        About
+        About,
+        Transactions
     }
     public class HomeMenuItem
     {

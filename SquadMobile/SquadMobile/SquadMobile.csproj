@@ -22,4 +22,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Models\Models.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\TransactionsPage.xaml.cs">
+      <DependentUpon>TransactionsPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
