@@ -14,7 +14,7 @@ namespace TheBankMVC.Controllers
 {
     public class InstallmentsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
         public InstallmentComponent InstallmentComponent { get; }
 
         public InstallmentsController(ApplicationDbContext context)
@@ -22,6 +22,14 @@ namespace TheBankMVC.Controllers
             _context = context;
             InstallmentComponent = new InstallmentComponent(_context);
         }
+
+        public InstallmentsController()
+        {
+            InstallmentComponent = new InstallmentComponent(_context);
+        }
+
+        private static InstallmentsController instance = new InstallmentsController();
+        public static InstallmentsController Instance => instance;
 
         // GET: Installments
         public async Task<IActionResult> Index()
@@ -113,6 +121,7 @@ namespace TheBankMVC.Controllers
             if (installmentChanged)
             {
                 ViewBag.Message = "Installment got refresh, please try again";
+                ViewBag.Type = "Installment got refresh, please try again";
                 return RedirectToAction(nameof(Index));
             }
 
