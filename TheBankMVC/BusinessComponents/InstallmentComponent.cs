@@ -35,7 +35,8 @@ namespace TheBankMVC.BusinessComponents
                     var eMIHeaderCount = _context.EMIHeaders.Where(x =>
                     x.BankId == userAccount.BankId &&
                     x.UserAccountId == userAccount.UserAccountId &&
-                    x.StartTime.Date >= DateTime.Now.Date//next installment
+                    x.StartTime.Date >= DateTime.Now.Date && //next installment
+                    x.EMIType == ((int)EMIType.BankInstallment)
                     ).Count();
 
                     if (eMIHeaderCount == 0)

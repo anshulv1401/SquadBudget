@@ -23,14 +23,6 @@ namespace TheBankMVC.Controllers
             InstallmentComponent = new InstallmentComponent(_context);
         }
 
-        public InstallmentsController()
-        {
-            InstallmentComponent = new InstallmentComponent(_context);
-        }
-
-        private static InstallmentsController instance = new InstallmentsController();
-        public static InstallmentsController Instance => instance;
-
         // GET: Installments
         public async Task<IActionResult> Index()
         {
@@ -42,7 +34,7 @@ namespace TheBankMVC.Controllers
 
                 var installments = await _context.Installments.
                     Where(x => 
-                        x.DueDate.Date <= dueDate.Date &&
+                        //x.DueDate.Date <= dueDate.Date &&
                         x.InstallmentStatus != (int)Enumeration.InstallmentStatus.Paid &&
                         x.BankId == bank.BankId).ToListAsync();
 

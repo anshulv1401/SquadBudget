@@ -105,7 +105,7 @@ namespace TheBankMVC.Controllers
             var totalAmtOnLoan = users.Sum(x => x.AmountOnLoan);
             var TotalAmtInBank = totalShare + totalFine + totalInterest - totalAmtOnLoan;
 
-            if(eMIConfig.LoanAmount > TotalAmtInBank)
+            if (eMIConfig.LoanAmount > TotalAmtInBank)
             {
                 throw new NotImplementedException(string.Format("Loan Amt more than available in bank. Amt available : {0}, Validation to be implemented", TotalAmtInBank));
             }
