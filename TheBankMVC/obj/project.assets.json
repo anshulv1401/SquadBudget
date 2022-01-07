@@ -8871,27 +8871,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Anshul.vanawat\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Anshul vanawat\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Anshul.vanawat\\Documents\\GitHub\\BankMVC\\TheBankMVC\\TheBankMVC.csproj",
+      "projectUniqueName": "D:\\Github\\AnshulV1401\\BankMVC\\TheBankMVC\\TheBankMVC.csproj",
       "projectName": "TheBankMVC",
-      "projectPath": "C:\\Users\\Anshul.vanawat\\Documents\\GitHub\\BankMVC\\TheBankMVC\\TheBankMVC.csproj",
-      "packagesPath": "C:\\Users\\Anshul.vanawat\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Anshul.vanawat\\Documents\\GitHub\\BankMVC\\TheBankMVC\\obj\\",
+      "projectPath": "D:\\Github\\AnshulV1401\\BankMVC\\TheBankMVC\\TheBankMVC.csproj",
+      "packagesPath": "C:\\Users\\Anshul vanawat\\.nuget\\packages\\",
+      "outputPath": "D:\\Github\\AnshulV1401\\BankMVC\\TheBankMVC\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Anshul.vanawat\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\Anshul vanawat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -8902,9 +8895,10 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\Anshul.vanawat\\Documents\\GitHub\\BankMVC\\Models\\Models.csproj": {
-              "projectPath": "C:\\Users\\Anshul.vanawat\\Documents\\GitHub\\BankMVC\\Models\\Models.csproj"
+            "D:\\Github\\AnshulV1401\\BankMVC\\Models\\Models.csproj": {
+              "projectPath": "D:\\Github\\AnshulV1401\\BankMVC\\Models\\Models.csproj"
             }
           }
         }
@@ -8917,6 +8911,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
             "target": "Package",
@@ -8957,6 +8952,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.10, 3.1.10]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.1.22, 3.1.22]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -8965,7 +8978,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
