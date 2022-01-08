@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using TheBankMVC.BusinessComponents;
 using TheBankMVC.Data;
 using TheBankMVC.Models;
 using TheBankMVC.ViewModels;
-using TheBankMVC.BusinessComponents;
-using System.Threading.Tasks;
 using static TheBankMVC.Models.Enumeration;
 
 namespace TheBankMVC.Controllers
