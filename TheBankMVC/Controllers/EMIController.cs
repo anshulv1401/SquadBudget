@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetManager.BusinessComponents;
+using BudgetManager.Data;
+using BudgetManager.Models;
+using BudgetManager.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheBankMVC.BusinessComponents;
-using TheBankMVC.Data;
-using TheBankMVC.Models;
-using TheBankMVC.ViewModels;
-using static TheBankMVC.Models.Enumeration;
+using static BudgetManager.Models.Enumeration;
 
-namespace TheBankMVC.Controllers
+namespace BudgetManager.Controllers
 {
     public class EMIController : Controller
     {
@@ -33,7 +33,7 @@ namespace TheBankMVC.Controllers
                 var eMIHeaderViewModel = new EMIHeaderViewModel();
                 
                 eMIHeaderViewModel.EMIHeaderId = eMIHeader.EMIHeaderId;
-                eMIHeaderViewModel.BankId = eMIHeader.BankId;
+                eMIHeaderViewModel.GroupId = eMIHeader.GroupId;
                 eMIHeaderViewModel.UserAccountId = eMIHeader.UserAccountId;
                 eMIHeaderViewModel.EMIType = eMIHeader.EMIType;
                 eMIHeaderViewModel.EMIAmount = eMIHeader.EMIAmount;
@@ -46,7 +46,7 @@ namespace TheBankMVC.Controllers
                 eMIHeaderViewModel.StartTime = eMIHeader.StartTime;
                 eMIHeaderViewModel.EndTime = eMIHeader.EndTime;
                 eMIHeaderViewModel.InterestTermId = eMIHeader.InterestTermId;
-                eMIHeaderViewModel.BankName = _context.Bank.Where(x => x.BankId == eMIHeader.BankId).First().BankName;
+                eMIHeaderViewModel.GroupName = _context.Group.Where(x => x.GroupId == eMIHeader.GroupId).First().GroupName;
                 eMIHeaderViewModel.UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == eMIHeader.UserAccountId).First().UserAccountName;
 
                 eMIHeaderViewModelList.Add(eMIHeaderViewModel);
@@ -59,7 +59,7 @@ namespace TheBankMVC.Controllers
         {
             var eMIConfigViewModel = new EMIConfigViewModel()
             {
-                Banks = _context.Bank.ToList()
+                Groups = _context.Group.ToList()
             };
             return View("EMIConfig", eMIConfigViewModel);
         }
@@ -78,7 +78,7 @@ namespace TheBankMVC.Controllers
 
             var moneytransaction = new Transaction
             {
-                BankId = eMIDetails.EMIHeader.BankId,
+                GroupId = eMIDetails.EMIHeader.GroupId,
                 UserAccountId = eMIDetails.EMIHeader.UserAccountId,
                 TransactionTypeId = (int)TransactionType.Credit,
                 TransactionAmount = eMIDetails.EMIHeader.LoanAmount,
@@ -94,24 +94,24 @@ namespace TheBankMVC.Controllers
 
         public ActionResult EMIDetails(EMIConfigViewModel eMIConfig)
         {
-            var users = _context.UserAccount.Where(x => x.BankId == eMIConfig.BankId).ToList();
+            var users = _context.UserAccount.Where(x => x.GroupId == eMIConfig.GroupId).ToList();
 
             var totalShare = users.Sum(x => x.ShareSubmitted);
             var totalFine = users.Sum(x => x.FineSubmitted);
             var totalInterest = users.Sum(x => x.InterestSubmitted);
             var totalAmtOnLoan = users.Sum(x => x.AmountOnLoan);
-            var TotalAmtInBank = totalShare + totalFine + totalInterest - totalAmtOnLoan;
+            var TotalAmtInGroup = totalShare + totalFine + totalInterest - totalAmtOnLoan;
 
-            if (eMIConfig.LoanAmount > TotalAmtInBank)
+            if (eMIConfig.LoanAmount > TotalAmtInGroup)
             {
-                throw new NotImplementedException(string.Format("Loan Amt more than available in bank. Amt available : {0}, Validation to be implemented", TotalAmtInBank));
+                throw new NotImplementedException(string.Format("Loan Amt more than the available Amt in Group. Amt available : {0}, Validation to be implemented", TotalAmtInGroup));
             }
             eMIConfig.EMIType = (int)EMIType.LoanEMI;
             EMIDetailsViewModel eMIDetailsViewModel = new EMIDetailsViewModel();
             eMIDetailsViewModel.EMIHeader = installmentComponent.GetEMIHeader(eMIConfig);
             eMIDetailsViewModel.Installments = installmentComponent.GetInstallments(eMIDetailsViewModel.EMIHeader);
 
-            eMIDetailsViewModel.BankName = _context.Bank.Where(x => x.BankId == eMIDetailsViewModel.EMIHeader.BankId).First().BankName;
+            eMIDetailsViewModel.GroupName = _context.Group.Where(x => x.GroupId == eMIDetailsViewModel.EMIHeader.GroupId).First().GroupName;
             eMIDetailsViewModel.UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == eMIDetailsViewModel.EMIHeader.UserAccountId).First().UserAccountName;
 
             return View("EMIDetails", eMIDetailsViewModel);
@@ -128,7 +128,7 @@ namespace TheBankMVC.Controllers
             {
                 EMIHeader = eMIHeader,
                 Installments = _context.Installments.Where(c => c.EMIHeaderId == Id).ToList(),
-                BankName = _context.Bank.Where(x => x.BankId == eMIHeader.BankId).First().BankName,
+                GroupName = _context.Group.Where(x => x.GroupId == eMIHeader.GroupId).First().GroupName,
                 UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == eMIHeader.UserAccountId).First().UserAccountName
             };
 

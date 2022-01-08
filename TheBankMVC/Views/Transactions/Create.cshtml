@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.ViewModels.TransactionsViewModel
+﻿@model BudgetManager.ViewModels.TransactionsViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,9 +13,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Banks" class="control-label"></label>
-                @Html.DropDownListFor(m => m.BankId, new SelectList(Model.Banks, "BankId", "BankName").ToList(), "-Select-", new { @class = "form-control", id = "bankSelect" })
-                <span asp-validation-for="Banks" class="text-danger"></span>
+                <label asp-for="Groups" class="control-label"></label>
+                @Html.DropDownListFor(m => m.GroupId, new SelectList(Model.Groups, "GroupId", "GroupName").ToList(), "-Select-", new { @class = "form-control", id = "groupSelect" })
+                <span asp-validation-for="Groups" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UserAccounts" class="control-label"></label>
@@ -58,11 +58,11 @@
         
     <script>
         $(document).ready(function () {
-            $('#bankSelect').change(function () {
+            $('#groupSelect').change(function () {
                 $.ajax({
                     type: "Get",
                     url: "/api/UserAccounts",
-                    data: { query: $('#bankSelect').val() },
+                    data: { query: $('#groupSelect').val() },
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
@@ -85,9 +85,9 @@
 
                 var data = [];
                 if (transactionTypeId == 1) {
-                    data = ["-Select-", "IndividualLoan", "Bankwithdrawal"];
+                    data = ["-Select-", "IndividualLoan", "Groupwithdrawal"];
                 } else {
-                    data = ["-Select-", "LoanPrinciple", "LoanInterest", "BankInstallment", "LoanEMIFine", "BankInstallmentFine"];
+                    data = ["-Select-", "LoanPrinciple", "LoanInterest", "GroupInstallment", "LoanEMIFine", "GroupInstallmentFine"];
                 }
 
                 var referenceTypes = "<select id='ReferenceTypes'>";

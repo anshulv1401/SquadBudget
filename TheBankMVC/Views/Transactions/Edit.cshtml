@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.Models.Transaction
+﻿@model BudgetManager.Models.Transaction
 
 @{
     ViewData["Title"] = "Edit";
@@ -14,9 +14,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TransactionId" />
             <div class="form-group">
-                <label asp-for="BankId" class="control-label"></label>
-                <input asp-for="BankId" class="form-control" />
-                <span asp-validation-for="BankId" class="text-danger"></span>
+                <label asp-for="GroupId" class="control-label"></label>
+                <input asp-for="GroupId" class="form-control" />
+                <span asp-validation-for="GroupId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UserAccountId" class="control-label"></label>

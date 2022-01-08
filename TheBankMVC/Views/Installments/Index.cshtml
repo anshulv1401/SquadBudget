@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TheBankMVC.ViewModels.InstallmentViewModel>
+﻿@model IEnumerable<BudgetManager.ViewModels.InstallmentViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -30,7 +30,7 @@
                 Inst.Type
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BankName)
+                @Html.DisplayNameFor(model => model.GroupName)
             </th>
             <th>
                 @Html.DisplayName("UserName")
@@ -42,7 +42,7 @@
                 Inst.DueDate
             </th>
             <th>
-                @Html.DisplayName("Principal Amt")
+                @Html.DisplayName("Principal")
             </th>
             <th>
                 Int.Amt
@@ -57,7 +57,7 @@
                 @Html.DisplayNameFor(model => model.Difference)
             </th>
             <th>
-                AmtToBe Paid
+                @Html.DisplayName("DueAmt")
             </th>
             <th></th>
         </tr>
@@ -73,7 +73,7 @@
                     @((Enumeration.EMIType)item.EMIType)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BankName)
+                    @Html.DisplayFor(modelItem => item.GroupName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserAccountName)

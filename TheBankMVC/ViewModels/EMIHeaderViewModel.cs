@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace TheBankMVC.ViewModels
+namespace BudgetManager.ViewModels
 {
     public class EMIHeaderViewModel
     {
         public int EMIHeaderId { get; set; }
-        public int BankId { get; set; }
+        public int GroupId { get; set; }
         public int UserAccountId { get; set; }
         public int EMIType { get; set; }
         public double EMIAmount { get; set; }
@@ -21,7 +18,7 @@ namespace TheBankMVC.ViewModels
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int InterestTermId { get; set; }
-        public string BankName { get; set; }
+        public string GroupName { get; set; }
         public string UserAccountName { get; set; }
     }
 }

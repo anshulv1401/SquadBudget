@@ -1,7 +1,7 @@
-﻿@model IEnumerable<TheBankMVC.ViewModels.BankViewModel>
+﻿@model IEnumerable<BudgetManager.ViewModels.GroupViewModel>
 
 @{
-    ViewData["Title"] = "Banks";
+    ViewData["Title"] = "Groups";
 }
 
 <h1>Index</h1>
@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BankName)
+                @Html.DisplayNameFor(model => model.GroupName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BankInstAmt)
+                @Html.DisplayNameFor(model => model.GroupInstAmt)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TotalShare)
@@ -31,7 +31,7 @@
                 @Html.DisplayNameFor(model => model.TotalAmtOnLoan)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalAmtInBank)
+                @Html.DisplayNameFor(model => model.TotalAmtInGroup)
             </th>
 
             <th></th>
@@ -41,10 +41,10 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BankName)
+                @Html.DisplayFor(modelItem => item.GroupName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BankInstAmt)
+                @Html.DisplayFor(modelItem => item.GroupInstAmt)
             </td>
             <td>
                 @item.TotalShare.ToString("0.00")
@@ -59,12 +59,12 @@
                 @item.TotalAmtOnLoan.ToString("0.00")
             </td>
             <td>
-                @item.TotalAmtInBank.ToString("0.00")
+                @item.TotalAmtInGroup.ToString("0.00")
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.BankId">View</a> |
-                @*<a asp-action="Details" asp-route-id="@item.BankId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.BankId">Delete</a>*@
+                <a asp-action="Edit" asp-route-id="@item.GroupId">View</a> |
+                @*<a asp-action="Details" asp-route-id="@item.GroupId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.GroupId">Delete</a>*@
             </td>
         </tr>
 }

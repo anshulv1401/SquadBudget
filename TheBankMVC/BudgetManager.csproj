@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <UserSecretsId>aspnet-TheBankMVC-DB928C2B-F4CE-46D6-AC46-EDF9D0625377</UserSecretsId>
+    <UserSecretsId>aspnet-BudgetManager-DB928C2B-F4CE-46D6-AC46-EDF9D0625377</UserSecretsId>
   </PropertyGroup>
 
 
@@ -22,11 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

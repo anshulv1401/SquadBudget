@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace TheBankMVC.Models
+namespace BudgetManager.Models
 {
-    public class BankUserMapping
+    public class GroupUserMapping
     {
-        public int BankUserMappingId { get; set; }
-        public int BankId { get; set; }
+        public int GroupUserMappingId { get; set; }
+        public int GroupId { get; set; }
         public string UserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }

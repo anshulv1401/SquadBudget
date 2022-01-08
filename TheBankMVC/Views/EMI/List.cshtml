@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TheBankMVC.ViewModels.EMIHeaderViewModel>
+﻿@using BudgetManager.Models
+@model IEnumerable<BudgetManager.ViewModels.EMIHeaderViewModel>
 @{
     ViewData["Title"] = "List";
 }
@@ -11,7 +12,7 @@
 <table id="EMIList" class="table table-­bordered table-­hover”>">
     <thead>
         <tr>
-            <th>BankName</th>
+            <th>GroupName</th>
             <th>UserName</th>
             <th>EMIType</th>
             <th>EMIAmount</th>
@@ -25,7 +26,7 @@
         @foreach (var eMI in Model)
         {
         <tr>
-            <td>@eMI.BankName</td>
+            <td>@eMI.GroupName</td>
             <td>@Html.ActionLink(eMI.UserAccountName, "View", "EMI", new { Id = eMI.EMIHeaderId })</td>
             <td>@((Enumeration.EMIType)eMI.EMIType)</td>
             <td>@eMI.EMIAmount</td>

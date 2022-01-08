@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace TheBankMVC.Models
+namespace BudgetManager.Models
 {
     public class Enumeration
     {
@@ -24,7 +22,7 @@ namespace TheBankMVC.Models
         public enum CreditRefType
         {
             IndividualLoan = 1,
-            Bankwithdrawal = 2,
+            GroupWithdrawal = 2,
             Difference = 3
         }
 
@@ -32,9 +30,9 @@ namespace TheBankMVC.Models
         {
             LoanPrinciple = 1,
             LoanInterest = 2,
-            BankInstallment = 3,
+            GroupInstallment = 3,
             LoanEMIFine = 4,
-            BankInstallmentFine = 5,
+            GroupInstallmentFine = 5,
             Difference = 6
         }
 
@@ -78,7 +76,7 @@ namespace TheBankMVC.Models
 
         public enum EMIType
         {
-            BankInstallment = 1,
+            GroupInstallment = 1,
             LoanEMI = 2
         }
     }

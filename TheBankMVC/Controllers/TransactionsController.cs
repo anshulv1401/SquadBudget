@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetManager.BusinessComponents;
+using BudgetManager.Data;
+using BudgetManager.Models;
+using BudgetManager.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheBankMVC.BusinessComponents;
-using TheBankMVC.Data;
-using TheBankMVC.Models;
-using TheBankMVC.ViewModels;
 
-namespace TheBankMVC.Controllers
+namespace BudgetManager.Controllers
 {
     public class TransactionsController : Controller
     {
@@ -31,7 +31,7 @@ namespace TheBankMVC.Controllers
                 transactionsViewModels.Add(new TransactionsViewModel()
                 {
                     TransactionId = transaction.TransactionId,
-                    BankId = transaction.BankId,
+                    GroupId = transaction.GroupId,
                     UserAccountId = transaction.UserAccountId,
                     TransactionTypeId = transaction.TransactionTypeId,
                     TransactionAmount = transaction.TransactionAmount,
@@ -39,7 +39,7 @@ namespace TheBankMVC.Controllers
                     ReferenceType = transaction.ReferenceType,
                     ReferenceTypeId = transaction.ReferenceTypeId,
                     TransactionRemark = transaction.TransactionRemark,
-                    Banks = _context.Bank.Where(m => m.BankId == transaction.BankId).ToList(),
+                    Groups = _context.Group.Where(m => m.GroupId == transaction.GroupId).ToList(),
                     UserAccounts = _context.UserAccount.Where(m => m.UserAccountId == transaction.UserAccountId).ToList()
                 });
             }
@@ -66,7 +66,7 @@ namespace TheBankMVC.Controllers
             var transactionsViewModel = new TransactionsViewModel()
             {
                 TransactionId = transaction.TransactionId,
-                BankId = transaction.BankId,
+                GroupId = transaction.GroupId,
                 UserAccountId = transaction.UserAccountId,
                 TransactionTypeId = transaction.TransactionTypeId,
                 TransactionAmount = transaction.TransactionAmount,
@@ -74,7 +74,7 @@ namespace TheBankMVC.Controllers
                 ReferenceType = transaction.ReferenceType,
                 ReferenceTypeId = transaction.ReferenceTypeId,
                 TransactionRemark = transaction.TransactionRemark,
-                Banks = _context.Bank.Where(m => m.BankId == transaction.BankId).ToList(),
+                Groups = _context.Group.Where(m => m.GroupId == transaction.GroupId).ToList(),
                 UserAccounts = _context.UserAccount.Where(m => m.UserAccountId == transaction.UserAccountId).ToList()
             };
 
@@ -85,7 +85,7 @@ namespace TheBankMVC.Controllers
         public IActionResult Create()
         {
             var transactionsViewModel = new TransactionsViewModel();
-            transactionsViewModel.Banks = _context.Bank.ToList();
+            transactionsViewModel.Groups = _context.Group.ToList();
             transactionsViewModel.UserAccounts = new List<UserAccount>();
             return View(transactionsViewModel);
         }
@@ -95,14 +95,14 @@ namespace TheBankMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TransactionId,BankId,UserAccountId,TransactionTypeId,TransactionAmount,TransactionDate,ReferenceType,ReferenceTypeId,TransactionRemark")] TransactionsViewModel transactionsViewModel)
+        public async Task<IActionResult> Create([Bind("TransactionId,GroupId,UserAccountId,TransactionTypeId,TransactionAmount,TransactionDate,ReferenceType,ReferenceTypeId,TransactionRemark")] TransactionsViewModel transactionsViewModel)
         {
             if (ModelState.IsValid && transactionsViewModel.ReferenceTypeId != 0)
             {
                 var transaction = new Transaction()
                 {
                     TransactionId = transactionsViewModel.TransactionId,
-                    BankId = transactionsViewModel.BankId,
+                    GroupId = transactionsViewModel.GroupId,
                     UserAccountId = transactionsViewModel.UserAccountId,
                     TransactionTypeId = transactionsViewModel.TransactionTypeId,
                     TransactionAmount = transactionsViewModel.TransactionAmount,
@@ -118,87 +118,6 @@ namespace TheBankMVC.Controllers
 
             return View(transactionsViewModel);
         }
-
-        // GET: Transactions/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var transaction = await _context.Transaction.FindAsync(id);
-        //    if (transaction == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(transaction);
-        //}
-
-        // POST: Transactions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("TransactionId,BankId,AccountId,TransactionTypeId,TransactionAmount,TransactionDate,ReferenceType,ReferenceTypeId,TransactionRemark")] Transaction transaction)
-        //{
-        //    if (id != transaction.TransactionId)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(transaction);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!TransactionExists(transaction.TransactionId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(transaction);
-        //}
-
-        //// GET: Transactions/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var transaction = await _context.Transaction
-        //        .FirstOrDefaultAsync(m => m.TransactionId == id);
-        //    if (transaction == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(transaction);
-        //}
-
-        //// POST: Transactions/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var transaction = await _context.Transaction.FindAsync(id);
-        //    _context.Transaction.Remove(transaction);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
         private bool TransactionExists(int id)
         {
             return _context.Transactions.Any(e => e.TransactionId == id);

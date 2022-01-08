@@ -1,4 +1,4 @@
-﻿@model TheBankMVC.ViewModels.EMIDetailsViewModel
+﻿@model BudgetManager.ViewModels.EMIDetailsViewModel
 @{
     ViewData["Title"] = "EMIDetails";
 }
@@ -11,8 +11,8 @@
     <table id="EMIConfig" class="table table-­bordered table-­hover”>">
         <tbody>
             <tr>
-                <td>BankName</td>
-                <td>@Model.BankName</td>
+                <td>GroupName</td>
+                <td>@Model.GroupName</td>
             </tr>
             <tr>
                 <td>UserName</td>
@@ -125,7 +125,7 @@
     @Html.HiddenFor(m => m.EMIHeader.EMIAmount)
     @Html.HiddenFor(m => m.EMIHeader.EMIHeaderId)
     @*new variables added*@
-    @Html.HiddenFor(m => m.EMIHeader.BankId)
+    @Html.HiddenFor(m => m.EMIHeader.GroupId)
     @Html.HiddenFor(m => m.EMIHeader.UserAccountId)
     @Html.HiddenFor(m => m.EMIHeader.EMIType)
     @Html.HiddenFor(m => m.EMIHeader.LoanStatus)
@@ -148,7 +148,7 @@
         @Html.HiddenFor(m => m.Installments[i].Opening)
         @Html.HiddenFor(m => m.Installments[i].PrincipalAmount)
         @*new variables added*@
-        @Html.HiddenFor(m => m.Installments[i].BankId)
+        @Html.HiddenFor(m => m.Installments[i].GroupId)
         @Html.HiddenFor(m => m.Installments[i].UserAccountId)
         @Html.HiddenFor(m => m.Installments[i].EMIType)
         @Html.HiddenFor(m => m.Installments[i].InstallmentStatus)

@@ -1,22 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using BudgetManager.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using TheBankMVC.Models;
 
-namespace TheBankMVC.Data
+namespace BudgetManager.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<EMIHeader> EMIHeaders { get; set; }
         public DbSet<Installment> Installments { get; set; }
-        public DbSet<Bank> Bank { get; set; }
+        public DbSet<Group> Group { get; set; }
         public DbSet<Enumeration> Enumerations { get; set; }
-        public DbSet<BankUserMapping> BankUserMappings { get; set; }
+        public DbSet<GroupUserMapping> GroupUserMappings { get; set; }
         public DbSet<UserAccount> UserAccount { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         private readonly IHttpContextAccessor _httpContextAccessor;

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using TheBankMVC.Models;
+using BudgetManager.Models;
 
-namespace TheBankMVC.ViewModels
+namespace BudgetManager.ViewModels
 {
     public class EMIConfigViewModel
     {
         [Required]
-        public int BankId { get; set; }
+        public int GroupId { get; set; }
         [Required]
         public int UserAccountId { get; set; }
         [Required]
@@ -19,7 +19,7 @@ namespace TheBankMVC.ViewModels
         [Required]
         public int LockInPeriod { get; set; }
         public int EMIType { get; set; }
-        public IEnumerable<Bank> Banks { get; set; }
+        public IEnumerable<Group> Groups { get; set; }
         public IEnumerable<UserAccount> UserAccounts { get; set; }
     }
 }

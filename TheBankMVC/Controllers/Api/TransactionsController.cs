@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetManager.Data;
+using BudgetManager.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheBankMVC.Data;
-using TheBankMVC.Models;
 
-namespace TheBankMVC.Controllers.Api
+namespace BudgetManager.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -21,9 +21,9 @@ namespace TheBankMVC.Controllers.Api
 
         public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions(string query = null)
         {
-            if (!string.IsNullOrEmpty(query) && int.TryParse(query, out int BankId))
+            if (!string.IsNullOrEmpty(query) && int.TryParse(query, out int GroupId))
             {
-                return await _context.Transactions.Where(x => x.BankId == BankId).ToListAsync();
+                return await _context.Transactions.Where(x => x.GroupId == GroupId).ToListAsync();
             }
             else
             {

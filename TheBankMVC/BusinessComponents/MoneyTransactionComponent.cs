@@ -1,11 +1,10 @@
-﻿using System;
+﻿using BudgetManager.Data;
+using BudgetManager.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using TheBankMVC.Data;
-using TheBankMVC.Models;
 
-namespace TheBankMVC.BusinessComponents
+namespace BudgetManager.BusinessComponents
 {
     public class MoneyTransactionComponent
     {
@@ -58,8 +57,8 @@ namespace TheBankMVC.BusinessComponents
                         userAccount.AmountOnLoan = transaction.TransactionAmount;
                     }
                     break;
-                case Enumeration.CreditRefType.Bankwithdrawal:
-                    throw new NotImplementedException("Bankwithdrawal pending");
+                case Enumeration.CreditRefType.GroupWithdrawal:
+                    throw new NotImplementedException("Credit transaction GroupWithdrawal pending");
                 case Enumeration.CreditRefType.Difference:
                     userAccount.AmountOnLoan = 0;
                     break;
@@ -82,11 +81,11 @@ namespace TheBankMVC.BusinessComponents
                 case Enumeration.DebitRefType.LoanInterest:
                     userAccount.InterestSubmitted += transaction.TransactionAmount;
                     break;
-                case Enumeration.DebitRefType.BankInstallment:
+                case Enumeration.DebitRefType.GroupInstallment:
                     userAccount.ShareSubmitted += transaction.TransactionAmount;
                     break;
                 case Enumeration.DebitRefType.LoanEMIFine:
-                case Enumeration.DebitRefType.BankInstallmentFine:
+                case Enumeration.DebitRefType.GroupInstallmentFine:
                     userAccount.FineSubmitted += transaction.TransactionAmount;
                     break;
                 case Enumeration.DebitRefType.Difference:

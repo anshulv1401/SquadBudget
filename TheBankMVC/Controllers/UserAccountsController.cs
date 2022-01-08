@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetManager.Data;
+using BudgetManager.Models;
+using BudgetManager.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheBankMVC.Data;
-using TheBankMVC.Models;
-using TheBankMVC.ViewModels;
 
-namespace TheBankMVC.Controllers
+namespace BudgetManager.Controllers
 {
     public class UserAccountsController : Controller
     {
@@ -27,9 +27,9 @@ namespace TheBankMVC.Controllers
             {
                 userAccountViewModels.Add(new UserAccountViewModel()
                 {
-                    BankId = userAccount.BankId,
+                    GroupId = userAccount.GroupId,
                     PhoneNo = userAccount.PhoneNo,
-                    Banks = _context.Bank.Where(m => m.BankId == userAccount.BankId).ToList(),
+                    Groups = _context.Group.Where(m => m.GroupId == userAccount.GroupId).ToList(),
                     UserAccountId = userAccount.UserAccountId,
                     UserAccountName = userAccount.UserAccountName,
                     Email = userAccount.Email,
@@ -65,10 +65,10 @@ namespace TheBankMVC.Controllers
         // GET: UserAccounts/Create
         public IActionResult Create()
         {
-            var banks = _context.Bank.ToList();
+            var groups = _context.Group.ToList();
             var userAccountViewModel = new UserAccountViewModel()
             {
-                Banks = banks
+                Groups = groups
             };
             return View(userAccountViewModel);
         }
@@ -78,7 +78,7 @@ namespace TheBankMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BankId,UserAccountId,UserAccountName,Email,PhoneNo,ShareSubmitted,FineSubmitted,InterestSubmitted,IsActive,AmountOnLoan")] UserAccount userAccount)
+        public async Task<IActionResult> Create([Bind("GroupId,UserAccountId,UserAccountName,Email,PhoneNo,ShareSubmitted,FineSubmitted,InterestSubmitted,IsActive,AmountOnLoan")] UserAccount userAccount)
         {
             if (ModelState.IsValid)
             {
@@ -106,9 +106,9 @@ namespace TheBankMVC.Controllers
 
             var userAccountViewModel = new UserAccountViewModel()
             {
-                BankId = userAccount.BankId,
+                GroupId = userAccount.GroupId,
                 PhoneNo = userAccount.PhoneNo,
-                Banks = _context.Bank.Where(m => m.BankId == userAccount.BankId).ToList(),
+                Groups = _context.Group.Where(m => m.GroupId == userAccount.GroupId).ToList(),
                 UserAccountId = userAccount.UserAccountId,
                 UserAccountName = userAccount.UserAccountName,
                 Email = userAccount.Email,
@@ -127,7 +127,7 @@ namespace TheBankMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BankId,UserAccountId,UserAccountName,Email,PhoneNo,IsActive")] UserAccountViewModel userAccountViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("GroupId,UserAccountId,UserAccountName,Email,PhoneNo,IsActive")] UserAccountViewModel userAccountViewModel)
         {
             if (id != userAccountViewModel.UserAccountId)
             {

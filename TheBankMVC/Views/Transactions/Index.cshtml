@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TheBankMVC.ViewModels.TransactionsViewModel>
+﻿@model IEnumerable<BudgetManager.ViewModels.TransactionsViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @nameof(Bank.BankName)
+                @nameof(Group.GroupName)
             </th>
             <th>
                 @nameof(UserAccount.UserAccountName)
@@ -37,7 +37,7 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Banks.FirstOrDefault().BankName)
+                @Html.DisplayFor(modelItem => item.Groups.FirstOrDefault().GroupName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserAccounts.FirstOrDefault().UserAccountName)

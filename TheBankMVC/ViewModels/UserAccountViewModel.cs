@@ -1,15 +1,12 @@
-﻿using System;
+﻿using BudgetManager.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TheBankMVC.Models;
 
-namespace TheBankMVC.ViewModels
+namespace BudgetManager.ViewModels
 {
     public class UserAccountViewModel
     {
-        public int BankId { get; set; }
-        public IEnumerable<Bank> Banks { get; set; }
+        public int GroupId { get; set; }
+        public IEnumerable<Group> Groups { get; set; }
         public int UserAccountId { get; set; }
         public string UserAccountName { get; set; }
         public string Email { get; set; }

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using TheBankMVC.Models;
 
-namespace TheBankMVC.ViewModels
+namespace BudgetManager.ViewModels
 {
     public class InstallmentViewModel
     {
-        public string BankName { get; set; }
+        public string GroupName { get; set; }
         public string UserAccountName { get; set; }
         public int Id { get; set; }
         public int EMIHeaderId { get; set; }

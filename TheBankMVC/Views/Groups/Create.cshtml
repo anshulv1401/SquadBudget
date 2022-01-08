@@ -1,33 +1,33 @@
-﻿@model TheBankMVC.Models.Bank
+﻿@model BudgetManager.Models.Group
 
 @{
     ViewData["Title"] = "Create";
 }
 
-@if (Model == null || Model.BankId == 0)
+@if (Model == null || Model.GroupId == 0)
 {
-    <h2>New Bank</h2>
+    <h2>New Group</h2>
 }
 else
 {
-    <h2>Edit Bank</h2>
+    <h2>Edit Group</h2>
 }
 
-<h4>Bank</h4>
+<h4>Group</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="BankName" class="control-label"></label>
-                <input asp-for="BankName" class="form-control" />
-                <span asp-validation-for="BankName" class="text-danger"></span>
+                <label asp-for="GroupName" class="control-label"></label>
+                <input asp-for="GroupName" class="form-control" />
+                <span asp-validation-for="GroupName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BankInstallmentAmount" class="control-label"></label>
-                <input asp-for="BankInstallmentAmount" class="form-control" />
-                <span asp-validation-for="BankInstallmentAmount" class="text-danger"></span>
+                <label asp-for="GroupInstallmentAmount" class="control-label"></label>
+                <input asp-for="GroupInstallmentAmount" class="form-control" />
+                <span asp-validation-for="GroupInstallmentAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InstallmentDayOfMonth" class="control-label"></label>
@@ -45,23 +45,23 @@ else
                 <span asp-validation-for="DefaultNoOfInstallment" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BankInstallmentDelayFine" class="control-label"></label>
-                <input asp-for="BankInstallmentDelayFine" class="form-control" />
-                <span asp-validation-for="BankInstallmentDelayFine" class="text-danger"></span>
+                <label asp-for="GroupInstallmentDelayFine" class="control-label"></label>
+                <input asp-for="GroupInstallmentDelayFine" class="form-control" />
+                <span asp-validation-for="GroupInstallmentDelayFine" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BankInstallmentDelayFineType" class="control-label"></label>
-                <select asp-for="BankInstallmentDelayFineType" class="form-control"
+                <label asp-for="GroupInstallmentDelayFineType" class="control-label"></label>
+                <select asp-for="GroupInstallmentDelayFineType" class="form-control"
                         asp-items="@(Html.GetEnumSelectList<Enumeration.DelayFineType>())">
                 </select>
-                <span asp-validation-for="BankInstallmentDelayFineType" class="text-danger"></span>
+                <span asp-validation-for="GroupInstallmentDelayFineType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BankInstallmentDelayFineTerm" class="control-label"></label>
-                <select asp-for="BankInstallmentDelayFineTerm" class="form-control"
+                <label asp-for="GroupInstallmentDelayFineTerm" class="control-label"></label>
+                <select asp-for="GroupInstallmentDelayFineTerm" class="form-control"
                         asp-items="@(Html.GetEnumSelectList<Enumeration.DelayFineTerm>())">
                 </select>
-                <span asp-validation-for="BankInstallmentDelayFineTerm" class="text-danger"></span>
+                <span asp-validation-for="GroupInstallmentDelayFineTerm" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LoanDelayFine" class="control-label"></label>
@@ -95,8 +95,8 @@ else
                 <span asp-validation-for="DateFormat" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @*Html.HiddenFor(m => m.BankId)*@
-                @Html.Hidden("BankId", (Model != null) ? Model.BankId : 0)
+                @*Html.HiddenFor(m => m.GroupId)*@
+                @Html.Hidden("GroupId", (Model != null) ? Model.GroupId : 0)
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

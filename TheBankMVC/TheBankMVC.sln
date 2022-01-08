@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBankMVC", "TheBankMVC.csproj", "{5EC083D9-1391-4D15-8C0B-D091B9A8519E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetManager", "BudgetManager.csproj", "{5EC083D9-1391-4D15-8C0B-D091B9A8519E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "..\Models\Models.csproj", "{E96E158D-C8EE-4F94-B5FE-CAD46123EAE0}"
 EndProject

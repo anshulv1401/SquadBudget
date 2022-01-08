@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TheBankMVC.Migrations
+namespace BudgetManager.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,59 +49,12 @@ namespace TheBankMVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bank",
-                columns: table => new
-                {
-                    BankId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BankName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BankInstallmentAmount = table.Column<double>(type: "float", nullable: false),
-                    InstallmentDayOfMonth = table.Column<int>(type: "int", nullable: false),
-                    DefaultLoanInterest = table.Column<double>(type: "float", nullable: false),
-                    DefaultNoOfInstallment = table.Column<int>(type: "int", nullable: false),
-                    BankInstallmentDelayFine = table.Column<double>(type: "float", nullable: false),
-                    BankInstallmentDelayFineType = table.Column<int>(type: "int", nullable: false),
-                    BankInstallmentDelayFineTerm = table.Column<int>(type: "int", nullable: false),
-                    LoanDelayFine = table.Column<double>(type: "float", nullable: false),
-                    LoanDelayFineType = table.Column<int>(type: "int", nullable: false),
-                    LoanDelayFineTerm = table.Column<int>(type: "int", nullable: false),
-                    InterestTermID = table.Column<int>(type: "int", nullable: false),
-                    DateFormat = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bank", x => x.BankId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BankUserMappings",
-                columns: table => new
-                {
-                    BankUserMappingId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BankId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BankUserMappings", x => x.BankUserMappingId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EMIHeaders",
                 columns: table => new
                 {
                     EMIHeaderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BankId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
                     UserAccountId = table.Column<int>(type: "int", nullable: false),
                     EMIType = table.Column<int>(type: "int", nullable: false),
                     EMIAmount = table.Column<double>(type: "float", nullable: false),
@@ -147,12 +100,59 @@ namespace TheBankMVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Group",
+                columns: table => new
+                {
+                    GroupId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GroupInstallmentAmount = table.Column<double>(type: "float", nullable: false),
+                    InstallmentDayOfMonth = table.Column<int>(type: "int", nullable: false),
+                    DefaultLoanInterest = table.Column<double>(type: "float", nullable: false),
+                    DefaultNoOfInstallment = table.Column<int>(type: "int", nullable: false),
+                    GroupInstallmentDelayFine = table.Column<double>(type: "float", nullable: false),
+                    GroupInstallmentDelayFineType = table.Column<int>(type: "int", nullable: false),
+                    GroupInstallmentDelayFineTerm = table.Column<int>(type: "int", nullable: false),
+                    LoanDelayFine = table.Column<double>(type: "float", nullable: false),
+                    LoanDelayFineType = table.Column<int>(type: "int", nullable: false),
+                    LoanDelayFineTerm = table.Column<int>(type: "int", nullable: false),
+                    InterestTermID = table.Column<int>(type: "int", nullable: false),
+                    DateFormat = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Group", x => x.GroupId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupUserMappings",
+                columns: table => new
+                {
+                    GroupUserMappingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupUserMappings", x => x.GroupUserMappingId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Installments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BankId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
                     UserAccountId = table.Column<int>(type: "int", nullable: false),
                     EMIHeaderId = table.Column<int>(type: "int", nullable: false),
                     EMIType = table.Column<int>(type: "int", nullable: false),
@@ -183,7 +183,7 @@ namespace TheBankMVC.Migrations
                 {
                     TransactionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BankId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
                     UserAccountId = table.Column<int>(type: "int", nullable: false),
                     TransactionTypeId = table.Column<int>(type: "int", nullable: false),
                     TransactionAmount = table.Column<double>(type: "float", nullable: false),
@@ -207,7 +207,7 @@ namespace TheBankMVC.Migrations
                 {
                     UserAccountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BankId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
                     UserAccountName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -390,16 +390,16 @@ namespace TheBankMVC.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Bank");
-
-            migrationBuilder.DropTable(
-                name: "BankUserMappings");
-
-            migrationBuilder.DropTable(
                 name: "EMIHeaders");
 
             migrationBuilder.DropTable(
                 name: "Enumerations");
+
+            migrationBuilder.DropTable(
+                name: "Group");
+
+            migrationBuilder.DropTable(
+                name: "GroupUserMappings");
 
             migrationBuilder.DropTable(
                 name: "Installments");

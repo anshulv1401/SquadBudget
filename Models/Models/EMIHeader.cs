@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace TheBankMVC.Models
+namespace BudgetManager.Models
 {
     public class EMIHeader
     {
         public int EMIHeaderId { get; set; }
-        public int BankId { get; set; }
+        public int GroupId { get; set; }
         public int UserAccountId { get; set; }
         public int EMIType { get; set; }
         public double EMIAmount { get; set; }

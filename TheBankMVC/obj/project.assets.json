@@ -10174,9 +10174,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Github\\AnshulV1401\\BankMVC\\TheBankMVC\\TheBankMVC.csproj",
-      "projectName": "TheBankMVC",
-      "projectPath": "D:\\Github\\AnshulV1401\\BankMVC\\TheBankMVC\\TheBankMVC.csproj",
+      "projectUniqueName": "D:\\Github\\AnshulV1401\\BankMVC\\TheBankMVC\\BudgetManager.csproj",
+      "projectName": "BudgetManager",
+      "projectPath": "D:\\Github\\AnshulV1401\\BankMVC\\TheBankMVC\\BudgetManager.csproj",
       "packagesPath": "C:\\Users\\Anshul vanawat\\.nuget\\packages\\",
       "outputPath": "D:\\Github\\AnshulV1401\\BankMVC\\TheBankMVC\\obj\\",
       "projectStyle": "PackageReference",

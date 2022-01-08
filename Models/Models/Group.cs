@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace TheBankMVC.Models
+namespace BudgetManager.Models
 {
-    public class Bank
+    public class Group
     {
-        public int BankId { get; set; }
-        public string BankName { get; set; }
-        public double BankInstallmentAmount { get; set; }
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public double GroupInstallmentAmount { get; set; }
         public int InstallmentDayOfMonth { get; set; }
         public double DefaultLoanInterest { get; set; }
         public int DefaultNoOfInstallment { get; set; }
-        public double BankInstallmentDelayFine { get; set; }
-        public int BankInstallmentDelayFineType { get; set; }
-        public int BankInstallmentDelayFineTerm { get; set; }
+        public double GroupInstallmentDelayFine { get; set; }
+        public int GroupInstallmentDelayFineType { get; set; }
+        public int GroupInstallmentDelayFineTerm { get; set; }
         public double LoanDelayFine { get; set; }
         public int LoanDelayFineType { get; set; }
         public int LoanDelayFineTerm { get; set; }

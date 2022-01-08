@@ -1,27 +1,26 @@
-﻿@model TheBankMVC.Models.Bank
+﻿@model BudgetManager.Models.Group
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Delete</h1>
+<h1>Details</h1>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Bank</h4>
+    <h4>Group</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BankName)
+            @Html.DisplayNameFor(model => model.GroupName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BankName)
+            @Html.DisplayFor(model => model.GroupName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BankInstallmentAmount)
+            @Html.DisplayNameFor(model => model.GroupInstallmentAmount)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BankInstallmentAmount)
+            @Html.DisplayFor(model => model.GroupInstallmentAmount)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DefaultLoanInterest)
@@ -36,22 +35,22 @@
             @Html.DisplayFor(model => model.DefaultNoOfInstallment)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BankInstallmentDelayFine)
+            @Html.DisplayNameFor(model => model.GroupInstallmentDelayFine)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BankInstallmentDelayFine)
+            @Html.DisplayFor(model => model.GroupInstallmentDelayFine)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BankInstallmentDelayFineType)
+            @Html.DisplayNameFor(model => model.GroupInstallmentDelayFineType)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BankInstallmentDelayFineType)
+            @Html.DisplayFor(model => model.GroupInstallmentDelayFineType)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BankInstallmentDelayFineTerm)
+            @Html.DisplayNameFor(model => model.GroupInstallmentDelayFineTerm)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BankInstallmentDelayFineTerm)
+            @Html.DisplayFor(model => model.GroupInstallmentDelayFineTerm)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LoanDelayFine)
@@ -84,10 +83,8 @@
             @Html.DisplayFor(model => model.DateFormat)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="BankId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.GroupId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>

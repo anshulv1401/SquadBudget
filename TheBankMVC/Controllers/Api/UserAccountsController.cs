@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetManager.Data;
+using BudgetManager.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheBankMVC.Data;
-using TheBankMVC.Models;
 
-namespace TheBankMVC.Controllers.Api
+namespace BudgetManager.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -24,9 +24,9 @@ namespace TheBankMVC.Controllers.Api
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserAccount>>> GetUserAccount(string query = null)
         {
-            if (!String.IsNullOrWhiteSpace(query) && int.TryParse(query, out int bankId))
+            if (!String.IsNullOrWhiteSpace(query) && int.TryParse(query, out int groupId))
             {
-                return await _context.UserAccount.Where(c => c.BankId == bankId).ToListAsync();
+                return await _context.UserAccount.Where(c => c.GroupId == groupId).ToListAsync();
             }
             else
             {

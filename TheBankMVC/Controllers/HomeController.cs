@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetManager.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using TheBankMVC.Models;
 
-namespace TheBankMVC.Controllers
+namespace BudgetManager.Controllers
 {
     public class HomeController : Controller
     {

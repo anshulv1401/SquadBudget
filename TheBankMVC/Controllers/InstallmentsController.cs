@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetManager.BusinessComponents;
+using BudgetManager.Data;
+using BudgetManager.Models;
+using BudgetManager.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheBankMVC.BusinessComponents;
-using TheBankMVC.Data;
-using TheBankMVC.Models;
-using TheBankMVC.ViewModels;
 
-namespace TheBankMVC.Controllers
+namespace BudgetManager.Controllers
 {
     public class InstallmentsController : Controller
     {
@@ -24,23 +24,23 @@ namespace TheBankMVC.Controllers
         // GET: Installments
         public async Task<IActionResult> Index()
         {
-            var banks = _context.Bank.ToList();
+            var groups = _context.Group.ToList();
             var installmentViewModelList = new List<InstallmentViewModel>();
-            foreach (var bank in banks)
+            foreach (var group in groups)
             {
-                var dueDate = InstallmentComponent.GetDueDate(bank.InstallmentDayOfMonth);
+                var dueDate = InstallmentComponent.GetDueDate(group.InstallmentDayOfMonth);
 
                 var installments = await _context.Installments.
                     Where(x => 
                         //x.DueDate.Date <= dueDate.Date &&
                         x.InstallmentStatus != (int)Enumeration.InstallmentStatus.Paid &&
-                        x.BankId == bank.BankId).ToListAsync();
+                        x.GroupId == group.GroupId).ToListAsync();
 
                 foreach(var installment in installments)
                 {
                     var installmentViewModel = new InstallmentViewModel
                     {
-                        BankName = bank.BankName,
+                        GroupName = group.GroupName,
                         UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName,
                         Id = installment.Id,
                         EMIHeaderId = installment.EMIHeaderId,
@@ -81,7 +81,7 @@ namespace TheBankMVC.Controllers
 
             var installmentViewModel = new InstallmentViewModel
             {
-                BankName = _context.Bank.Where(x => x.BankId == installment.BankId).First().BankName,
+                GroupName = _context.Group.Where(x => x.GroupId == installment.GroupId).First().GroupName,
                 UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName,
                 Id = installment.Id,
                 EMIHeaderId = installment.EMIHeaderId,

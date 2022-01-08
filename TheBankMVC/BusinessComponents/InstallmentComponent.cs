@@ -1,13 +1,13 @@
-﻿using System;
+﻿using BudgetManager.Data;
+using BudgetManager.Models;
+using BudgetManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheBankMVC.Data;
-using TheBankMVC.Models;
-using TheBankMVC.ViewModels;
-using static TheBankMVC.Models.Enumeration;
+using static BudgetManager.Models.Enumeration;
 
-namespace TheBankMVC.BusinessComponents
+namespace BudgetManager.BusinessComponents
 {
     public class InstallmentComponent
     {
@@ -25,23 +25,23 @@ namespace TheBankMVC.BusinessComponents
             bool installmentChanged = false;
 
             //Get new installments
-            var banks = _context.Bank.ToList();
-            foreach (var bank in banks)
+            var groups = _context.Group.ToList();
+            foreach (var group in groups)
             {
-                var dueDate = GetDueDate(bank.InstallmentDayOfMonth);
-                var userAccounts = _context.UserAccount.Where(x => x.BankId == bank.BankId).ToList();
+                var dueDate = GetDueDate(group.InstallmentDayOfMonth);
+                var userAccounts = _context.UserAccount.Where(x => x.GroupId == group.GroupId).ToList();
                 foreach (var userAccount in userAccounts)
                 {
                     var eMIHeaderCount = _context.EMIHeaders.Where(x =>
-                    x.BankId == userAccount.BankId &&
+                    x.GroupId == userAccount.GroupId &&
                     x.UserAccountId == userAccount.UserAccountId &&
                     x.StartTime.Date >= DateTime.Now.Date && //next installment
-                    x.EMIType == ((int)EMIType.BankInstallment)
+                    x.EMIType == ((int)EMIType.GroupInstallment)
                     ).Count();
 
                     if (eMIHeaderCount == 0)
                     {
-                        GenerateBankInstallments(bank.BankId, userAccount.UserAccountId, bank.BankInstallmentAmount);
+                        GenerateGroupInstallments(group.GroupId, userAccount.UserAccountId, group.GroupInstallmentAmount);
                         installmentChanged = true;
                     }
                 }
@@ -81,16 +81,16 @@ namespace TheBankMVC.BusinessComponents
             return installmentChanged;
         }
 
-        public void GenerateBankInstallments(int bankId, int userAccountId, double installmentAmt)
+        public void GenerateGroupInstallments(int groupId, int userAccountId, double installmentAmt)
         {   
             EMIConfigViewModel eMIConfig = new EMIConfigViewModel()
             {
-                BankId = bankId,
+                GroupId = groupId,
                 UserAccountId = userAccountId,
                 LoanAmount = installmentAmt,
                 MonthlyRateOfInterest = 0.001,
                 NoOfInstallment = 1,
-                EMIType = (int)EMIType.BankInstallment
+                EMIType = (int)EMIType.GroupInstallment
             };
 
             var eMIHeader = GetEMIHeader(eMIConfig);
@@ -110,24 +110,24 @@ namespace TheBankMVC.BusinessComponents
             var emi = (int)((p * r * rPlus1PowN) / (rPlus1PowN - 1));
             //EMI calculation
 
-            var bank = _context.Bank.Where(x => x.BankId == eMIConfig.BankId).First();
-            var startDate = GetDueDate(bank.InstallmentDayOfMonth);
+            var group = _context.Group.Where(x => x.GroupId == eMIConfig.GroupId).First();
+            var startDate = GetDueDate(group.InstallmentDayOfMonth);
 
             double DelayFine;
             int DelayFineType;
             int DelayFinePeriod;
 
-            if (eMIConfig.EMIType == (int)EMIType.BankInstallment)
+            if (eMIConfig.EMIType == (int)EMIType.GroupInstallment)
             {
-                DelayFine = bank.BankInstallmentDelayFine;
-                DelayFineType = bank.BankInstallmentDelayFineType;
-                DelayFinePeriod = bank.BankInstallmentDelayFineTerm;
+                DelayFine = group.GroupInstallmentDelayFine;
+                DelayFineType = group.GroupInstallmentDelayFineType;
+                DelayFinePeriod = group.GroupInstallmentDelayFineTerm;
             }
             else
             {
-                DelayFine = bank.LoanDelayFine;
-                DelayFineType = bank.LoanDelayFineType;
-                DelayFinePeriod = bank.LoanDelayFineTerm;
+                DelayFine = group.LoanDelayFine;
+                DelayFineType = group.LoanDelayFineType;
+                DelayFinePeriod = group.LoanDelayFineTerm;
             }
 
             var eMIHeader = new EMIHeader()
@@ -140,15 +140,15 @@ namespace TheBankMVC.BusinessComponents
                 StartTime = startDate,
                 EndTime = startDate.AddMonths(eMIConfig.NoOfInstallment),
                 //*new Variables Added*//
-                BankId = eMIConfig.BankId,
+                GroupId = eMIConfig.GroupId,
                 UserAccountId = eMIConfig.UserAccountId,
                 EMIType = eMIConfig.EMIType,
                 LoanStatus = (int)Enumeration.LoanStatus.Pending,
-                InstallmentDayOfMonth = bank.InstallmentDayOfMonth,
+                InstallmentDayOfMonth = group.InstallmentDayOfMonth,
                 DelayFine = DelayFine,
                 DelayFineType = DelayFineType,
                 DelayFinePeriod = DelayFinePeriod,
-                InterestTermId = bank.InterestTermID
+                InterestTermId = group.InterestTermID
             };
 
             return eMIHeader;
@@ -156,7 +156,7 @@ namespace TheBankMVC.BusinessComponents
 
         public List<Installment> GetInstallments(EMIHeader eMIHeader)
         {
-            var bankId = eMIHeader.BankId;
+            var groupId = eMIHeader.GroupId;
             var userAccountId = eMIHeader.UserAccountId;
             var eMIType = eMIHeader.EMIType;
             var installments = new List<Installment>();
@@ -182,7 +182,7 @@ namespace TheBankMVC.BusinessComponents
                     Closing = closing - difference,
                     Difference = difference,
                     //*new variables added*//
-                    BankId = bankId,
+                    GroupId = groupId,
                     UserAccountId = userAccountId,
                     EMIType = eMIType,
                     InstallmentStatus = (int)InstallmentStatus.Due,
@@ -210,17 +210,17 @@ namespace TheBankMVC.BusinessComponents
         {
             var transactions = new List<Transaction>();
 
-            if (installment.EMIType == (int)EMIType.BankInstallment)
+            if (installment.EMIType == (int)EMIType.GroupInstallment)
             {
                 var transaction1 = new Transaction
                 {
-                    BankId = installment.BankId,
+                    GroupId = installment.GroupId,
                     UserAccountId = installment.UserAccountId,
                     TransactionTypeId = (int)TransactionType.Debit,
                     TransactionAmount = installment.EMIAmount,
                     TransactionDate = DateTime.Now,
-                    ReferenceType = DebitRefType.BankInstallment.ToString(),
-                    ReferenceTypeId = (int)DebitRefType.BankInstallment
+                    ReferenceType = DebitRefType.GroupInstallment.ToString(),
+                    ReferenceTypeId = (int)DebitRefType.GroupInstallment
                 };
 
                 transactions.Add(transaction1);
@@ -229,13 +229,13 @@ namespace TheBankMVC.BusinessComponents
                 {
                     var transaction2 = new Transaction
                     {
-                        BankId = installment.BankId,
+                        GroupId = installment.GroupId,
                         UserAccountId = installment.UserAccountId,
                         TransactionTypeId = (int)TransactionType.Debit,
                         TransactionAmount = installment.Fine,
                         TransactionDate = DateTime.Now,
-                        ReferenceType = DebitRefType.BankInstallmentFine.ToString(),
-                        ReferenceTypeId = (int)DebitRefType.BankInstallmentFine
+                        ReferenceType = DebitRefType.GroupInstallmentFine.ToString(),
+                        ReferenceTypeId = (int)DebitRefType.GroupInstallmentFine
                     };
 
                     transactions.Add(transaction2);
@@ -245,7 +245,7 @@ namespace TheBankMVC.BusinessComponents
             {
                 var transaction1 = new Transaction
                 {
-                    BankId = installment.BankId,
+                    GroupId = installment.GroupId,
                     UserAccountId = installment.UserAccountId,
                     TransactionTypeId = (int)TransactionType.Debit,
                     TransactionAmount = installment.PrincipalAmount,
@@ -258,7 +258,7 @@ namespace TheBankMVC.BusinessComponents
 
                 var transaction2 = new Transaction
                 {
-                    BankId = installment.BankId,
+                    GroupId = installment.GroupId,
                     UserAccountId = installment.UserAccountId,
                     TransactionTypeId = (int)TransactionType.Debit,
                     TransactionAmount = installment.InterestAmount,
@@ -273,7 +273,7 @@ namespace TheBankMVC.BusinessComponents
                 {
                     var transaction3 = new Transaction
                     {
-                        BankId = installment.BankId,
+                        GroupId = installment.GroupId,
                         UserAccountId = installment.UserAccountId,
                         TransactionTypeId = (int)TransactionType.Debit,
                         TransactionAmount = installment.Difference,
@@ -289,7 +289,7 @@ namespace TheBankMVC.BusinessComponents
                 {
                     var transaction4 = new Transaction
                     {
-                        BankId = installment.BankId,
+                        GroupId = installment.GroupId,
                         UserAccountId = installment.UserAccountId,
                         TransactionTypeId = (int)TransactionType.Debit,
                         TransactionAmount = installment.Fine,
@@ -436,7 +436,7 @@ namespace TheBankMVC.BusinessComponents
             {
                 var transaction = new Transaction
                 {
-                    BankId = userAccount.BankId,
+                    GroupId = userAccount.GroupId,
                     UserAccountId = userAccount.UserAccountId,
                     TransactionTypeId = (int)TransactionType.Credit,
                     TransactionAmount = userAccount.AmountOnLoan,
@@ -452,7 +452,7 @@ namespace TheBankMVC.BusinessComponents
             {
                 var transaction = new Transaction
                 {
-                    BankId = userAccount.BankId,
+                    GroupId = userAccount.GroupId,
                     UserAccountId = userAccount.UserAccountId,
                     TransactionTypeId = (int)TransactionType.Debit,
                     TransactionAmount = userAccount.AmountOnLoan,
