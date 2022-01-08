@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using TheBankMVC.Data;
 using TheBankMVC.Models;
 using TheBankMVC.ViewModels;
-//using System.Security.Claims;
 
 namespace TheBankMVC.Controllers
 {
