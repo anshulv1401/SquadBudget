@@ -4,8 +4,8 @@
     ViewData["Title"] = "Squads";
 }
 
-<h1>@ViewData["Title"]</h1>
 
+<h1>@ViewData["Title"]</h1>
 <p>@Html.ActionLink("Create New", "Create", "Groups", null, new { @class = "btn btn-primary btn-sm" })</p>
 
 <table class="table table-hover">
@@ -37,33 +37,34 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        <tr class="table-secondary">
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupInstAmt)
-            </td>
-            <td>
-                @item.TotalShare.ToString("0.00")
-            </td>
-            <td>
-                @item.TotalFine.ToString("0.00")
-            </td>
-            <td>
-                @item.TotalInterest.ToString("0.00")
-            </td>
-            <td>
-                @item.TotalAmtOnLoan.ToString("0.00")
-            </td>
-            <td>
-                @item.TotalAmtInGroup.ToString("0.00")
-            </td>
-            <td>
-                @Html.ActionLink("View" , "Edit", "Groups", new { Id = item.GroupId }, new { @class = "btn-link" })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="table-secondary">
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupInstAmt)
+                </td>
+                <td>
+                    @item.TotalShare.ToString("0.00")
+                </td>
+                <td>
+                    @item.TotalFine.ToString("0.00")
+                </td>
+                <td>
+                    @item.TotalInterest.ToString("0.00")
+                </td>
+                <td>
+                    @item.TotalAmtOnLoan.ToString("0.00")
+                </td>
+                <td>
+                    @item.TotalAmtInGroup.ToString("0.00")
+                </td>
+                <td>
+                    @Html.ActionLink("View" , "Edit", "Groups", new { Id = item.GroupId }, new { @class = "btn-link" })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
