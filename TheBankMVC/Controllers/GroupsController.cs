@@ -127,7 +127,7 @@ namespace BudgetManager.Controllers
                 {
                     transaction.Rollback();
                     //TODO log the error
-                    throw ex;
+                    throw;
                 }
             }
             return RedirectToAction(nameof(Index));

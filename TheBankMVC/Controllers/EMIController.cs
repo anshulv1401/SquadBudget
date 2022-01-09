@@ -134,21 +134,5 @@ namespace BudgetManager.Controllers
 
             return View("EMIDetails", eMIDetails);
         }
-
-        //public ActionResult Edit(int Id)
-        //{
-        //    var eMIHeader = _context.EMIHeaders.SingleOrDefault(c => c.EMIHeaderId == Id);
-
-        //    if (eMIHeader == null)
-        //        return NotFound();
-
-        //    var viewModel = new EMIDetailsViewModel()
-        //    {
-        //        EMIHeader = eMIHeader,
-        //        Installments = _context.Installments.Where(c => c.EMIHeaderId == Id).ToList()
-        //    };
-
-        //    return View("EMIDetails", viewModel);
-        //}
     }
 }
