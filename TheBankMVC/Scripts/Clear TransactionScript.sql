@@ -1,21 +1,19 @@
-SELECT * FROM Groups
-SELECT * FROM UserAccount
-SELECT * FROM GroupUserMappings
-SELECT * FROM EMIHeaders
-SELECT * FROM Installments
-SELECT * FROM Transactions
 
-UPDATE UserAccount SET ShareSubmitted = 0, FineSubmitted = 0, InterestSubmitted = 0, AmountOnLoan = 0
+--Clear Transactions
+
+UPDATE UserAccounts SET ShareSubmitted = 0, FineSubmitted = 0, InterestSubmitted = 0, AmountOnLoan = 0
 DELETE FROM EMIHeaders
 DELETE FROM Installments
 DELETE FROM Transactions
 
-UPDATE Installments SET DueDate = DATEADD(MONTH, -1, DueDate) WHERE InstallmentStatus <> 2 
-UPDATE Installments SET Fine = 0 WHERE InstallmentStatus <> 2 
 
---UPDATE Installments SET DueDate = CAST(DueDate AS DATE)
+--Reset database
 
-SELECT * FROM Installments WHERE InstallmentStatus <> 2 ORDER BY DueDate
+DELETE FROM EMIHeaders
+DELETE FROM Installments
+DELETE FROM Transactions
+DELETE FROM GroupUserMappings
+DELETE FROM UserAccounts
+DELETE FROM Groups
 
-select * from EMIHeaders
 

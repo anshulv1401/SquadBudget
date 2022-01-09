@@ -81,26 +81,7 @@ namespace BudgetManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Enumerations",
-                columns: table => new
-                {
-                    EnumerationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EnumerationType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EnumerationName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EnumerationValue = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enumerations", x => x.EnumerationId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Group",
+                name: "Groups",
                 columns: table => new
                 {
                     GroupId = table.Column<int>(type: "int", nullable: false)
@@ -125,7 +106,7 @@ namespace BudgetManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Group", x => x.GroupId);
+                    table.PrimaryKey("PK_Groups", x => x.GroupId);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,7 +183,7 @@ namespace BudgetManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserAccount",
+                name: "UserAccounts",
                 columns: table => new
                 {
                     UserAccountId = table.Column<int>(type: "int", nullable: false)
@@ -223,7 +204,7 @@ namespace BudgetManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAccount", x => x.UserAccountId);
+                    table.PrimaryKey("PK_UserAccounts", x => x.UserAccountId);
                 });
 
             migrationBuilder.CreateTable(
@@ -393,10 +374,7 @@ namespace BudgetManager.Migrations
                 name: "EMIHeaders");
 
             migrationBuilder.DropTable(
-                name: "Enumerations");
-
-            migrationBuilder.DropTable(
-                name: "Group");
+                name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "GroupUserMappings");
@@ -408,7 +386,7 @@ namespace BudgetManager.Migrations
                 name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "UserAccount");
+                name: "UserAccounts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

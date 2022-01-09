@@ -22,13 +22,13 @@ namespace BudgetManager.Controllers
         // GET: Groups
         public async Task<IActionResult> Index()
         {
-            var groupDetails = await _context.Group.ToListAsync();
+            var groupDetails = await _context.Groups.ToListAsync();
 
             var groupViewModels = new List<GroupViewModel>();
 
             foreach (var group in groupDetails)
             {
-                var users = _context.UserAccount.Where(x => x.GroupId == group.GroupId).ToList();
+                var users = _context.UserAccounts.Where(x => x.GroupId == group.GroupId).ToList();
 
                 var totalShare = users.Sum(x => x.ShareSubmitted);
                 var totalFine = users.Sum(x => x.FineSubmitted);
@@ -61,7 +61,7 @@ namespace BudgetManager.Controllers
                 return NotFound();
             }
 
-            var group = await _context.Group
+            var group = await _context.Groups
                 .FirstOrDefaultAsync(m => m.GroupId == id);
             if (group == null)
             {
@@ -105,7 +105,7 @@ namespace BudgetManager.Controllers
                     }
                     else
                     {
-                        var groupInDb = _context.Group.Single(c => c.GroupId == group.GroupId);
+                        var groupInDb = _context.Groups.Single(c => c.GroupId == group.GroupId);
                         groupInDb.GroupName = group.GroupName;
                         groupInDb.GroupInstallmentAmount = group.GroupInstallmentAmount;
                         groupInDb.InstallmentDayOfMonth = group.InstallmentDayOfMonth;
@@ -142,7 +142,7 @@ namespace BudgetManager.Controllers
                 return NotFound();
             }
 
-            var group = await _context.Group.FindAsync(id);
+            var group = await _context.Groups.FindAsync(id);
             if (group == null)
             {
                 return NotFound();
@@ -194,7 +194,7 @@ namespace BudgetManager.Controllers
                 return NotFound();
             }
 
-            var group = await _context.Group
+            var group = await _context.Groups
                 .FirstOrDefaultAsync(m => m.GroupId == id);
             if (group == null)
             {
@@ -209,15 +209,15 @@ namespace BudgetManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var group = await _context.Group.FindAsync(id);
-            _context.Group.Remove(group);
+            var group = await _context.Groups.FindAsync(id);
+            _context.Groups.Remove(group);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GroupExists(int id)
         {
-            return _context.Group.Any(e => e.GroupId == id);
+            return _context.Groups.Any(e => e.GroupId == id);
         }
     }
 }

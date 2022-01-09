@@ -1,5 +1,6 @@
 ﻿using BudgetManager.BusinessComponents;
 using BudgetManager.Data;
+using BudgetManager.Enumerations;
 using BudgetManager.Models;
 using BudgetManager.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,9 @@ namespace BudgetManager.Controllers
         // GET: Installments
         public async Task<IActionResult> Index()
         {
-            var groups = _context.Group.ToList();
+            var installmentChanged = InstallmentComponent.RefreshInstallments();
+
+            var groups = _context.Groups.ToList();
             var installmentViewModelList = new List<InstallmentViewModel>();
             foreach (var group in groups)
             {
@@ -41,7 +44,7 @@ namespace BudgetManager.Controllers
                     var installmentViewModel = new InstallmentViewModel
                     {
                         GroupName = group.GroupName,
-                        UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName,
+                        UserAccountName = _context.UserAccounts.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName,
                         Id = installment.Id,
                         EMIHeaderId = installment.EMIHeaderId,
                         EMIType = installment.EMIType,
@@ -61,7 +64,7 @@ namespace BudgetManager.Controllers
                     installmentViewModelList.Add(installmentViewModel);
                 }
             }
-            return View(installmentViewModelList);
+            return View(installmentViewModelList.OrderBy(x => new { x.DueDate, x.UserAccountName }));
         }
 
         // GET: Installments/Details/5
@@ -81,8 +84,8 @@ namespace BudgetManager.Controllers
 
             var installmentViewModel = new InstallmentViewModel
             {
-                GroupName = _context.Group.Where(x => x.GroupId == installment.GroupId).First().GroupName,
-                UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName,
+                GroupName = _context.Groups.Where(x => x.GroupId == installment.GroupId).First().GroupName,
+                UserAccountName = _context.UserAccounts.Where(x => x.UserAccountId == installment.UserAccountId).First().UserAccountName,
                 Id = installment.Id,
                 EMIHeaderId = installment.EMIHeaderId,
                 EMIType = _context.EMIHeaders.Where(x => x.EMIHeaderId == installment.EMIHeaderId).First().EMIType,

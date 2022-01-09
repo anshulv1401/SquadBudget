@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static BudgetManager.Models.Enumeration;
+using static BudgetManager.Enumerations.Enumeration;
 
 namespace BudgetManager.Controllers
 {
@@ -46,8 +46,8 @@ namespace BudgetManager.Controllers
                 eMIHeaderViewModel.StartTime = eMIHeader.StartTime;
                 eMIHeaderViewModel.EndTime = eMIHeader.EndTime;
                 eMIHeaderViewModel.InterestTermId = eMIHeader.InterestTermId;
-                eMIHeaderViewModel.GroupName = _context.Group.Where(x => x.GroupId == eMIHeader.GroupId).First().GroupName;
-                eMIHeaderViewModel.UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == eMIHeader.UserAccountId).First().UserAccountName;
+                eMIHeaderViewModel.GroupName = _context.Groups.Where(x => x.GroupId == eMIHeader.GroupId).First().GroupName;
+                eMIHeaderViewModel.UserAccountName = _context.UserAccounts.Where(x => x.UserAccountId == eMIHeader.UserAccountId).First().UserAccountName;
 
                 eMIHeaderViewModelList.Add(eMIHeaderViewModel);
             }
@@ -59,14 +59,14 @@ namespace BudgetManager.Controllers
         {
             var eMIConfigViewModel = new EMIConfigViewModel()
             {
-                Groups = _context.Group.ToList()
+                Groups = _context.Groups.ToList()
             };
             return View("EMIConfig", eMIConfigViewModel);
         }
 
         public async Task<IActionResult> Save(EMIDetailsViewModel eMIDetails)
         {
-            var userAccount = _context.UserAccount.Where(x => x.UserAccountId == eMIDetails.EMIHeader.UserAccountId).First();
+            var userAccount = _context.UserAccounts.Where(x => x.UserAccountId == eMIDetails.EMIHeader.UserAccountId).First();
 
             if (userAccount.AmountOnLoan != 0)
             {
@@ -94,7 +94,10 @@ namespace BudgetManager.Controllers
 
         public ActionResult EMIDetails(EMIConfigViewModel eMIConfig)
         {
-            var users = _context.UserAccount.Where(x => x.GroupId == eMIConfig.GroupId).ToList();
+            var group = _context.Groups.Where(x => x.GroupId == eMIConfig.GroupId).First();
+            var user = _context.UserAccounts.Where(x => x.UserAccountId == eMIConfig.UserAccountId).First();
+
+            var users = _context.UserAccounts.Where(x => x.GroupId == eMIConfig.GroupId).ToList();
 
             var totalShare = users.Sum(x => x.ShareSubmitted);
             var totalFine = users.Sum(x => x.FineSubmitted);
@@ -106,14 +109,15 @@ namespace BudgetManager.Controllers
             {
                 throw new NotImplementedException(string.Format("Loan Amt more than the available Amt in Group. Amt available : {0}, Validation to be implemented", TotalAmtInGroup));
             }
-            eMIConfig.EMIType = (int)EMIType.LoanEMI;
+            eMIConfig.EMIType = (int)EMIType.Loan;
             EMIDetailsViewModel eMIDetailsViewModel = new EMIDetailsViewModel();
-            eMIDetailsViewModel.EMIHeader = installmentComponent.GetEMIHeader(eMIConfig);
+            var startDate = installmentComponent.GetDueDate(group.InstallmentDayOfMonth);
+
+            eMIDetailsViewModel.EMIHeader = installmentComponent.GetEMIHeader(eMIConfig, startDate);
             eMIDetailsViewModel.Installments = installmentComponent.GetInstallments(eMIDetailsViewModel.EMIHeader);
 
-            eMIDetailsViewModel.GroupName = _context.Group.Where(x => x.GroupId == eMIDetailsViewModel.EMIHeader.GroupId).First().GroupName;
-            eMIDetailsViewModel.UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == eMIDetailsViewModel.EMIHeader.UserAccountId).First().UserAccountName;
-
+            eMIDetailsViewModel.GroupName = group.GroupName;
+            eMIDetailsViewModel.UserAccountName = user.UserAccountName;
             return View("EMIDetails", eMIDetailsViewModel);
         }
 
@@ -128,8 +132,8 @@ namespace BudgetManager.Controllers
             {
                 EMIHeader = eMIHeader,
                 Installments = _context.Installments.Where(c => c.EMIHeaderId == Id).ToList(),
-                GroupName = _context.Group.Where(x => x.GroupId == eMIHeader.GroupId).First().GroupName,
-                UserAccountName = _context.UserAccount.Where(x => x.UserAccountId == eMIHeader.UserAccountId).First().UserAccountName
+                GroupName = _context.Groups.Where(x => x.GroupId == eMIHeader.GroupId).First().GroupName,
+                UserAccountName = _context.UserAccounts.Where(x => x.UserAccountId == eMIHeader.UserAccountId).First().UserAccountName
             };
 
             return View("EMIDetails", eMIDetails);

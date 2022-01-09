@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static BudgetManager.Models.Enumeration;
+using static BudgetManager.Enumerations.Enumeration;
 
 namespace BudgetManager.BusinessComponents
 {
@@ -25,23 +25,50 @@ namespace BudgetManager.BusinessComponents
             bool installmentChanged = false;
 
             //Get new installments
-            var groups = _context.Group.ToList();
+            var groups = _context.Groups.ToList();
             foreach (var group in groups)
             {
                 var dueDate = GetDueDate(group.InstallmentDayOfMonth);
-                var userAccounts = _context.UserAccount.Where(x => x.GroupId == group.GroupId).ToList();
+                var userAccounts = _context.UserAccounts.Where(x => x.GroupId == group.GroupId).ToList();
+
                 foreach (var userAccount in userAccounts)
                 {
-                    var eMIHeaderCount = _context.EMIHeaders.Where(x =>
+
+                    //Generating EMIs for the missed months
+                    var lastEMIHeader = _context.EMIHeaders.Where(x =>
+                    x.GroupId == userAccount.GroupId &&
+                    x.UserAccountId == userAccount.UserAccountId &&
+                    x.EMIType == ((int)EMIType.Budget)
+                    ).OrderBy(x => x.StartTime).LastOrDefault();
+
+                    if (lastEMIHeader != null)
+                    {
+                        var lastEMIStartDate = lastEMIHeader.StartTime;
+
+                        var dateDiff = dueDate - lastEMIStartDate;
+
+                        while (dateDiff.TotalDays > 31)
+                        {
+                            var newDueDate = new DateTime(dueDate.Year, lastEMIStartDate.Month + 1, dueDate.Day);
+
+                            GenerateGroupInstallments(group.GroupId, userAccount.UserAccountId, group.GroupInstallmentAmount, newDueDate);
+                            installmentChanged = true;
+                            lastEMIStartDate = newDueDate;
+                            dateDiff = dueDate - lastEMIStartDate;
+                        }
+                    }
+
+                    //Generating for current month
+                    var eMIHeadersForCurrentMonth = _context.EMIHeaders.Where(x =>
                     x.GroupId == userAccount.GroupId &&
                     x.UserAccountId == userAccount.UserAccountId &&
                     x.StartTime.Date >= DateTime.Now.Date && //next installment
-                    x.EMIType == ((int)EMIType.GroupInstallment)
-                    ).Count();
+                    x.EMIType == ((int)EMIType.Budget)
+                    );
 
-                    if (eMIHeaderCount == 0)
+                    if (eMIHeadersForCurrentMonth.Count() == 0)
                     {
-                        GenerateGroupInstallments(group.GroupId, userAccount.UserAccountId, group.GroupInstallmentAmount);
+                        GenerateGroupInstallments(group.GroupId, userAccount.UserAccountId, group.GroupInstallmentAmount, dueDate);
                         installmentChanged = true;
                     }
                 }
@@ -81,7 +108,7 @@ namespace BudgetManager.BusinessComponents
             return installmentChanged;
         }
 
-        public void GenerateGroupInstallments(int groupId, int userAccountId, double installmentAmt)
+        public void GenerateGroupInstallments(int groupId, int userAccountId, double installmentAmt, DateTime startDate)
         {   
             EMIConfigViewModel eMIConfig = new EMIConfigViewModel()
             {
@@ -90,16 +117,16 @@ namespace BudgetManager.BusinessComponents
                 LoanAmount = installmentAmt,
                 MonthlyRateOfInterest = 0.001,
                 NoOfInstallment = 1,
-                EMIType = (int)EMIType.GroupInstallment
+                EMIType = (int)EMIType.Budget
             };
 
-            var eMIHeader = GetEMIHeader(eMIConfig);
+            var eMIHeader = GetEMIHeader(eMIConfig, startDate);
             var installments = GetInstallments(eMIHeader);
 
             SaveInstallments(eMIHeader, installments);
         }
 
-        public EMIHeader GetEMIHeader(EMIConfigViewModel eMIConfig)
+        public EMIHeader GetEMIHeader(EMIConfigViewModel eMIConfig, DateTime startDate)
         {
             //EMI calculation
             var r = eMIConfig.MonthlyRateOfInterest / 100;//Monthly RateOfInterest
@@ -110,14 +137,13 @@ namespace BudgetManager.BusinessComponents
             var emi = (int)((p * r * rPlus1PowN) / (rPlus1PowN - 1));
             //EMI calculation
 
-            var group = _context.Group.Where(x => x.GroupId == eMIConfig.GroupId).First();
-            var startDate = GetDueDate(group.InstallmentDayOfMonth);
+            var group = _context.Groups.Where(x => x.GroupId == eMIConfig.GroupId).First();
 
             double DelayFine;
             int DelayFineType;
             int DelayFinePeriod;
 
-            if (eMIConfig.EMIType == (int)EMIType.GroupInstallment)
+            if (eMIConfig.EMIType == (int)EMIType.Budget)
             {
                 DelayFine = group.GroupInstallmentDelayFine;
                 DelayFineType = group.GroupInstallmentDelayFineType;
@@ -143,7 +169,7 @@ namespace BudgetManager.BusinessComponents
                 GroupId = eMIConfig.GroupId,
                 UserAccountId = eMIConfig.UserAccountId,
                 EMIType = eMIConfig.EMIType,
-                LoanStatus = (int)Enumeration.LoanStatus.Pending,
+                LoanStatus = (int)LoanStatus.Pending,
                 InstallmentDayOfMonth = group.InstallmentDayOfMonth,
                 DelayFine = DelayFine,
                 DelayFineType = DelayFineType,
@@ -210,7 +236,7 @@ namespace BudgetManager.BusinessComponents
         {
             var transactions = new List<Transaction>();
 
-            if (installment.EMIType == (int)EMIType.GroupInstallment)
+            if (installment.EMIType == (int)EMIType.Budget)
             {
                 var transaction1 = new Transaction
                 {
@@ -219,8 +245,8 @@ namespace BudgetManager.BusinessComponents
                     TransactionTypeId = (int)TransactionType.Debit,
                     TransactionAmount = installment.EMIAmount,
                     TransactionDate = DateTime.Now,
-                    ReferenceType = DebitRefType.GroupInstallment.ToString(),
-                    ReferenceTypeId = (int)DebitRefType.GroupInstallment
+                    ReferenceType = DebitRefType.BudgetInstallment.ToString(),
+                    ReferenceTypeId = (int)DebitRefType.BudgetInstallment
                 };
 
                 transactions.Add(transaction1);
@@ -234,14 +260,14 @@ namespace BudgetManager.BusinessComponents
                         TransactionTypeId = (int)TransactionType.Debit,
                         TransactionAmount = installment.Fine,
                         TransactionDate = DateTime.Now,
-                        ReferenceType = DebitRefType.GroupInstallmentFine.ToString(),
-                        ReferenceTypeId = (int)DebitRefType.GroupInstallmentFine
+                        ReferenceType = DebitRefType.BudgetInstallmentFine.ToString(),
+                        ReferenceTypeId = (int)DebitRefType.BudgetInstallmentFine
                     };
 
                     transactions.Add(transaction2);
                 }
             }
-            else if (installment.EMIType == (int)EMIType.LoanEMI)
+            else if (installment.EMIType == (int)EMIType.Loan)
             {
                 var transaction1 = new Transaction
                 {
@@ -336,31 +362,32 @@ namespace BudgetManager.BusinessComponents
             {
                 dbTransaction.Rollback();
                 //TODO log the error
-                throw ex;
+                throw;
             }
         }
 
-        public DateTime GetDueDate(int dayOfMonth)
+        public DateTime GetDueDate(int cycleDayOfMonth)//21
         {
             DateTime dueDate;
             
             var firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            var dateOfMonth = firstDayOfMonth.AddDays(dayOfMonth - 1).Date;
+            var cycleDateOfMonth = firstDayOfMonth.AddDays(cycleDayOfMonth - 1).Date;
 
-            if (DateTime.Now.Month < dateOfMonth.Month)//dayOfMonth has went to next month. case (dayOfMonth is 31 and the month is of 30 days)
+            if (DateTime.Now.Month < cycleDateOfMonth.Month)//cycleDateOfMonth has went to next month. case (cycleDateOfMonth is 31 and the month is of 30 days)
             {
+                //return the last date of the month as Due date
                 var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
                 dueDate = lastDayOfMonth.Date;
             }
             else
             {
-                if (DateTime.Now.Date <= dateOfMonth.Date)// date of the month has not passed
+                if (DateTime.Now.Date <= cycleDateOfMonth.Date)// date of the month has not passed
                 {
-                    dueDate = dateOfMonth.Date;
+                    dueDate = cycleDateOfMonth.Date;
                 }
                 else//present date has passed the dayOfMonth. hance taking next months date
                 {
-                    dueDate = dateOfMonth.AddMonths(1).Date;
+                    dueDate = cycleDateOfMonth.AddMonths(1).Date;
                 }
             }
             return dueDate.Date;
@@ -380,9 +407,6 @@ namespace BudgetManager.BusinessComponents
             }
             else if (delayFineTerm == (int)DelayFineTerm.PerMonth)
             {
-                //fineMultiplierFloor = (int)(DateTime.Now.Date.Subtract(dueDate.Date).Days / (365.2425 / 12));
-                //var v1 = ((DateTime.Now.Date.Year - dueDate.Year) * 12) + DateTime.Now.Date.Month - dueDate.Month;
-
                 for(DateTime dateTemp = dueDate.Date; DateTime.Now.Date > dateTemp.Date; dateTemp = dateTemp.AddMonths(1))
                 {
                     fineMultiplierFloor++;
@@ -428,7 +452,7 @@ namespace BudgetManager.BusinessComponents
 
         private async Task UpdateUserAccountAmountOnLonaIfDiscrepancyAsync(int userAccountId)
         {
-            var userAccount = _context.UserAccount.Where(x => x.UserAccountId == userAccountId).First();
+            var userAccount = _context.UserAccounts.Where(x => x.UserAccountId == userAccountId).First();
             
             var transactions = new List<Transaction>();
 

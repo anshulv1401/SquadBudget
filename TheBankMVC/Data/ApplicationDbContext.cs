@@ -10,10 +10,9 @@ namespace BudgetManager.Data
     {
         public DbSet<EMIHeader> EMIHeaders { get; set; }
         public DbSet<Installment> Installments { get; set; }
-        public DbSet<Group> Group { get; set; }
-        public DbSet<Enumeration> Enumerations { get; set; }
+        public DbSet<Group> Groups { get; set; }
         public DbSet<GroupUserMapping> GroupUserMappings { get; set; }
-        public DbSet<UserAccount> UserAccount { get; set; }
+        public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         private readonly IHttpContextAccessor _httpContextAccessor;
 

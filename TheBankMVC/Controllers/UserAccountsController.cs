@@ -21,7 +21,7 @@ namespace BudgetManager.Controllers
         // GET: UserAccounts
         public async Task<IActionResult> Index()
         {
-            var userAccounts = await _context.UserAccount.ToListAsync();
+            var userAccounts = await _context.UserAccounts.ToListAsync();
             var userAccountViewModels = new List<UserAccountViewModel>();
             foreach (var userAccount in userAccounts)
             {
@@ -29,7 +29,7 @@ namespace BudgetManager.Controllers
                 {
                     GroupId = userAccount.GroupId,
                     PhoneNo = userAccount.PhoneNo,
-                    Groups = _context.Group.Where(m => m.GroupId == userAccount.GroupId).ToList(),
+                    Groups = _context.Groups.Where(m => m.GroupId == userAccount.GroupId).ToList(),
                     UserAccountId = userAccount.UserAccountId,
                     UserAccountName = userAccount.UserAccountName,
                     Email = userAccount.Email,
@@ -52,7 +52,7 @@ namespace BudgetManager.Controllers
                 return NotFound();
             }
 
-            var userAccount = await _context.UserAccount
+            var userAccount = await _context.UserAccounts
                 .FirstOrDefaultAsync(m => m.UserAccountId == id);
             if (userAccount == null)
             {
@@ -65,7 +65,7 @@ namespace BudgetManager.Controllers
         // GET: UserAccounts/Create
         public IActionResult Create()
         {
-            var groups = _context.Group.ToList();
+            var groups = _context.Groups.ToList();
             var userAccountViewModel = new UserAccountViewModel()
             {
                 Groups = groups
@@ -98,7 +98,7 @@ namespace BudgetManager.Controllers
                 return NotFound();
             }
 
-            var userAccount = await _context.UserAccount.FindAsync(id);
+            var userAccount = await _context.UserAccounts.FindAsync(id);
             if (userAccount == null)
             {
                 return NotFound();
@@ -108,7 +108,7 @@ namespace BudgetManager.Controllers
             {
                 GroupId = userAccount.GroupId,
                 PhoneNo = userAccount.PhoneNo,
-                Groups = _context.Group.Where(m => m.GroupId == userAccount.GroupId).ToList(),
+                Groups = _context.Groups.Where(m => m.GroupId == userAccount.GroupId).ToList(),
                 UserAccountId = userAccount.UserAccountId,
                 UserAccountName = userAccount.UserAccountName,
                 Email = userAccount.Email,
@@ -138,7 +138,7 @@ namespace BudgetManager.Controllers
             {
                 try
                 {
-                    var userAccount = _context.UserAccount.Where(x => x.UserAccountId == userAccountViewModel.UserAccountId).FirstOrDefault();
+                    var userAccount = _context.UserAccounts.Where(x => x.UserAccountId == userAccountViewModel.UserAccountId).FirstOrDefault();
 
                     userAccount.PhoneNo = userAccountViewModel.PhoneNo;
                     userAccount.Email = userAccountViewModel.Email;
@@ -171,7 +171,7 @@ namespace BudgetManager.Controllers
                 return NotFound();
             }
 
-            var userAccount = await _context.UserAccount
+            var userAccount = await _context.UserAccounts
                 .FirstOrDefaultAsync(m => m.UserAccountId == id);
             if (userAccount == null)
             {
@@ -186,15 +186,15 @@ namespace BudgetManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userAccount = await _context.UserAccount.FindAsync(id);
-            _context.UserAccount.Remove(userAccount);
+            var userAccount = await _context.UserAccounts.FindAsync(id);
+            _context.UserAccounts.Remove(userAccount);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserAccountExists(int id)
         {
-            return _context.UserAccount.Any(e => e.UserAccountId == id);
+            return _context.UserAccounts.Any(e => e.UserAccountId == id);
         }
     }
 }

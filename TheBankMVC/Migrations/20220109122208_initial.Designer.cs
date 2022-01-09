@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220108212105_initial")]
+    [Migration("20220109122208_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,40 +97,6 @@ namespace BudgetManager.Migrations
                     b.ToTable("EMIHeaders");
                 });
 
-            modelBuilder.Entity("BudgetManager.Models.Enumeration", b =>
-                {
-                    b.Property<int>("EnumerationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnumerationId"), 1L, 1);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EnumerationName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EnumerationType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EnumerationValue")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("EnumerationId");
-
-                    b.ToTable("Enumerations");
-                });
-
             modelBuilder.Entity("BudgetManager.Models.Group", b =>
                 {
                     b.Property<int>("GroupId")
@@ -192,7 +158,7 @@ namespace BudgetManager.Migrations
 
                     b.HasKey("GroupId");
 
-                    b.ToTable("Group");
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("BudgetManager.Models.GroupUserMapping", b =>
@@ -394,7 +360,7 @@ namespace BudgetManager.Migrations
 
                     b.HasKey("UserAccountId");
 
-                    b.ToTable("UserAccount");
+                    b.ToTable("UserAccounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -1,18 +1,7 @@
-﻿using System;
-
-namespace BudgetManager.Models
+﻿namespace BudgetManager.Enumerations
 {
     public class Enumeration
     {
-        public int EnumerationId { get; set; }
-        public string EnumerationType { get; set; }
-        public string EnumerationName { get; set; }
-        public int EnumerationValue { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime ModifiedDate { get; set; }
-        public string ModifiedBy { get; set; }
-
         public enum TransactionType
         {
             Credit = 1,
@@ -22,7 +11,7 @@ namespace BudgetManager.Models
         public enum CreditRefType
         {
             IndividualLoan = 1,
-            GroupWithdrawal = 2,
+            Withdrawal = 2,
             Difference = 3
         }
 
@@ -30,9 +19,9 @@ namespace BudgetManager.Models
         {
             LoanPrinciple = 1,
             LoanInterest = 2,
-            GroupInstallment = 3,
+            BudgetInstallment = 3,
             LoanEMIFine = 4,
-            GroupInstallmentFine = 5,
+            BudgetInstallmentFine = 5,
             Difference = 6
         }
 
@@ -76,8 +65,8 @@ namespace BudgetManager.Models
 
         public enum EMIType
         {
-            GroupInstallment = 1,
-            LoanEMI = 2
+            Budget = 1,
+            Loan = 2
         }
     }
 }

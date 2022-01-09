@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using BudgetManager.Models;
 
@@ -19,7 +20,11 @@ namespace BudgetManager.ViewModels
         [Required]
         public int LockInPeriod { get; set; }
         public int EMIType { get; set; }
+
+        [DisplayName("Squad")]
         public IEnumerable<Group> Groups { get; set; }
+
+        [DisplayName("Member")]
         public IEnumerable<UserAccount> UserAccounts { get; set; }
     }
 }

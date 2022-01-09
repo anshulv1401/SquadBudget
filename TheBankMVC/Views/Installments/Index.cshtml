@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<BudgetManager.ViewModels.InstallmentViewModel>
 
 @{
-    ViewData["Title"] = "Installments";
+    ViewData["Title"] = "Upcoming EMIs";
 }
 
-<p>@Html.ActionLink("Refresh Installments", "RefreshInstallments", "Installments", null, new { @class = "btn btn-primary" })</p>
+<h1>@ViewData["Title"]</h1>
+
 @if (ViewBag.Message != null)
 {
     <script type="text/javascript">
@@ -20,29 +21,29 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("Status")
+                @Html.DisplayNameFor(model => model.InstallmentStatus)
             </th>
             <th>
-                Inst.Type
+                @Html.DisplayNameFor(model => model.EMIType)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.GroupName)
             </th>
             <th>
-                @Html.DisplayName("UserName")
+                @Html.DisplayNameFor(model => model.UserAccountName)
             </th>
             <th>
-                Inst.No
+                @Html.DisplayNameFor(model => model.InstallmentNo)
             </th>
             <th>
-                Inst.DueDate
+                @Html.DisplayNameFor(model => model.DueDate)
             </th>
             <th>
-                @Html.DisplayName("Principal")
+                @Html.DisplayNameFor(model => model.PrincipalAmount)
             </th>
             <th>
-                Int.Amt
-            </th>
+                @Html.DisplayNameFor(model => model.InterestAmount)
+                </th>
             <th>
                 @Html.DisplayNameFor(model => model.EMIAmount)
             </th>
@@ -99,7 +100,7 @@
                     @((item.EMIAmount + item.Fine + item.Difference).ToString("0.00"))
                 </td>
                 <td>
-                    <a asp-action="Paid" asp-route-id="@item.Id">Paid</a>
+                    <a asp-action="Paid" asp-route-id="@item.Id">Pay</a>
                 </td>
             </tr>
         }

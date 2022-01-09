@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace BudgetManager.ViewModels
 {
@@ -18,7 +19,11 @@ namespace BudgetManager.ViewModels
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int InterestTermId { get; set; }
+
+        [DisplayName("SquadName")]
         public string GroupName { get; set; }
+
+        [DisplayName("MemberName")]
         public string UserAccountName { get; set; }
     }
 }

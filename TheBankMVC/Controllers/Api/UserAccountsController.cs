@@ -26,11 +26,11 @@ namespace BudgetManager.Controllers.Api
         {
             if (!String.IsNullOrWhiteSpace(query) && int.TryParse(query, out int groupId))
             {
-                return await _context.UserAccount.Where(c => c.GroupId == groupId).ToListAsync();
+                return await _context.UserAccounts.Where(c => c.GroupId == groupId).ToListAsync();
             }
             else
             {
-                return await _context.UserAccount.ToListAsync();
+                return await _context.UserAccounts.ToListAsync();
             }
         }
 
@@ -38,7 +38,7 @@ namespace BudgetManager.Controllers.Api
         [HttpGet("{id}")]
         public async Task<ActionResult<UserAccount>> GetUserAccount(int id)
         {
-            var userAccount = await _context.UserAccount.FindAsync(id);
+            var userAccount = await _context.UserAccounts.FindAsync(id);
 
             if (userAccount == null)
             {
@@ -86,7 +86,7 @@ namespace BudgetManager.Controllers.Api
         [HttpPost]
         public async Task<ActionResult<UserAccount>> PostUserAccount(UserAccount userAccount)
         {
-            _context.UserAccount.Add(userAccount);
+            _context.UserAccounts.Add(userAccount);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUserAccount", new { id = userAccount.UserAccountId }, userAccount);
@@ -96,13 +96,13 @@ namespace BudgetManager.Controllers.Api
         [HttpDelete("{id}")]
         public async Task<ActionResult<UserAccount>> DeleteUserAccount(int id)
         {
-            var userAccount = await _context.UserAccount.FindAsync(id);
+            var userAccount = await _context.UserAccounts.FindAsync(id);
             if (userAccount == null)
             {
                 return NotFound();
             }
 
-            _context.UserAccount.Remove(userAccount);
+            _context.UserAccounts.Remove(userAccount);
             await _context.SaveChangesAsync();
 
             return userAccount;
@@ -110,7 +110,7 @@ namespace BudgetManager.Controllers.Api
 
         private bool UserAccountExists(int id)
         {
-            return _context.UserAccount.Any(e => e.UserAccountId == id);
+            return _context.UserAccounts.Any(e => e.UserAccountId == id);
         }
     }
 }

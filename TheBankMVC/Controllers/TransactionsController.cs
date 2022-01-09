@@ -39,8 +39,8 @@ namespace BudgetManager.Controllers
                     ReferenceType = transaction.ReferenceType,
                     ReferenceTypeId = transaction.ReferenceTypeId,
                     TransactionRemark = transaction.TransactionRemark,
-                    Groups = _context.Group.Where(m => m.GroupId == transaction.GroupId).ToList(),
-                    UserAccounts = _context.UserAccount.Where(m => m.UserAccountId == transaction.UserAccountId).ToList()
+                    Groups = _context.Groups.Where(m => m.GroupId == transaction.GroupId).ToList(),
+                    UserAccounts = _context.UserAccounts.Where(m => m.UserAccountId == transaction.UserAccountId).ToList()
                 });
             }
 
@@ -74,8 +74,8 @@ namespace BudgetManager.Controllers
                 ReferenceType = transaction.ReferenceType,
                 ReferenceTypeId = transaction.ReferenceTypeId,
                 TransactionRemark = transaction.TransactionRemark,
-                Groups = _context.Group.Where(m => m.GroupId == transaction.GroupId).ToList(),
-                UserAccounts = _context.UserAccount.Where(m => m.UserAccountId == transaction.UserAccountId).ToList()
+                Groups = _context.Groups.Where(m => m.GroupId == transaction.GroupId).ToList(),
+                UserAccounts = _context.UserAccounts.Where(m => m.UserAccountId == transaction.UserAccountId).ToList()
             };
 
             return View(transactionsViewModel);
@@ -85,7 +85,7 @@ namespace BudgetManager.Controllers
         public IActionResult Create()
         {
             var transactionsViewModel = new TransactionsViewModel();
-            transactionsViewModel.Groups = _context.Group.ToList();
+            transactionsViewModel.Groups = _context.Groups.ToList();
             transactionsViewModel.UserAccounts = new List<UserAccount>();
             return View(transactionsViewModel);
         }

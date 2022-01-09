@@ -23,14 +23,14 @@ namespace BudgetManager.Controllers.Api
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroup()
         {
-            return await _context.Group.ToListAsync();
+            return await _context.Groups.ToListAsync();
         }
 
         // GET: api/Groups/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Group>> GetGroup(int id)
         {
-            var group = await _context.Group.FindAsync(id);
+            var group = await _context.Groups.FindAsync(id);
 
             if (group == null)
             {
@@ -78,7 +78,7 @@ namespace BudgetManager.Controllers.Api
         [HttpPost]
         public async Task<ActionResult<Group>> PostGroup(Group group)
         {
-            _context.Group.Add(group);
+            _context.Groups.Add(group);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetGroup", new { id = group.GroupId }, group);
@@ -88,13 +88,13 @@ namespace BudgetManager.Controllers.Api
         [HttpDelete("{id}")]
         public async Task<ActionResult<Group>> DeleteGroup(int id)
         {
-            var group = await _context.Group.FindAsync(id);
+            var group = await _context.Groups.FindAsync(id);
             if (group == null)
             {
                 return NotFound();
             }
 
-            _context.Group.Remove(group);
+            _context.Groups.Remove(group);
             await _context.SaveChangesAsync();
 
             return group;
@@ -102,7 +102,7 @@ namespace BudgetManager.Controllers.Api
 
         private bool GroupExists(int id)
         {
-            return _context.Group.Any(e => e.GroupId == id);
+            return _context.Groups.Any(e => e.GroupId == id);
         }
     }
 }

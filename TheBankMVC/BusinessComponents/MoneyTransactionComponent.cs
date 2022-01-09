@@ -1,4 +1,5 @@
 ﻿using BudgetManager.Data;
+using BudgetManager.Enumerations;
 using BudgetManager.Models;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace BudgetManager.BusinessComponents
 
         private async Task CreditTransaction(Transaction transaction, ApplicationDbContext _context)
         {
-            var userAccount = await _context.UserAccount.FindAsync(transaction.UserAccountId);
+            var userAccount = await _context.UserAccounts.FindAsync(transaction.UserAccountId);
 
             switch((Enumeration.CreditRefType)transaction.ReferenceTypeId)
             {
@@ -57,7 +58,7 @@ namespace BudgetManager.BusinessComponents
                         userAccount.AmountOnLoan = transaction.TransactionAmount;
                     }
                     break;
-                case Enumeration.CreditRefType.GroupWithdrawal:
+                case Enumeration.CreditRefType.Withdrawal:
                     throw new NotImplementedException("Credit transaction GroupWithdrawal pending");
                 case Enumeration.CreditRefType.Difference:
                     userAccount.AmountOnLoan = 0;
@@ -71,7 +72,7 @@ namespace BudgetManager.BusinessComponents
 
         private async Task DebitTransaction(Transaction transaction, ApplicationDbContext _context)
         {
-            var userAccount = await _context.UserAccount.FindAsync(transaction.UserAccountId);
+            var userAccount = await _context.UserAccounts.FindAsync(transaction.UserAccountId);
 
             switch ((Enumeration.DebitRefType)transaction.ReferenceTypeId)
             {
@@ -81,11 +82,11 @@ namespace BudgetManager.BusinessComponents
                 case Enumeration.DebitRefType.LoanInterest:
                     userAccount.InterestSubmitted += transaction.TransactionAmount;
                     break;
-                case Enumeration.DebitRefType.GroupInstallment:
+                case Enumeration.DebitRefType.BudgetInstallment:
                     userAccount.ShareSubmitted += transaction.TransactionAmount;
                     break;
                 case Enumeration.DebitRefType.LoanEMIFine:
-                case Enumeration.DebitRefType.GroupInstallmentFine:
+                case Enumeration.DebitRefType.BudgetInstallmentFine:
                     userAccount.FineSubmitted += transaction.TransactionAmount;
                     break;
                 case Enumeration.DebitRefType.Difference:
