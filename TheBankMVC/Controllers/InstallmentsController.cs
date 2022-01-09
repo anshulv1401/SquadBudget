@@ -34,12 +34,12 @@ namespace BudgetManager.Controllers
                 var dueDate = InstallmentComponent.GetDueDate(group.InstallmentDayOfMonth);
 
                 var installments = await _context.Installments.
-                    Where(x => 
-                        //x.DueDate.Date <= dueDate.Date &&
+                    Where(x =>
+                        x.DueDate.Date <= dueDate.Date &&
                         x.InstallmentStatus != (int)Enumeration.InstallmentStatus.Paid &&
                         x.GroupId == group.GroupId).OrderBy(x => x.DueDate).ToListAsync();
 
-                foreach(var installment in installments)
+                foreach (var installment in installments)
                 {
                     var installmentViewModel = new InstallmentViewModel
                     {

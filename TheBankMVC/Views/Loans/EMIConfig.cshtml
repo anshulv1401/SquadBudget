@@ -1,11 +1,11 @@
 ﻿@model BudgetManager.ViewModels.EMIConfigViewModel
 @{
-    ViewData["Title"] = "EMIConfig";
+    ViewData["Title"] = "LoanConfig";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-@using (Html.BeginForm("EMIDetails", "EMI"))
+@using (Html.BeginForm("EMIDetails", "Loans"))
 {
     <div class="form-group">
         <label asp-for="Groups" class="control-label"></label>
@@ -32,13 +32,6 @@
         @Html.TextBoxFor(m => m.NoOfInstallment, new { @class = "form-control", id = "NoOfInstallment" })
         @Html.ValidationMessageFor(m => m.NoOfInstallment)
     </div>
-    @*
-        <div class="form-group ">
-            @Html.LabelFor(m => m.LockInPeriod)
-            @Html.TextBoxFor(m => m.LockInPeriod, "{0:d MMM yyyy}", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.LockInPeriod)
-        </div>
-    *@
     <button type="submit" class="btn btn-primary">Submit</button>
 }
 

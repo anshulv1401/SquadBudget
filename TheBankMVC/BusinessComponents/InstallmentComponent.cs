@@ -33,15 +33,14 @@ namespace BudgetManager.BusinessComponents
 
                 foreach (var userAccount in userAccounts)
                 {
-
-                    //Generating EMIs for the missed months
                     var lastEMIHeader = _context.EMIHeaders.Where(x =>
                     x.GroupId == userAccount.GroupId &&
                     x.UserAccountId == userAccount.UserAccountId &&
                     x.EMIType == ((int)EMIType.Budget)
                     ).OrderBy(x => x.StartTime).LastOrDefault();
 
-                    if (lastEMIHeader != null)
+
+                    if (lastEMIHeader != null)//Generating EMIs for the missed months
                     {
                         var lastEMIStartDate = lastEMIHeader.StartTime;
 
@@ -57,8 +56,14 @@ namespace BudgetManager.BusinessComponents
                             dateDiff = dueDate - lastEMIStartDate;
                         }
                     }
+                    else//Generating EMIs for current month. This happens only for the first time.
+                    {
+                        var previousMonthDueDate = dueDate.AddMonths(-1);
+                        GenerateGroupInstallments(group.GroupId, userAccount.UserAccountId, group.GroupInstallmentAmount, previousMonthDueDate);
+                        installmentChanged = true;
+                    }
 
-                    //Generating for current month
+                    //Generating for the Next month
                     var eMIHeadersForCurrentMonth = _context.EMIHeaders.Where(x =>
                     x.GroupId == userAccount.GroupId &&
                     x.UserAccountId == userAccount.UserAccountId &&
@@ -109,7 +114,7 @@ namespace BudgetManager.BusinessComponents
         }
 
         public void GenerateGroupInstallments(int groupId, int userAccountId, double installmentAmt, DateTime startDate)
-        {   
+        {
             EMIConfigViewModel eMIConfig = new EMIConfigViewModel()
             {
                 GroupId = groupId,
@@ -333,7 +338,7 @@ namespace BudgetManager.BusinessComponents
             }
 
             await MoneyTransactionComponent.CreateMoneyTransactions(transactions);
-            
+
             installment.InstallmentStatus = (int)InstallmentStatus.Paid;
             _context.SaveChanges();
 
@@ -369,7 +374,7 @@ namespace BudgetManager.BusinessComponents
         public DateTime GetDueDate(int cycleDayOfMonth)//21
         {
             DateTime dueDate;
-            
+
             var firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             var cycleDateOfMonth = firstDayOfMonth.AddDays(cycleDayOfMonth - 1).Date;
 
@@ -407,7 +412,7 @@ namespace BudgetManager.BusinessComponents
             }
             else if (delayFineTerm == (int)DelayFineTerm.PerMonth)
             {
-                for(DateTime dateTemp = dueDate.Date; DateTime.Now.Date > dateTemp.Date; dateTemp = dateTemp.AddMonths(1))
+                for (DateTime dateTemp = dueDate.Date; DateTime.Now.Date > dateTemp.Date; dateTemp = dateTemp.AddMonths(1))
                 {
                     fineMultiplierFloor++;
                 }
@@ -453,7 +458,7 @@ namespace BudgetManager.BusinessComponents
         private async Task UpdateUserAccountAmountOnLonaIfDiscrepancyAsync(int userAccountId)
         {
             var userAccount = _context.UserAccounts.Where(x => x.UserAccountId == userAccountId).First();
-            
+
             var transactions = new List<Transaction>();
 
             if (userAccount.AmountOnLoan < 0 && userAccount.AmountOnLoan > -1)
@@ -472,7 +477,7 @@ namespace BudgetManager.BusinessComponents
                 await MoneyTransactionComponent.CreateMoneyTransaction(transaction);
                 _context.SaveChanges();
             }
-            else if(userAccount.AmountOnLoan > 0 && userAccount.AmountOnLoan < 1)
+            else if (userAccount.AmountOnLoan > 0 && userAccount.AmountOnLoan < 1)
             {
                 var transaction = new Transaction
                 {
@@ -488,7 +493,7 @@ namespace BudgetManager.BusinessComponents
                 await MoneyTransactionComponent.CreateMoneyTransaction(transaction);
                 _context.SaveChanges();
             }
-            else if(userAccount.AmountOnLoan < -1)
+            else if (userAccount.AmountOnLoan < -1)
             {
                 throw new NotImplementedException("AmountOnLoan less then -1, Error msg to be implemented");
             }

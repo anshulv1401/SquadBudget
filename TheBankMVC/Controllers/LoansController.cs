@@ -11,13 +11,13 @@ using static BudgetManager.Enumerations.Enumeration;
 
 namespace BudgetManager.Controllers
 {
-    public class EMIController : Controller
+    public class LoansController : Controller
     {
 
         private readonly ApplicationDbContext _context;
         private readonly InstallmentComponent installmentComponent;
 
-        public EMIController(ApplicationDbContext context)
+        public LoansController(ApplicationDbContext context)
         {
             _context = context;
             installmentComponent = new InstallmentComponent(_context);
@@ -25,7 +25,7 @@ namespace BudgetManager.Controllers
 
         public ActionResult Index()
         {
-            var eMIHeaderList = _context.EMIHeaders.ToList();
+            var eMIHeaderList = _context.EMIHeaders.Where(x => x.EMIType == (int)EMIType.Loan).ToList();
 
             var eMIHeaderViewModelList = new List<EMIHeaderViewModel>();
             foreach(var eMIHeader in eMIHeaderList)
@@ -111,8 +111,9 @@ namespace BudgetManager.Controllers
             }
             eMIConfig.EMIType = (int)EMIType.Loan;
             EMIDetailsViewModel eMIDetailsViewModel = new EMIDetailsViewModel();
-            var startDate = installmentComponent.GetDueDate(group.InstallmentDayOfMonth);
 
+            //var startDate = installmentComponent.GetDueDate(group.InstallmentDayOfMonth);
+            var startDate = DateTime.Now.Date;
             eMIDetailsViewModel.EMIHeader = installmentComponent.GetEMIHeader(eMIConfig, startDate);
             eMIDetailsViewModel.Installments = installmentComponent.GetInstallments(eMIDetailsViewModel.EMIHeader);
 

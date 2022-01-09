@@ -38,6 +38,9 @@ namespace BudgetManager.BusinessComponents
                     throw new NotImplementedException("TransactionType case missing");
             }
 
+            transaction.CreatedDate = DateTime.Now;
+            transaction.TransactionDate = DateTime.Now;
+
             _context.Add(transaction);
             await _context.SaveChangesAsync();
         }
@@ -49,9 +52,9 @@ namespace BudgetManager.BusinessComponents
             switch((Enumeration.CreditRefType)transaction.ReferenceTypeId)
             {
                 case Enumeration.CreditRefType.IndividualLoan:
-                    if (userAccount.AmountOnLoan != 0)
+                    if (userAccount.AmountOnLoan > 0)
                     {
-                        throw new NotImplementedException("Loan pending. Validation msg to be implemented");
+                        throw new NotImplementedException("Active Loan Pending. Validation msg to be implemented");
                     }
                     else
                     {
@@ -77,7 +80,14 @@ namespace BudgetManager.BusinessComponents
             switch ((Enumeration.DebitRefType)transaction.ReferenceTypeId)
             {
                 case Enumeration.DebitRefType.LoanPrinciple:
-                    userAccount.AmountOnLoan -= transaction.TransactionAmount;
+                    if (userAccount.AmountOnLoan <= 0)
+                    {
+                        throw new NotImplementedException("Zero amt on Loan. Validation msg to be implemented");
+                    }
+                    else
+                    {
+                        userAccount.AmountOnLoan -= transaction.TransactionAmount;
+                    }
                     break;
                 case Enumeration.DebitRefType.LoanInterest:
                     userAccount.InterestSubmitted += transaction.TransactionAmount;

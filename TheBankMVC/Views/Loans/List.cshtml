@@ -1,12 +1,12 @@
 ﻿@using BudgetManager.Models
 @model IEnumerable<BudgetManager.ViewModels.EMIHeaderViewModel>
 @{
-    ViewData["Title"] = "EMIs";
+    ViewData["Title"] = "Loans";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<p>@Html.ActionLink("New Loan", "New", "EMI", null, new { @class = "btn btn-primary btn-sm" })</p>
+<p>@Html.ActionLink("New Loan", "New", new Object(), new { @class = "btn btn-primary btn-sm" })</p>
 
 <table id="EMIList" class="table table-­bordered table-­hover”>">
     <thead>
@@ -26,7 +26,7 @@
         {
         <tr class="table-secondary">
             <td>@eMI.GroupName</td>
-            <td>@Html.ActionLink(eMI.UserAccountName, "View", "EMI", new { Id = eMI.EMIHeaderId }, new { @class = "btn-link" })</td>
+            <td>@Html.ActionLink(eMI.UserAccountName, "View", new { Id = eMI.EMIHeaderId }, new { @class = "btn-link" })</td>
             <td>@((Enumeration.EMIType)eMI.EMIType)</td>
             <td>@eMI.EMIAmount</td>
             <td>@eMI.LoanAmount</td>
