@@ -1,19 +1,17 @@
 ﻿@model BudgetManager.Models.Group
 
 @{
-    ViewData["Title"] = "Create";
+    if (Model == null || Model.GroupId == 0)
+    {
+        ViewData["Title"] = "New Squad";
+    }
+    else
+    {
+        ViewData["Title"] = "Edit Squad";
+    }
 }
+<h2>@ViewData["Title"]</h2>
 
-@if (Model == null || Model.GroupId == 0)
-{
-    <h2>New Group</h2>
-}
-else
-{
-    <h2>Edit Group</h2>
-}
-
-<h4>Group</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -108,5 +106,7 @@ else
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

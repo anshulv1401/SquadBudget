@@ -1,14 +1,13 @@
 ﻿@using BudgetManager.Models
 @model IEnumerable<BudgetManager.ViewModels.EMIHeaderViewModel>
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "EMIs";
 }
 
-<h1>Get Loan</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>@Html.ActionLink("EMIConfig", "New", "EMI", null, new { @class = "btn btn-primary" })</p>
 
-<div><h3>EMI List</h3><br /></div>
 <table id="EMIList" class="table table-­bordered table-­hover”>">
     <thead>
         <tr>

@@ -1,14 +1,10 @@
 ﻿@model IEnumerable<BudgetManager.ViewModels.InstallmentViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Installments";
 }
 
 <p>@Html.ActionLink("Refresh Installments", "RefreshInstallments", "Installments", null, new { @class = "btn btn-primary" })</p>
-
-@*<input type="button" id="btnpopup" value="Open Modal Popup" onclick="ShowModelPopUp();" />
-    <input type="button" id="btnpopu" value="Open Modeless popup" onclick="ShowPopup();" />*@
-
 @if (ViewBag.Message != null)
 {
     <script type="text/javascript">
