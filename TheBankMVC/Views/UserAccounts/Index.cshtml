@@ -6,12 +6,11 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Add New Member</a>
-</p>
-<table class="table">
+<p>@Html.ActionLink("Create New", "Create", "UserAccounts", null, new { @class = "btn btn-primary btn-sm" })</p>
+
+<table class="table table-hover">
     <thead>
-        <tr>
+        <tr class="table-dark">
             <th>
                 @Html.DisplayNameFor(model => model.Groups.First().GroupName)
             </th>
@@ -44,12 +43,12 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class="table-secondary">
             <td>
                 @Html.DisplayFor(modelItem => item.Groups.Where(b => b.GroupId == item.GroupId).First().GroupName)
             </td>
             <td>
-                @Html.ActionLink(item.UserAccountName , "Edit", new { Id = item.UserAccountId })
+                @Html.ActionLink(item.UserAccountName , "Edit", new { Id = item.UserAccountId }, new { @class = "btn-link" })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)

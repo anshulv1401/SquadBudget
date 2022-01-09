@@ -37,7 +37,7 @@ namespace BudgetManager.Controllers
                     Where(x => 
                         //x.DueDate.Date <= dueDate.Date &&
                         x.InstallmentStatus != (int)Enumeration.InstallmentStatus.Paid &&
-                        x.GroupId == group.GroupId).ToListAsync();
+                        x.GroupId == group.GroupId).OrderBy(x => x.DueDate).ToListAsync();
 
                 foreach(var installment in installments)
                 {
@@ -64,7 +64,7 @@ namespace BudgetManager.Controllers
                     installmentViewModelList.Add(installmentViewModel);
                 }
             }
-            return View(installmentViewModelList.OrderBy(x => new { x.DueDate, x.UserAccountName }));
+            return View(installmentViewModelList);
         }
 
         // GET: Installments/Details/5

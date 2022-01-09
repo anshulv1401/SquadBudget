@@ -10,16 +10,16 @@
 {
     <script type="text/javascript">
 
-            window.onload = function () {
-                alert("@ViewBag.Message");
-            };
+        window.onload = function () {
+            alert("@ViewBag.Message");
+        };
     </script>
 
 }
 
-<table class="table">
+<table class="table table-hover">
     <thead>
-        <tr>
+        <tr class="table-dark">
             <th>
                 @Html.DisplayNameFor(model => model.InstallmentStatus)
             </th>
@@ -43,7 +43,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InterestAmount)
-                </th>
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.EMIAmount)
             </th>
@@ -62,9 +62,9 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="table-secondary">
                 <td>
-                    @Html.ActionLink(((Enumeration.InstallmentStatus)item.InstallmentStatus).ToString(), "Details", new { Id = item.Id })
+                    @Html.ActionLink(((Enumeration.InstallmentStatus)item.InstallmentStatus).ToString(), "Details", new { Id = item.Id }, new { @class = "btn-link" })
                 </td>
                 <td>
                     @((Enumeration.EMIType)item.EMIType)
@@ -100,7 +100,7 @@
                     @((item.EMIAmount + item.Fine + item.Difference).ToString("0.00"))
                 </td>
                 <td>
-                    <a asp-action="Paid" asp-route-id="@item.Id">Pay</a>
+                    @Html.ActionLink("Pay", "Paid", new { Id = item.Id }, new { @class = "btn-link" })
                 </td>
             </tr>
         }
@@ -110,19 +110,19 @@
 @section Scripts {
 
     @*<script type="text/javascript">
-            ShowModelPopUp = function () {
-                window.showModalDialog('/Installments/OpenModelPopup', "WindowPopup", 'width=400px,height=400px');
-            }
-            ShowPopup = function () {
-                window.open('/Installments/OpenPopup', "PopupWindow", 'width=400px,height=400px,top=150,left=250');
-            }
-        </script>*@
+    ShowModelPopUp = function () {
+    window.showModalDialog('/Installments/OpenModelPopup', "WindowPopup", 'width=400px,height=400px');
+    }
+    ShowPopup = function () {
+    window.open('/Installments/OpenPopup', "PopupWindow", 'width=400px,height=400px,top=150,left=250');
+    }
+    </script>*@
 
     @*<script type="text/javascript">
-            ShowValidationPopUp = function () {
-                window.onload = function () {
-                    alert("@ViewBag.Message");
-                };
-            }
-        </script>*@
+    ShowValidationPopUp = function () {
+    window.onload = function () {
+    alert("@ViewBag.Message");
+    };
+    }
+    </script>*@
 }

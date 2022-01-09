@@ -10,31 +10,31 @@
 {
     <table id="EMIConfig" class="table table-­bordered table-­hover”>">
         <tbody>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.GroupName)</td>
                 <td>@Model.GroupName</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.UserAccountName)</td>
                 <td>@Model.UserAccountName</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.InstallmentDayOfMonth)</td>
                 <td>@Model.EMIHeader.InstallmentDayOfMonth</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.LoanAmount)</td>
                 <td>@Model.EMIHeader.LoanAmount</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.MonthlyRateOfInterest)</td>
                 <td>@Model.EMIHeader.MonthlyRateOfInterest</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.NoOfInstallment)</td>
                 <td>@Model.EMIHeader.NoOfInstallment</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.LockInPeriod)</td>
                 <td>@Model.EMIHeader.LockInPeriod</td>
             </tr>
@@ -45,19 +45,19 @@
 
     <table id="EMIDetails" class="table table-­bordered table-­hover”>">
         <tbody>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.MonthlyRateOfInterest)</td>
                 <td>@Model.EMIHeader.MonthlyRateOfInterest.ToString("0.00000")</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.EMIAmount)</td>
                 <td>@Model.EMIHeader.EMIAmount.ToString("0.00")</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.StartTime)</td>
                 <td>@Model.EMIHeader.StartTime.ToString("dd MMM yyyy")</td>
             </tr>
-            <tr>
+            <tr class="table-secondary">
                 <td>@Html.DisplayNameFor(model => model.EMIHeader.EndTime)</td>
                 <td>@Model.EMIHeader.EndTime.ToString("dd MMM yyyy")</td>
             </tr>
@@ -68,7 +68,7 @@
 
     <table id="Installments" class="table table-­bordered table-­hover”>">
         <thead>
-            <tr>
+            <tr class="table-dark">
                 <th>@Html.DisplayNameFor(model => model.Installments.FirstOrDefault().InstallmentNo)</th>
                 <th>@Html.DisplayNameFor(model => model.Installments.FirstOrDefault().InstallmentStatus)</th>
                 <th>@Html.DisplayNameFor(model => model.Installments.FirstOrDefault().DueDate)</th>
@@ -84,7 +84,7 @@
         <tbody>
             @foreach (var installment in Model.Installments)
             {
-                <tr>
+                <tr class="table-secondary">
                     <td>@installment.InstallmentNo</td>
                     <td>@((Enumeration.InstallmentStatus)installment.InstallmentStatus)</td>
                     <td>@installment.DueDate.ToString("dd MMM yyyy")</td>

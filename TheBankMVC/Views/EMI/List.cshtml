@@ -6,11 +6,11 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>@Html.ActionLink("EMIConfig", "New", "EMI", null, new { @class = "btn btn-primary" })</p>
+<p>@Html.ActionLink("New Loan", "New", "EMI", null, new { @class = "btn btn-primary btn-sm" })</p>
 
 <table id="EMIList" class="table table-­bordered table-­hover”>">
     <thead>
-        <tr>
+        <tr class="table-dark">
             <th>@Html.DisplayNameFor(model => model.GroupName)</th>
             <th>@Html.DisplayNameFor(model => model.UserAccountName)</th>
             <th>@Html.DisplayNameFor(model => model.EMIType)</th>
@@ -24,9 +24,9 @@
     <tbody>
         @foreach (var eMI in Model)
         {
-        <tr>
+        <tr class="table-secondary">
             <td>@eMI.GroupName</td>
-            <td>@Html.ActionLink(eMI.UserAccountName, "View", "EMI", new { Id = eMI.EMIHeaderId })</td>
+            <td>@Html.ActionLink(eMI.UserAccountName, "View", "EMI", new { Id = eMI.EMIHeaderId }, new { @class = "btn-link" })</td>
             <td>@((Enumeration.EMIType)eMI.EMIType)</td>
             <td>@eMI.EMIAmount</td>
             <td>@eMI.LoanAmount</td>
