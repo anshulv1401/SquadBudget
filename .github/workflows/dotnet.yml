@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  working-directory: ${{ github.workspace }}\TheBankMVC
+  working-directory: ${{ github.workspace }}/TheBankMVC
   
 jobs:
   build:
