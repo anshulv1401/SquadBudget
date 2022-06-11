@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  working-directory: ${{ github.workspace }}/TheBankMVC
+  working-directory: ./TheBankMVC
   
 jobs:
   build:
@@ -22,5 +22,7 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore TheBankMVC.sln
+      working-directory: ${{env.working-directory}}
     - name: Build
       run: dotnet build TheBankMVC.sln --no-restore
+      working-directory: ${{env.working-directory}}
