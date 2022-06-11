@@ -4,7 +4,7 @@ name: .NET
 #   push:
 #     branches: [ "main" ]
 #   pull_request:
-#     branches: [ "main" ]
+#     branches: [ "main" ] 
 
 env:
   working-directory: ./TheBankMVC
