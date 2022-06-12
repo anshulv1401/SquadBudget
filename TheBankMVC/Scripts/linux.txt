@@ -4,7 +4,7 @@ Ref : https://www.cherryservers.com/blog/how-to-install-and-setup-postgresql-ser
 
 chmod 400 <pem file>
 
-ssh -i labsuser.pem ubuntu@107.20.85.160
+ssh -i labsuser.pem ubuntu@35.173.245.101
 
 sudo apt update
 sudo apt install openjdk-11-jre
@@ -69,3 +69,51 @@ dotnet ef migrations add yourMigrationName
 
 --update database
 dotnet ef database update
+
+dotnet build TheBankMVC.sln
+dotnet publish TheBankMVC.sln --self-contained --output ~/squad --no-build
+
+
+
+-- setup supervisord for hosting
+
+sudo yum install supervisor -y
+cd /etc/supervisor
+sudo vi /conf.d/squadwebapp.conf
+
+--populate the file
+[program:squadwebapp]
+command=dotnet BudgetManager.dll
+directory=/home/anshul/squad/
+environment=ASPNETCORE__ENVIRONMENT=Development
+user=root
+stopsignal=INT
+autostart=true
+autorestart=true
+startsecs=1
+stderr_logfile=/var/log/squadwebapp.err.log
+stdout_logfile=/var/log/squadwebapp.out.log
+
+
+:wq!
+
+sudo cp supervisord.conf supervisord.conf.bak
+sudo vi supervisord.conf
+
+--go to this line
+files = supervisord.d/*.ini
+
+--and update it
+files = supervisord.d/*.conf
+:wq!
+
+sudo systemctl start supervisor.service
+sudo systemctl enable supervisor.service
+
+sudo supervisorctl reread
+sudo supervisorctl update
+
+sudo supervisorctl status
+
+sudo apt install nuget -y
+
