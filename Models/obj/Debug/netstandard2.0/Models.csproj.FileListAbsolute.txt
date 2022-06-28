@@ -15,3 +15,4 @@ D:\Github\AnshulV1401\BankMVC\Models\obj\Debug\netstandard2.0\Models.AssemblyInf
 D:\Github\AnshulV1401\BankMVC\Models\obj\Debug\netstandard2.0\Models.csproj.CoreCompileInputs.cache
 D:\Github\AnshulV1401\BankMVC\Models\obj\Debug\netstandard2.0\Models.dll
 D:\Github\AnshulV1401\BankMVC\Models\obj\Debug\netstandard2.0\Models.pdb
+D:\Github\AnshulV1401\BankMVC\Models\obj\Debug\netstandard2.0\Models.csproj.AssemblyReference.cache
