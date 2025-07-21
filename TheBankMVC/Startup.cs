@@ -1,8 +1,10 @@
 using BudgetManager.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,16 +32,16 @@ namespace BudgetManager
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            //var policy = new AuthorizationPolicyBuilder()
-            //.RequireAuthenticatedUser()
-            //.Build();
+            var policy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
 
             services.AddMvc();
 
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(new AuthorizeFilter(policy));
-            //});
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
