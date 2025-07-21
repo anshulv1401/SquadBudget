@@ -3,6 +3,7 @@ using System;
 using BudgetManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -19,11 +20,15 @@ namespace BudgetManager.Migrations
                 .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
             modelBuilder.Entity("BudgetManager.Models.EMIHeader", b =>
                 {
                     b.Property<int>("EMIHeaderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("EMIHeaderId"));
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
@@ -96,6 +101,8 @@ namespace BudgetManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GroupId"));
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
 
@@ -158,6 +165,8 @@ namespace BudgetManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GroupUserMappingId"));
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
 
@@ -186,6 +195,8 @@ namespace BudgetManager.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double>("Closing")
                         .HasColumnType("double");
@@ -255,6 +266,8 @@ namespace BudgetManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("TransactionId"));
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
 
@@ -301,6 +314,8 @@ namespace BudgetManager.Migrations
                     b.Property<int>("UserAccountId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserAccountId"));
 
                     b.Property<double>("AmountOnLoan")
                         .HasColumnType("double");
@@ -378,6 +393,8 @@ namespace BudgetManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("ClaimType")
                         .HasColumnType("longtext");
 
@@ -418,7 +435,7 @@ namespace BudgetManager.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -464,6 +481,8 @@ namespace BudgetManager.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("longtext");

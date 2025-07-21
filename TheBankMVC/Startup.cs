@@ -25,8 +25,8 @@ namespace BudgetManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySQL(
-                    Configuration.GetConnectionString("SquadBudget_AnshulVanawat")));
+            options.UseMySql(Configuration.GetConnectionString("SquadBudget_AnshulVanawat"),
+                     ServerVersion.AutoDetect(Configuration.GetConnectionString("SquadBudget_AnshulVanawat"))));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
