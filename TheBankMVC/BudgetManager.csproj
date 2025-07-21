@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <UserSecretsId>aspnet-BudgetManager-DB928C2B-F4CE-46D6-AC46-EDF9D0625377</UserSecretsId>
   </PropertyGroup>
 
